@@ -2,7 +2,7 @@
 
 import useSearchModal from "@/app/hooks/useSearchModal";
 import { useRouter } from "next/navigation";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Counter from "../inputs/Counter";
@@ -10,10 +10,25 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { addDays } from "date-fns";
 import { DateRange } from "react-day-picker";
 
+interface Props {
+    searchValues: {
+        destination: string;
+        when: string;
+        guestCount: number;
+    },
+    setSearchValues: (searchValues: any) => void
+}
 
-const SearchModal = () => {
+const SearchModal = ({searchValues, setSearchValues}: Props) => {
     const searchModal = useSearchModal();
     const router = useRouter();
+
+    const handleConfirm: SubmitHandler<FieldValues> = (data) => {
+        // Update the search values in the Search component
+        setSearchValues(data);
+    
+        searchModal.onClose();
+      };
 
     const {
         register,
@@ -26,7 +41,8 @@ const SearchModal = () => {
         reset
     } = useForm<FieldValues>({
         defaultValues: {
-            trip: {
+            destination: '',
+            when: {
                 from: new Date(),
                 to: addDays(new Date(), 7),
             },
@@ -37,7 +53,8 @@ const SearchModal = () => {
 
     const guests = watch('guestCount');
     const rooms = watch('roomCount');
-    const trip = watch('trip');
+    const trip = watch('when');
+    const destination = watch('destination');
 
     const setCustomValue = (id: string, value: any) => {
         setValue(id, value, {
@@ -58,17 +75,27 @@ const SearchModal = () => {
                 subtitle="Fill in all the fields"
             />
             <div className="flex flex-row justify-between">
+                <div className="font-medium">
+                    What is your destination?
+                </div>
+                <div className="w-[40vh]">
+                    <input type="text" placeholder="Destination" className="w-full h-10 border border-slate-300 rounded-lg px-4 text-sm" {...register('destination', { required: true })} />
+                </div>
+                
+            </div>
+            <div className="flex flex-row justify-between">
                 <div className="flex flex-col">
                     <div className="font-medium">
                         Trip Dates
                     </div>
-                    <div className="font-light text-gray-600">
+                    <div className="font-light text-sm text-gray-600">
                         Departure - Return dates
                     </div>
                 </div>
                 <DatePicker 
+                className="w-[40vh]"
                 value={trip} 
-                onChange={(value: DateRange) =>  setCustomValue('trip', value)}
+                onChange={(value: DateRange) =>  setCustomValue('when', value)}
                 />
             </div>
 
@@ -94,10 +121,8 @@ const SearchModal = () => {
                 title="Search Vacation!"
                 isOpen={searchModal.isOpen}
                 onClose={searchModal.onClose}
-                onSubmit={ () => {}}
-                actionLabel="Search"
-                secondaryActionLabel="Cancel"
-                secondaryAction={() => {}}
+                onSubmit={handleSubmit(handleConfirm)}
+                actionLabel="Update"
                 body={body}
             />
     )
