@@ -1,4 +1,3 @@
-'use client';
 
 import type { Metadata } from "next";
 import { Inter, Nunito } from "next/font/google";
@@ -7,33 +6,36 @@ import Navbar from "./components/navbar/navbar";
 import { Footer } from "./footer";
 import SearchModal from "./components/modals/search-modal";
 import { useState } from "react";
+import LoginModal from "./components/modals/LoginModal";
+import RegisterModal from "./components/modals/RegisterModal";
+import getCurrentUser from "./actions/getCurrentUser";
 
 
 const font = Nunito({
   subsets: ["latin"],
 })
 
-// export const metadata: Metadata = {
-//   title: "Vacation Quest",
-//   description: "Created by Raz and Dor",
-// };
+export const metadata: Metadata = {
+  title: "Vacation Quest",
+  description: "Created by Raz and Dor",
+};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [searchValues, setSearchValues] = useState({
-    destination: '',
-    when: '',
-    guestCount: 0,
-  });
+
+  const currentUser = await getCurrentUser();
+
   return (
     <html lang="en">
       <body className={font.className}>
-        <SearchModal searchValues={searchValues} setSearchValues={setSearchValues}/>
+        <LoginModal />
+        <RegisterModal />
+        <SearchModal/>
         <div className="min-h-screen flex flex-col">
-          <Navbar searchValues={searchValues} />
+          <Navbar currentUser={currentUser}/>
           <main className="flex-1 m-5">
                     {children}
           </main>

@@ -1,131 +1,178 @@
 "use client";
 
 import useSearchModal from "@/app/hooks/useSearchModal";
-import { useRouter } from "next/navigation";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Modal from "./Modal";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useMemo, useState } from "react";
+import { Range } from "react-date-range";
+import dynamic from "next/dynamic";
+import CountrySelect, { CountrySelectValue } from "../inputs/CountrySelect";
+import qs from 'query-string';
+import { formatISO } from "date-fns";
 import Heading from "../Heading";
+import Calendar from "../inputs/Calendar";
 import Counter from "../inputs/Counter";
-import { DatePicker } from "@/components/ui/date-picker";
-import { addDays } from "date-fns";
-import { DateRange } from "react-day-picker";
 
-interface Props {
-    searchValues: {
-        destination: string;
-        when: string;
-        guestCount: number;
-    },
-    setSearchValues: (searchValues: any) => void
+enum STEPS {
+    LOCATION = 0,
+    DATE = 1,
+    INFO = 2
 }
 
-const SearchModal = ({searchValues, setSearchValues}: Props) => {
-    const searchModal = useSearchModal();
+const SearchModal = () => {
     const router = useRouter();
-
-    const handleConfirm: SubmitHandler<FieldValues> = (data) => {
-        // Update the search values in the Search component
-        setSearchValues(data);
+    const params = useSearchParams();
+    const searchModal = useSearchModal();
     
-        searchModal.onClose();
-      };
+    const [location, setLocation] = useState<CountrySelectValue>();
+    const [step, setStep] = useState(STEPS.LOCATION);
 
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        watch,
-        formState: {
-            errors,
-        },
-        reset
-    } = useForm<FieldValues>({
-        defaultValues: {
-            destination: '',
-            when: {
-                from: new Date(),
-                to: addDays(new Date(), 7),
-            },
-            guestCount: 1,
-            roomCount: 1,
+    const [guestCount, setGuestCount] = useState(1);
+    const [roomCount, setRoomCount] = useState(1);
+    const [bathroomCount, setBathroomCount] = useState(1);
+    const [dateRange, setDateRange] = useState<Range>({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection'
+    });
+
+    const Map = useMemo(() => dynamic(() => import('../Map'), {
+        ssr: false
+    }), [location]);
+
+    const onBack = useCallback(() => {
+        setStep((value) => value - 1);
+    }, [])
+    
+    const onNext = useCallback(() => {
+        setStep((value) => value + 1);
+    }, [])
+
+    const onSubmit = useCallback(async () => {
+        if (step !== STEPS.INFO) {
+            return onNext();
         }
-    })
+        
+        let currentQuery = {};
 
-    const guests = watch('guestCount');
-    const rooms = watch('roomCount');
-    const trip = watch('when');
-    const destination = watch('destination');
+        if (params){
+            currentQuery = qs.parse(params.toString());
+        }
 
-    const setCustomValue = (id: string, value: any) => {
-        setValue(id, value, {
-            shouldDirty: true,
-            shouldTouch: true,
-            shouldValidate: true,
-        })
-    }
+        const updatedQuery: any = {
+            ...currentQuery,
+            locationValue: location?.value,
+            guestCount,
+            bathroomCount,
+            roomCount
+        }
 
-    if (!searchModal.isOpen) {
-        return null;
-    }
+        if (dateRange.startDate) {
+            updatedQuery.startDate = formatISO(dateRange.startDate);
+        }
 
-    const body = (
+        if(dateRange.endDate) {
+            updatedQuery.endDate = formatISO(dateRange.endDate);
+        }
+
+        const url = qs.stringifyUrl({
+            url: '/',
+            query: updatedQuery
+        }, { skipNull: true });
+
+        setStep(STEPS.LOCATION);
+        searchModal.onClose();
+        router.push(url);
+    }, [step, searchModal, location, router, guestCount, roomCount, dateRange, bathroomCount, onNext, params]);
+
+    const actionLabel = useMemo(() => {
+        if(step === STEPS.INFO){
+            return 'Search';
+        }
+
+        return 'Next';
+    }, [step])
+
+    const secondaryActionLabel = useMemo(() => {
+        if(step === STEPS.LOCATION){
+            return undefined;
+        }
+
+        return 'Back';
+    }, [step] )
+
+    let bodyContent = (
         <div className="flex flex-col gap-8">
-            <Heading
-                title="Let's find your next vacation!"
-                subtitle="Fill in all the fields"
+            <Heading 
+                title="Where do you wanna go?"
+                subtitle="Find the perfect location"
             />
-            <div className="flex flex-row justify-between">
-                <div className="font-medium">
-                    What is your destination?
-                </div>
-                <div className="w-[40vh]">
-                    <input type="text" placeholder="Destination" className="w-full h-10 border border-slate-300 rounded-lg px-4 text-sm" {...register('destination', { required: true })} />
-                </div>
-                
-            </div>
-            <div className="flex flex-row justify-between">
-                <div className="flex flex-col">
-                    <div className="font-medium">
-                        Trip Dates
-                    </div>
-                    <div className="font-light text-sm text-gray-600">
-                        Departure - Return dates
-                    </div>
-                </div>
-                <DatePicker 
-                className="w-[40vh]"
-                value={trip} 
-                onChange={(value: DateRange) =>  setCustomValue('when', value)}
-                />
-            </div>
-
-            <Counter 
-                title="Guests"
-                subtitle="How many guests are coming?"
-                value={guests}
-                onChange={(value: number) => setCustomValue('guestCount', value)}
+            <CountrySelect 
+                value={location}
+                onChange={(value) => setLocation(value as CountrySelectValue)}
             />
-
-            <Counter 
-                title="Rooms"
-                subtitle="How many rooms?"
-                value={rooms}
-                onChange={(value: number) => setCustomValue('roomCount', value)}
+            <hr />
+            <Map 
+                center={location?.latlng}
             />
         </div>
     )
 
-    return (
+    if (step === STEPS.DATE) {
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading 
+                    title="When do you plan to go?"
+                    subtitle="Make sure everyone is free!"
+                />
+                <Calendar
+                    value={dateRange}
+                    onChange={(value) => setDateRange(value.selection)}
+                />
+            </div>
+        )
+    }
 
-            <Modal
-                title="Search Vacation!"
-                isOpen={searchModal.isOpen}
-                onClose={searchModal.onClose}
-                onSubmit={handleSubmit(handleConfirm)}
-                actionLabel="Update"
-                body={body}
-            />
-    )
+    if (step === STEPS.INFO){
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading
+                    title="More information"
+                    subtitle="Find your perfect place"
+                />
+                <Counter 
+                    title="Guests"
+                    subtitle="How many guests are coming?"
+                    value={guestCount}
+                    onChange={(value) => setGuestCount(value)}
+                />
+                <Counter 
+                    title="Rooms"
+                    subtitle="How many rooms do you need?"
+                    value={roomCount}
+                    onChange={(value) => setRoomCount(value)}
+                />
+                <Counter 
+                    title="Bathrooms"
+                    subtitle="How many bathrooms do you need?"
+                    value={bathroomCount}
+                    onChange={(value) => setBathroomCount(value)}
+                />
+            </div>
+        )
+    }
+    return ( 
+        <Modal 
+            isOpen={searchModal.isOpen}
+            onClose={searchModal.onClose}
+            onSubmit={onSubmit}
+            title="Filters"
+            actionLabel={actionLabel}
+            secondaryActionLabel={secondaryActionLabel}
+            secondaryAction={step === STEPS.LOCATION ? undefined : onBack}
+            body={bodyContent}
+        />
+     );
 }
  
 export default SearchModal;

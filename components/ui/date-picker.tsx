@@ -5,7 +5,7 @@ import { addDays, format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DateRange } from "react-day-picker"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/libs/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -40,7 +40,7 @@ export function DatePicker({
             id="date"
             variant={"outline"}
             className={cn(
-              "justify-start text-left font-normal",
+              "w-[40vh] justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
