@@ -12,6 +12,7 @@ import { formatISO } from "date-fns";
 import Heading from "../Heading";
 import Calendar from "../inputs/Calendar";
 import Counter from "../inputs/Counter";
+import GeocodingMap from "../Geocoding";
 
 enum STEPS {
     LOCATION = 0,
@@ -36,7 +37,7 @@ const SearchModal = () => {
         key: 'selection'
     });
 
-    const Map = useMemo(() => dynamic(() => import('../Map'), {
+    const Map = useMemo(() => dynamic(() => import('../Geocoding'), {
         ssr: false
     }), [location]);
 
@@ -107,14 +108,15 @@ const SearchModal = () => {
                 title="Where do you wanna go?"
                 subtitle="Find the perfect location"
             />
-            <CountrySelect 
+            {/* <CountrySelect 
                 value={location}
                 onChange={(value) => setLocation(value as CountrySelectValue)}
             />
             <hr />
             <Map 
                 center={location?.latlng}
-            />
+            /> */}
+            <GeocodingMap />
         </div>
     )
 

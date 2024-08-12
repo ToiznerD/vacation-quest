@@ -60,4 +60,5 @@ model Listing {
   userId        String   @db.ObjectId
   price         Int
 
+
 }

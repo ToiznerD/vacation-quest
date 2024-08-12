@@ -1,0 +1,44 @@
+"use client";
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import { geocodeAddress } from '../libs/nominatim';
+import dynamic from 'next/dynamic';
+
+export default function GeocodingMap() {
+  const [position, setPosition] = useState<[number, number]>([51.1657, 10.4515]);
+  const [address, setAddress] = useState('');
+
+  const Map = useMemo(() => dynamic(() => import('./Map'), {
+    ssr: false
+}), [position]);
+
+  const handleGeocode = async () => {
+    const results = await geocodeAddress(address);
+    if (results && results.length > 0) {
+      const { lat, lon } = results[0];
+      console.log(lat, lon);
+      setPosition([parseFloat(lat), parseFloat(lon)]);
+    }
+  };
+
+
+  return (
+    <div className="flex flex-col gap-2">
+      <input
+        type="text"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder="Enter address"
+        className="border p-2 mb-4 w-full rounded-lg"
+      />
+      <button onClick={handleGeocode} className="bg-blue-500 hover:bg-blue-400 text-white p-2 rounded-lg">
+        Search in map
+      </button>
+      <Map 
+        center={position}
+      />
+    </div>
+  );
+}
