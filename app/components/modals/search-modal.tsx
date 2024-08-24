@@ -30,7 +30,6 @@ const SearchModal = () => {
 
     const [guestCount, setGuestCount] = useState(1);
     const [roomCount, setRoomCount] = useState(1);
-    const [bathroomCount, setBathroomCount] = useState(1);
     const [dateRange, setDateRange] = useState<Range>({
         startDate: new Date(),
         endDate: new Date(),
@@ -64,7 +63,6 @@ const SearchModal = () => {
             ...currentQuery,
             locationValue: location?.value,
             guestCount,
-            bathroomCount,
             roomCount
         }
 
@@ -83,8 +81,8 @@ const SearchModal = () => {
 
         setStep(STEPS.LOCATION);
         searchModal.onClose();
-        router.push(url);
-    }, [step, searchModal, location, router, guestCount, roomCount, dateRange, bathroomCount, onNext, params]);
+        router.push("/flights/" + url);
+    }, [step, searchModal, location, router, guestCount, roomCount, dateRange, onNext, params]);
 
     const actionLabel = useMemo(() => {
         if(step === STEPS.INFO){
@@ -153,12 +151,6 @@ const SearchModal = () => {
                     subtitle="How many rooms do you need?"
                     value={roomCount}
                     onChange={(value) => setRoomCount(value)}
-                />
-                <Counter 
-                    title="Bathrooms"
-                    subtitle="How many bathrooms do you need?"
-                    value={bathroomCount}
-                    onChange={(value) => setBathroomCount(value)}
                 />
             </div>
         )
