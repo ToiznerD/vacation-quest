@@ -58,7 +58,7 @@ const Search = () => {
         >
             <div className="flex flex-row items-center justify-between">
                 <div className="text-sm font-semibold px-6">
-                    {locationValue}
+                    {locationValue ? locationLabel : 'Any Where'}
                 </div>
                 <div className="hidden sm:block text-sm font-semibold px-6 border-x-[1px] flex-1 text-center">
                     {durationLabel}

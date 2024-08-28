@@ -118,3 +118,256 @@ export type itinerary = {
     tags?: string[];
 
 }
+
+export type FlightDetails = {
+    id: string;
+    legs: {
+        id: string;
+        origin: {
+            id: string;
+            name: string;
+            displayCode: string;
+            city: string;
+        };
+        destination: {
+            id: string;
+            name: string;
+            displayCode: string;
+            city: string;
+        };
+        departure: string;
+        arrival: string;
+        duration: number;
+        stopCount: number;
+        dayChange: number
+        segments: {
+            id: string;
+            origin: {
+                id: string;
+                name: string;
+                displayCode: string;
+                city: string;
+            };
+            destination: {
+                id: string;
+                name: string;
+                displayCode: string;
+                city: string;
+            };
+            departure: string;
+            arrival: string;
+            duration: number;
+            flightNumber: string;
+            dayChange: number;
+            marketingCarrier: {
+                id: number;
+                name: string;
+                displayCode: string;
+                displayCodeType: string;
+                logo: string;
+                altId: string;
+            };
+            operatingCarrier: {
+                id: number;
+                name: string;
+                displayCode: string;
+                displayCodeType: string;
+                logo: string;
+                altId: string;
+            };
+            goodToKnowItems: {
+                icon: string;
+                body: {
+                    value: string;
+                    isHighlighted: boolean;
+                    position: number;
+                };
+                badge?: {
+                    value: string;
+                    isHighlighted: boolean;
+                    position: number;
+                }
+            }[];
+        }[];
+        layovers: {
+            segmentId: string;
+            origin: {
+                id: string;
+                name: string;
+                displayCode: string;
+                city: string;
+            };
+            destination: {
+                id: string;
+                name: string;
+                displayCode: string;
+                city: string;
+            };
+            duration: number;
+        }[];
+    }[];
+    pricingOptions: {
+        agents: {
+            id: string;
+            name: string;
+            isCarrier: boolean;
+            bookingProposition: string;
+            url: string;
+            price: number;
+            rating: {
+                value: number;
+                count: number;
+            };
+            updateStatus: string;
+            segments: {
+                id: string;
+                origin: {
+                    id: string;
+                    name: string;
+                    displayCode: string;
+                    city: string;
+                };
+                destination: {
+                    id: string;
+                    name: string;
+                    displayCode: string;
+                    city: string;
+                };
+                departure: string;
+                arrival: string;
+                duration: number;
+                flightNumber: string;
+                dayChange: number;
+                marketingCarrier: {
+                    id: string;
+                    name: string;
+                    displayCode: string;
+                    displayCodeType: string;
+                    logo: string;
+                    altId: string;
+                };
+                operatingCarrier: {
+                    id: string;
+                    name: string;
+                    displayCode: string;
+                    displayCodeType: string;
+                    logo: string;
+                    altId: string;
+                };
+                goodToKnowItems?: {
+                    icon: string;
+                    body: {
+                        value: string;
+                        isHighlighted: boolean;
+                        position: number;
+                    };
+                    badge?: {
+                        value: string;
+                        isHighlighted: boolean;
+                        position: number;
+                    }
+                }[];
+            }[];
+            isDirectDBookUrl: boolean;
+            quoteAge: number;
+        }[];
+        totalPrice: number;
+        fare: {
+            leg_details: any[];
+        };
+        id: string;
+    }[];
+    isTransferRequired: boolean;
+    destinationImage: string;
+    operatingCarrierSafetyAttributes: {
+        carrierID: string;
+        carrierName: string;
+        faceMasksCompulsory?: any;
+        aircraftDeepCleanedDaily?: any;
+        attendantsWearPPE?: any;
+        cleaningPacksProvided?: any;
+        foodServiceChanges?: any;
+        safetyUrl?: any;
+    }[];
+    flexibleTicketPolicies?: any[];
+    transferProtectionDetails: {
+        title: string;
+        body: string;
+        url: string;
+        urlTitle: string;
+    };
+    pollingCompleted: boolean;
+    bookingSessionId: string;
+}
+
+export type FlightOption = {
+    agents: {
+        id: string;
+        name: string;
+        isCarrier: boolean;
+        bookingProposition: string;
+        url: string;
+        price: number;
+        rating: {
+            value: number;
+            count: number;
+        };
+        updateStatus: string;
+        segments: {
+            id: string;
+            origin: {
+                id: string;
+                name: string;
+                displayCode: string;
+                city: string;
+            };
+            destination: {
+                id: string;
+                name: string;
+                displayCode: string;
+                city: string;
+            };
+            departure: string;
+            arrival: string;
+            duration: number;
+            flightNumber: string;
+            dayChange: number;
+            marketingCarrier: {
+                id: string;
+                name: string;
+                displayCode: string;
+                displayCodeType: string;
+                logo: string;
+                altId: string;
+            };
+            operatingCarrier: {
+                id: string;
+                name: string;
+                displayCode: string;
+                displayCodeType: string;
+                logo: string;
+                altId: string;
+            };
+            goodToKnowItems?: {
+                icon: string;
+                body: {
+                    value: string;
+                    isHighlighted: boolean;
+                    position: number;
+                };
+                badge?: {
+                    value: string;
+                    isHighlighted: boolean;
+                    position: number;
+                }
+            }[];
+        }[];
+        isDirectDBookUrl: boolean;
+        quoteAge: number;
+    }[];
+    totalPrice: number;
+    fare: {
+        leg_details: any[];
+    };
+    id: string;
+}

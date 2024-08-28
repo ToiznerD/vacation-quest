@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { format } from "date-fns";
+import { differenceInHours, differenceInMinutes, format } from "date-fns";
 import { PlaneLanding, PlaneTakeoff } from "lucide-react";
+import { differenceInHoursWithOptions } from "date-fns/fp";
 
 interface Props {
     imageSrc: string;
@@ -10,9 +11,11 @@ interface Props {
     originId: string;
     destinationId: string;
     stops?: number;
+    duration?: number;
 }
 
-const FlightRow = ({ imageSrc, title, departure, arrival, originId, destinationId, stops}: Props) => {
+const FlightRow = ({ imageSrc, title, departure, arrival, originId, destinationId, stops, duration = 0}: Props) => {
+    
     return ( 
         <div className="flex flex-row gap-2 justify-between items-center">
             
@@ -36,11 +39,18 @@ const FlightRow = ({ imageSrc, title, departure, arrival, originId, destinationI
                     <PlaneTakeoff size={40} className="text-blue-800" />
                     <div className="w-full">
                         <div className="w-full my-auto h-[1px] border"/>
-                        <div className="relative -top-1 flex justify-center items-center gap-2">
-                            {[...Array(stops)].map((_, i) => (<div key={i} className="rounded-full h-2 w-2 bg-rose-500" />))}
-                        </div>
+                        {stops && stops > 0 && (
+                            <>
+                                <div className="relative -top-1 flex justify-center items-center gap-2">
+                                    {[...Array(stops)].map((_, i) => (<div key={i} className="rounded-full h-2 w-2 bg-rose-500" />))}
+                                </div>
+                                <div className="flex justify-center items-center text-xs font-sans">
+                                    {stops} stop{stops && stops > 1 && "s"}
+                                </div>
+                            </>
+                        )}
                         <div className="flex justify-center items-center text-xs font-sans">
-                            {stops} stop{stops && stops > 1 && "s"}
+                            {Math.floor(duration/60) + "h " + duration%60 + "m"}
                         </div>
                     </div>
                     <PlaneLanding size={40} className="text-blue-800" />

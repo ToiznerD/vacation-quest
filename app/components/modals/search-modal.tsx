@@ -1,6 +1,5 @@
 "use client";
 
-import useSearchModal from "@/app/hooks/useSearchModal";
 import Modal from "./Modal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
@@ -13,6 +12,7 @@ import Heading from "../Heading";
 import Calendar from "../inputs/Calendar";
 import Counter from "../inputs/Counter";
 import GeocodingMap from "../Geocoding";
+import useSearchModal from "@/app/hooks/useSearchModal";
 
 enum STEPS {
     LOCATION = 0,

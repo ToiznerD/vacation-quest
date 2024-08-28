@@ -7,17 +7,32 @@ import Button from "@/app/components/Button";
 import { format } from "date-fns";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import FlightRow from "./FlightRow";
+import useFlightModal from "../hooks/useFlightModal";
+import { useRouter } from "next/navigation";
 
 interface Props {
     itinerary: itinerary;
+    token: string;
 }
 
-const FlightCard = ({ itinerary }: Props) => {
+
+
+const FlightCard = ({ itinerary, token }: Props) => {
+    const { onOpen, setId, setToken } = useFlightModal();
+    const router = useRouter();
+
+    const handleSelect = () => {
+        // setId(itinerary.id);
+        // setToken(token);
+        // onOpen();
+        router.push(`/flights/${itinerary.id}?token=${token}`);
+    }
+
     return ( 
-        <div className="flex flex-col md:flex-row p-4 gap-8 md:w-[70vh] border-2 border-blue-400 rounded-lg">
+        <div 
+            className="flex flex-col md:flex-row p-4 gap-8 border-2 border-blue-400 rounded-lg"
+        >
                 <div className="flex flex-col gap-8 w-full">
-
-
 
                     <FlightRow 
                         imageSrc={itinerary.legs[0].carriers.marketing[0].logoUrl}
@@ -27,6 +42,7 @@ const FlightCard = ({ itinerary }: Props) => {
                         originId={itinerary.legs[0].origin.id}
                         destinationId={itinerary.legs[0].destination.id}
                         stops={itinerary.legs[0].stopCount}
+                        duration={itinerary.legs[0].durationInMinutes}
                     />
 
 
@@ -37,13 +53,14 @@ const FlightCard = ({ itinerary }: Props) => {
                         arrival={itinerary.legs[1].arrival}
                         originId={itinerary.legs[1].origin.id}
                         destinationId={itinerary.legs[1].destination.id}
-                        stops={itinerary.legs[0].stopCount}
+                        stops={itinerary.legs[1].stopCount}
+                        duration={itinerary.legs[1].durationInMinutes}
                     />
 
                 </div>
                 <div className="md:min-h-full w-full md:w-[20vh] border-t md:border-t-0 md:border-l flex justify-center items-center p-4 md:p-8 pr-4">
                     <div className="flex flex-row md:flex-col gap-4 justify-between items-center">
-                        {!itinerary.isSelfTransfer && (
+                        {itinerary.isSelfTransfer && (
                             <div className="md:hidden">
                                 <div className="flex flex-row gap-1">
                                     <CircleAlert size={20} className="text-rose-500 my-auto" />
@@ -52,14 +69,17 @@ const FlightCard = ({ itinerary }: Props) => {
                             </div>
                         )}
                         <span className="font-semibold text-xl hidden md:block">{itinerary.price.formatted}</span>
-                        <div className="flex flex-row rounded-lg text-white justify-center items-center p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
+                        <div 
+                            onClick={handleSelect} 
+                            className="flex flex-row rounded-lg text-white justify-center items-center p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer"
+                            >
                             <div>
                                 Select
                             </div>
                             <FaLongArrowAltRight className="ml-2"/>
                         </div>
                         <span className="font-semibold md:hidden text-xl">{itinerary.price.formatted}</span>
-                        {!itinerary.isSelfTransfer && (
+                        {itinerary.isSelfTransfer && (
                             <div className="hidden md:block">
                                 <div className="flex flex-row gap-1">
                                     <CircleAlert size={20} className="text-rose-500 my-auto" />
