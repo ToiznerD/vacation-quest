@@ -12,10 +12,12 @@ const FlightPage = ({params}: {params: Params}) => {
     const {id} = params;
     const searchParams = useSearchParams();
     const token = searchParams?.get('token');
+    const itinerary = TLVtoBKK.data.itinerary;
+    const options = itinerary.pricingOptions;
     return ( 
         <div className="pt-20 px-20 flex flex-row justify-center items-center">
             <div className="w-full">
-                {TLVtoBKK.data.itinerary.pricingOptions.map((option, index) => (
+                {options.map((option, index) => (
                         <FlightDeal
                             key={index}
                             option={option}
@@ -28,7 +30,7 @@ const FlightPage = ({params}: {params: Params}) => {
                 <div className="flex flex-col gap-4 border rounded-lg p-4">
                     <span className="text-blue-900 font-bold text-lg">Outbound:</span>
                     {
-                        TLVtoBKK.data.itinerary.legs[0].segments.map((segment, index) => (
+                        itinerary.legs[0].segments.map((segment, index) => (
                             <FlightRow
                                 key={index}
                                 imageSrc={segment.operatingCarrier.logo}
@@ -46,7 +48,7 @@ const FlightPage = ({params}: {params: Params}) => {
                 <div className="flex flex-col gap-4 border rounded-lg p-4">
                     <span className="text-blue-900 font-bold text-lg">Return:</span>
                     {
-                        TLVtoBKK.data.itinerary.legs[1].segments.map((segment, index) => (
+                        itinerary.legs[1].segments.map((segment, index) => (
                             <FlightRow
                                 key={index}
                                 imageSrc={segment.operatingCarrier.logo}

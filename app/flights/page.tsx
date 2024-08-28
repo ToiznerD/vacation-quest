@@ -15,6 +15,15 @@ const FlightListPage = ({ itineraries }: Props ) => {
     const [oneStopFlag, setOneStopFlag] = useState(true);
     const [twoStopFlag, setTwoStopFlag] = useState(true);
 
+    const deals = roundedtrip_tlv_bkk.data.itineraries;
+
+    const filteredDeals = deals.filter(deal => {
+        if (directFlag && deal.legs[0].stopCount === 0) return true;
+        if (oneStopFlag && deal.legs[0].stopCount === 1) return true;
+        if (twoStopFlag && deal.legs[0].stopCount > 1) return true;
+        return false;
+    });
+
     return ( 
         <div className="pt-24 flex flex-row gap-8 w-full">
             <div className="sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">
@@ -46,7 +55,7 @@ const FlightListPage = ({ itineraries }: Props ) => {
             </div>
             <div className="flex flex-col gap-2 justify-center items-center">
                 {
-                    roundedtrip_tlv_bkk.data.itineraries.map((itinerary, index) => (
+                    filteredDeals.map((itinerary, index) => (
                         <FlightCard key={index} itinerary={itinerary} token={roundedtrip_tlv_bkk.data.token}/>
                     ))
                 }
