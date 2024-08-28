@@ -4,7 +4,9 @@ import FlightCard from "./FlightCard";
 import { roundedtrip_tlv_bkk } from "../libs/flight-roundtrip";
 import { Checkbox } from "@/components/ui/checkbox";
 import { itinerary } from "../types";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { Slider } from "@/components/ui/slider";
+
 
 interface Props {
     itineraries: itinerary[];
@@ -14,15 +16,23 @@ const FlightListPage = ({ itineraries }: Props ) => {
     const [directFlag, setDirectFlag] = useState(true);
     const [oneStopFlag, setOneStopFlag] = useState(true);
     const [twoStopFlag, setTwoStopFlag] = useState(true);
-
+    
     const deals = roundedtrip_tlv_bkk.data.itineraries;
+    const maxPrice = Math.max(...deals.map(deal => deal.price.raw));
+    const minPrice = Math.min(...deals.map(deal => deal.price.raw));
+    const [price, setPrice] = useState([minPrice]);
 
     const filteredDeals = deals.filter(deal => {
-        if (directFlag && deal.legs[0].stopCount === 0) return true;
-        if (oneStopFlag && deal.legs[0].stopCount === 1) return true;
-        if (twoStopFlag && deal.legs[0].stopCount > 1) return true;
-        return false;
+        const meetsStopCriteria = 
+            (directFlag && deal.legs[0].stopCount === 0) ||
+            (oneStopFlag && deal.legs[0].stopCount === 1) ||
+            (twoStopFlag && deal.legs[0].stopCount > 1);
+        
+        const meetsPriceCriteria = price[0] >= deal.price.raw;
+    
+        return meetsStopCriteria && meetsPriceCriteria;
     });
+    
 
     return ( 
         <div className="pt-24 flex flex-row gap-8 w-full">
@@ -49,6 +59,15 @@ const FlightListPage = ({ itineraries }: Props ) => {
                                 onCheckedChange={() => setTwoStopFlag(!twoStopFlag)}
                                 checked={twoStopFlag}
                             /> 2+ stops
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        <div className="text-lg font-bold text-blue-900">
+                            Max Price:
+                        </div>
+                        <div className="flex flex-row gap-2">
+                            <div className="text-lg font-bold text-blue-900 font-serif">${price[0]}</div>
+                            <Slider onValueChange={(value) => setPrice(value)} defaultValue={price} min={minPrice} max={maxPrice} step={10}/>
                         </div>
                     </div>
                 </div>
