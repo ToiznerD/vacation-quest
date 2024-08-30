@@ -321,99 +321,125 @@ export type hotelInfo = {
     }
 }
 
-export type hotelPrices = {
-    metaInfo: {
-        ratesCta: string;
-        rates: {
-            partnerName: string;
-            partnerLogo: string;
-            partnerId: string;
-            roomType: string;
-            roomPolicies: string;
-            deeplink: string;
-            rawPrice: number;
-            rawPriceGbp: number;
-            price: string;
-            rateBriefFeatures: string[];
-            isOfficial: boolean;
-            isShowHotelName: boolean;
-        }[];
-        roomTypes: string[] | null;
-        cheapestPrice: {
-            price: string;
-            totalWithTaxes: string;
-            funnelType: string;
-            partnerId: string;
-            rateAttributes: string[] | null;
-            rawPrice: number;
-        }
-        exclusiveDeal: string | null;
-        mostPopularRates: {
-            partnerName: string;
-            partnerLogo: string;
-            partnerId: string;
-            roomType: string;
-            roomPolicies: string;
-            deeplink: string;
-            rawPrice: number;
-            rawPriceGbp: number;
-            price: string;
-            rateBriefFeatures: string[];
-            isOfficial: boolean
-            isShowHotelName: boolean;
-            cugRate: {
-                priceWithoutDiscount: string;
-                icons: {
+// export type hotelPrices = {
+//     metaInfo: {
+//         ratesCta: string;
+//         rates: {
+//             partnerName: string;
+//             partnerLogo: string;
+//             partnerId: string;
+//             roomType: string;
+//             roomPolicies: string;
+//             deeplink: string;
+//             rawPrice: number;
+//             rawPriceGbp: number;
+//             price: string;
+//             rateBriefFeatures: string[];
+//             isOfficial: boolean;
+//             isShowHotelName: boolean;
+//         }[];
+//         roomTypes: string[] | null;
+//         cheapestPrice: {
+//             price: string;
+//             totalWithTaxes: string;
+//             funnelType: string;
+//             partnerId: string;
+//             rateAttributes: string[] | null;
+//             rawPrice: number;
+//         }
+//         exclusiveDeal: string | null;
+//         mostPopularRates: {
+//             partnerName: string;
+//             partnerLogo: string;
+//             partnerId: string;
+//             roomType: string;
+//             roomPolicies: string;
+//             deeplink: string;
+//             rawPrice: number;
+//             rawPriceGbp: number;
+//             price: string;
+//             rateBriefFeatures: string[];
+//             isOfficial: boolean
+//             isShowHotelName: boolean;
+//             cugRate: {
+//                 priceWithoutDiscount: string;
+//                 icons: {
 
-                }
-                discount: string;
-                cugWithoutLabel: string | null;
-                FSSInfo: string | null;
-                saveAmount: string;
-                rawSaveAmount: number;
-                type: string;
-            }
-            funnelType: string;
-        }[];
-        noOfferPartners: {
-            partner_type: string;
-            logo: string;
-            name: string;
-            website_id: string;
-            is_dbook: boolean;
-            is_official: boolean;
-        }[];
-        isShowMostPopularSeeAll: boolean;
-        policyInfo: string;
-        otaRates: {
-            partnerName: string;
-            partnerLogo: string;
-            partnerId: string;
-            roomType: string;
-            roomPolicies: string;
-            deeplink: string;
-            rawPrice: number;
-            rawPriceGbp: number;
-            price: string;
-            rateBriefFeatures: string[];
-            isOfficial: boolean;
-            isShowHotelName: boolean;
-            cugRate: {
-                priceWithoutDiscount: string;
-                icons: string[];
-                discount: string;
-                cugWithoutLabel: string | null;
-                FSSInfo: string | null;
-                saveAmount: string;
-                rawSaveAmount: number;
-                type: string;
-            }
-            funnelType: string;
-        }
-        localCurrency: string;
-        searchId: string;
-        requestId: string;
-    }
-    status: boolean;
-    message: string;
+//                 }
+//                 discount: string;
+//                 cugWithoutLabel: string | null;
+//                 FSSInfo: string | null;
+//                 saveAmount: string;
+//                 rawSaveAmount: number;
+//                 type: string;
+//             }
+//             funnelType: string;
+//         }[];
+//         noOfferPartners: {
+//             partner_type: string;
+//             logo: string;
+//             name: string;
+//             website_id: string;
+//             is_dbook: boolean;
+//             is_official: boolean;
+//         }[];
+//         isShowMostPopularSeeAll: boolean;
+//         policyInfo: string;
+//         otaRates: {
+//             partnerName: string;
+//             partnerLogo: string;
+//             partnerId: string;
+//             roomType: string;
+//             roomPolicies: string;
+//             deeplink: string;
+//             rawPrice: number;
+//             rawPriceGbp: number;
+//             price: string;
+//             rateBriefFeatures: string[];
+//             isOfficial: boolean;
+//             isShowHotelName: boolean;
+//             cugRate: {
+//                 priceWithoutDiscount: string;
+//                 icons: string[];
+//                 discount: string;
+//                 cugWithoutLabel: string | null;
+//                 FSSInfo: string | null;
+//                 saveAmount: string;
+//                 rawSaveAmount: number;
+//                 type: string;
+//             }
+//             funnelType: string;
+//         }
+//         localCurrency: string;
+//         searchId: string;
+//         requestId: string;
+//     }
+//     status: boolean;
+//     message: string;
+// }
+
+export type hotelPrice = {
+        partnerName: string;
+        partnerLogo: string;
+        partnerId: string;
+        roomType: string;
+        roomPolicies: string;
+        deeplink: string;
+        rawPrice: number;
+        rawPriceGbp: number;
+        price: string;
+        rateBriefFeatures: string[];
+        isOfficial: boolean;
+        isShowHotelName: boolean;
+        cugRate?: {
+            priceWithoutDiscount: string;
+            icons?: string[];
+            discount: string;
+            cugWithoutLabel: string | null;
+            FSSInfo: string | null;
+            saveAmount: string;
+            rawSaveAmount: number;
+            type: string;
+        };
+        funnelType: string;
 }

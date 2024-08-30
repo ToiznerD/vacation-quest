@@ -3,7 +3,8 @@
 import HotelHead from "@/app/components/hotels/HotelHead";
 import { hotelInfo } from "@/app/types";
 import { hotelInNewYork } from '@/app/lib/hotels-detail';
-import HotelPrices from "@/app/components/hotels/HotelPrices";
+import { NewYorkHotelPrices } from "@/app/lib/hotels-prices";
+import HotelPrice from "@/app/components/hotels/HotelPrice";
 
 interface Props {
     hotelInfo : hotelInfo;
@@ -18,9 +19,14 @@ const HotelPage = ({ hotelInfo }: Props) => {
 
             </HotelHead>
 
-            <HotelPrices 
-
-            />
+            {/* hotel prices */}
+            <div className="flex flex-col gap-2 justify-center items-center">
+                {
+                    NewYorkHotelPrices.data.otaRates.map((hotelPrice, index) => (
+                        <HotelPrice key={index} hotelPrice={hotelPrice} />
+                    ))
+                }
+            </div>
         </div>
     );
 };
