@@ -4,7 +4,6 @@ import { hotelPrice } from "@/app/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaLongArrowAltRight } from "react-icons/fa";
-import Link from "next/link";
 
 interface Props {
     hotelPrice: hotelPrice;
@@ -26,13 +25,9 @@ const HotelPrice = ({hotelPrice}: Props) => {
             <div className="flex flex-row gap-4 items-center text-xl">
                 <span className="font-semibold">{hotelPrice.price}</span>
                 <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
-                    {/* onClick={() => router.push(hotelPrice.deeplink)}> */}
-                    <Link
-                        href={hotelPrice.deeplink}
-                        replace
-                    >
+                    <a href={`https://${hotelPrice.deeplink}`}>
                         Select
-                    </Link>
+                    </a>
                     <FaLongArrowAltRight className="ml-2"/>
                 </div>
             </div>
