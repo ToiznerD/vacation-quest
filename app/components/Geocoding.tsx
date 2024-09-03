@@ -6,8 +6,15 @@ import 'leaflet/dist/leaflet.css';
 import { geocodeAddress } from '../libs/nominatim';
 import dynamic from 'next/dynamic';
 
-export default function GeocodingMap() {
-  const [position, setPosition] = useState<[number, number]>([51.1657, 10.4515]);
+interface Props {
+  position: [number, number];
+  setPosition: (position: [number, number]) => void;
+  location: string;
+  setLocation: (location: string) => void;
+}
+
+export default function GeocodingMap({ position, setPosition, location, setLocation } : Props) {
+  // const [position, setPosition] = useState<[number, number]>([51.1657, 10.4515]);
   const [address, setAddress] = useState('');
 
   const Map = useMemo(() => dynamic(() => import('./Map'), {
@@ -15,7 +22,7 @@ export default function GeocodingMap() {
 }), [position]);
 
   const handleGeocode = async () => {
-    const results = await geocodeAddress(address);
+    const results = await geocodeAddress(location);
     if (results && results.length > 0) {
       const { lat, lon } = results[0];
       console.log(lat, lon);
@@ -28,8 +35,8 @@ export default function GeocodingMap() {
     <div className="flex flex-col gap-2">
       <input
         type="text"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
         placeholder="Enter address"
         className="border p-2 mb-4 w-full rounded-lg"
       />

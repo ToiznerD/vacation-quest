@@ -4,35 +4,65 @@ import FlightCard from "./FlightCard";
 import { roundedtrip_tlv_bkk } from "../libs/flight-roundtrip";
 import { Checkbox } from "@/components/ui/checkbox";
 import { itinerary } from "../types";
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Slider } from "@/components/ui/slider";
+import { useSearchParams } from "next/navigation";
+import axios from "axios";
 
 
-interface Props {
-    itineraries: itinerary[];
-}
+const FlightListPage = () => {
+    const searchParams = useSearchParams();
+    const [loading, setLoading] = useState(false);
+    const [deals, setDeals] = useState<itinerary[]>([]);
+    const originPosition = searchParams?.get('originPosition') || '[0, 0]';
+    const position = searchParams?.get('position') || '[0, 0]';
+    const startDate = searchParams?.get('startDate');
+    const endDate = searchParams?.get('endDate');
 
-const FlightListPage = ({ itineraries }: Props ) => {
+    useEffect(() => {
+        const getFlights = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get('/api/flights', { params: { originPosition, position, startDate, endDate } });
+                console.log(response);
+                setDeals(response.data.data.itineraries);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        getFlights();
+    }, [originPosition, position, startDate, endDate]);
+
     const [directFlag, setDirectFlag] = useState(true);
     const [oneStopFlag, setOneStopFlag] = useState(true);
     const [twoStopFlag, setTwoStopFlag] = useState(true);
     
-    const deals = roundedtrip_tlv_bkk.data.itineraries;
-    const maxPrice = Math.max(...deals.map(deal => deal.price.raw));
-    const minPrice = Math.min(...deals.map(deal => deal.price.raw));
-    const [price, setPrice] = useState([minPrice]);
+    const maxPrice = useMemo(() => {
+        return deals ? (deals.length > 0 ? Math.max(...deals.map(deal => deal.price.raw)) : 0) : 10000;
+    }, [deals]);
 
-    const filteredDeals = deals.filter(deal => {
-        const meetsStopCriteria = 
-            (directFlag && deal.legs[0].stopCount === 0) ||
-            (oneStopFlag && deal.legs[0].stopCount === 1) ||
-            (twoStopFlag && deal.legs[0].stopCount > 1);
+    const minPrice = useMemo(() => {
+        return deals ? (deals.length > 0 ? Math.min(...deals.map(deal => deal.price.raw)) : 0) : 10000;
+    }, [deals]);
+
+    const [price, setPrice] = useState([maxPrice]);
+
+    useEffect(() => {
+        setPrice([maxPrice]);
+    }, [maxPrice])
+    const filteredDeals = useMemo(() => {
+        return deals ? deals.filter(deal => {
+            const meetsStopCriteria = 
+                (directFlag && deal.legs[0].stopCount === 0) ||
+                (oneStopFlag && deal.legs[0].stopCount === 1) ||
+                (twoStopFlag && deal.legs[0].stopCount > 1);
+            
+            const meetsPriceCriteria = price[0] >= deal.price.raw;
         
-        const meetsPriceCriteria = price[0] >= deal.price.raw;
-    
-        return meetsStopCriteria && meetsPriceCriteria;
-    });
-    
+            return meetsStopCriteria && meetsPriceCriteria;
+        }) : [];
+    }, [deals, directFlag, oneStopFlag, twoStopFlag, price]);
 
     return ( 
         <div className="pt-24 flex flex-row gap-8 w-full">
@@ -73,14 +103,22 @@ const FlightListPage = ({ itineraries }: Props ) => {
                 </div>
             </div>
             <div className="flex flex-col gap-2 justify-center items-center">
-                {
-                    filteredDeals.map((itinerary, index) => (
-                        <FlightCard key={index} itinerary={itinerary} token={roundedtrip_tlv_bkk.data.token}/>
-                    ))
+                { loading ? (
+                    <div className="text-lg text-center font-bold text-blue-900">
+                        Loading...
+                    </div>) : (
+                        <>
+                        {
+                            filteredDeals.map((itinerary, index) => (
+                                <FlightCard key={index} itinerary={itinerary} token={roundedtrip_tlv_bkk.data.token}/>
+                            ))
+                        }
+                        </>
+                    )
                 }
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default FlightListPage;

@@ -2,12 +2,12 @@
 
 import Modal from "./Modal";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
 import dynamic from "next/dynamic";
 import CountrySelect, { CountrySelectValue } from "../inputs/CountrySelect";
 import qs from 'query-string';
-import { formatISO } from "date-fns";
+import { format, formatISO } from "date-fns";
 import Heading from "../Heading";
 import Calendar from "../inputs/Calendar";
 import Counter from "../inputs/Counter";
@@ -16,16 +16,19 @@ import useSearchModal from "@/app/hooks/useSearchModal";
 
 enum STEPS {
     LOCATION = 0,
-    DATE = 1,
-    INFO = 2
+    DESTINATION = 1,
+    DATE = 2,
+    INFO = 3
 }
 
 const SearchModal = () => {
     const router = useRouter();
     const params = useSearchParams();
     const searchModal = useSearchModal();
-    
-    const [location, setLocation] = useState<CountrySelectValue>();
+    const [destination, setDestination] = useState('');
+    const [location, setLocation] = useState('');
+    const [originPosition, setOriginPosition] = useState<[number, number]>([51.1657, 10.4515]);
+    const [position, setPosition] = useState<[number, number]>([51.1657, 10.4515]);
     const [step, setStep] = useState(STEPS.LOCATION);
 
     const [guestCount, setGuestCount] = useState(1);
@@ -61,17 +64,20 @@ const SearchModal = () => {
 
         const updatedQuery: any = {
             ...currentQuery,
-            locationValue: location?.value,
+            location,
+            destination,
+            originPosition: JSON.stringify(originPosition),
+            position: JSON.stringify(position),
             guestCount,
             roomCount
         }
 
         if (dateRange.startDate) {
-            updatedQuery.startDate = formatISO(dateRange.startDate);
+            updatedQuery.startDate = format(dateRange.startDate, 'yyyy-MM-dd');
         }
 
         if(dateRange.endDate) {
-            updatedQuery.endDate = formatISO(dateRange.endDate);
+            updatedQuery.endDate = format(dateRange.endDate, 'yyyy-MM-dd');
         }
 
         const url = qs.stringifyUrl({
@@ -82,7 +88,7 @@ const SearchModal = () => {
         setStep(STEPS.LOCATION);
         searchModal.onClose();
         router.push("/flights/" + url);
-    }, [step, searchModal, location, router, guestCount, roomCount, dateRange, onNext, params]);
+    }, [step, searchModal, destination, location, router, guestCount, roomCount, dateRange, onNext, params]);
 
     const actionLabel = useMemo(() => {
         if(step === STEPS.INFO){
@@ -103,20 +109,24 @@ const SearchModal = () => {
     let bodyContent = (
         <div className="flex flex-col gap-8">
             <Heading 
-                title="Where do you wanna go?"
-                subtitle="Find the perfect location"
+                title="From"
+                subtitle="Search and select your location"
             />
-            {/* <CountrySelect 
-                value={location}
-                onChange={(value) => setLocation(value as CountrySelectValue)}
-            />
-            <hr />
-            <Map 
-                center={location?.latlng}
-            /> */}
-            <GeocodingMap />
+            <GeocodingMap location={location} setLocation={setLocation} position={originPosition} setPosition={setOriginPosition}/>
         </div>
     )
+
+    if (step === STEPS.DESTINATION) {
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading 
+                    title="To"
+                    subtitle="Search and select your destination"
+                />
+                <GeocodingMap location={destination} setLocation={setDestination} position={position} setPosition={setPosition}/>
+            </div>
+        )
+    }
 
     if (step === STEPS.DATE) {
         bodyContent = (
@@ -170,3 +180,4 @@ const SearchModal = () => {
 }
  
 export default SearchModal;
+
