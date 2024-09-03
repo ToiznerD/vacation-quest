@@ -10,8 +10,6 @@ interface Props {
 }
 
 const HotelPrice = ({hotelPrice}: Props) => {
-    const router = useRouter();
-
     return (
         <div className="flex flex-row justify-between w-[60vh] md:w-[100vh] p-4 border-b-[1px]">
             <div className="text-lg md:text-2xl">

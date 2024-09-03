@@ -56,20 +56,24 @@ const HotelCard = ({ hotelCard }: Props) => {
                         </div>
                         <div className="flex flex-row gap-[4px]">
                             <div className="font-bold">
-                                {hotelCard.reviewsSummary.score} - {hotelCard.reviewsSummary.scoreDesc}
+                                {hotelCard.reviewSummary 
+                                ?   `${hotelCard.reviewSummary?.value} - ${hotelCard.reviewSummary?.description}`
+                                :   "No reviews available"}
                             </div>
                             <div className="text-gray-500">
-                                ({hotelCard.reviewsSummary.total} reviews)
+                                {hotelCard.reviewSummary 
+                                    ?   `(${hotelCard.reviewSummary?.formatCount} reviews)`
+                                    :   ""}
                             </div>
                         </div>
                     </div>
                 </div>
                 {/* button and price */}
                 <div className="flex flex-row md:flex-col justify-center items-center gap-4 md:gap-4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 m-4 md:pr-4 md:pl-8">
-                    <div className="font-bold text-sm break-all">
-                        {hotelCard.lowestPrice.partnerName}
+                    <div className="font-bold text-base break-all">
+                        {hotelCard.cheapestOfferPartnerName}
                     </div>
-                    <span className="font-semibold text-xl">{hotelCard.lowestPrice.price}</span>
+                    <span className="font-semibold text-xl">{hotelCard.priceDescription}</span>
                     <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer"
                         onClick={() => router.push(`/hotels/${hotelCard.hotelId}`)}>
                         <div>
