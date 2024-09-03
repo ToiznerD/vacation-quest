@@ -16,19 +16,22 @@ const HotelHead = ({name, stars}: Props) => {
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex flex-row font-bold text-2xl">
+            {/* Headline */}
+            <div className="flex flex-row font-bold text-2xl md:text-4xl">
                 {name}
                 {[...Array(Number(stars))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
             </div>
             <div className="flex flex-row">
-                <MdLocationPin className="text-blue-500 text-2xl"/>
-                <div className="text-base">
+                <MdLocationPin className="text-blue-500 text-2xl md:text-4xl"/>
+                <div className="flex items-center text-base md:text-xl">
                     {hotelInTelAviv.data.location.address}
                 </div>
             </div>
             
-                <div className="flex flex-col gap-4 w-[100vh]">
+                {/* md:Gallery */}
+                <div className="flex-col gap-4 w-[80vh] hidden md:block">
                     
+                    {/* 3 photos */}
                     <div className="flex flex-row gap-4 justify-between">
 
                         <div className="relative cursor-pointer w-[70vh]">
@@ -46,9 +49,10 @@ const HotelHead = ({name, stars}: Props) => {
 
                     </div>
                     
-                    <div className="flex flex-row justify-between gap-x-4">
+                    {/* 5 photos */}
+                    <div className="flex flex-row justify-between gap-x-4 mt-4">
                         
-                        <div className="w-1/5 relative inline-block bg-black cursor-pointer">
+                        <div className="w-1/5 relative inline-block cursor-pointer">
                             <Image src={hotelInTelAviv.data.gallery.images[3].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
                         </div>
                         <div className="w-1/5 relative cursor-pointer">
@@ -69,7 +73,7 @@ const HotelHead = ({name, stars}: Props) => {
                         </div>
                     </div>
                     
-                    {isOpen && 
+                    {/* {isOpen && 
                     <div className="flex justify-center items-center">
                         <div className="grid grid-cols-4 h-auto gap-2">
                         {hotelInTelAviv.data.gallery.images.slice(8,hotelInTelAviv.data.gallery.images.length).map((image, i) => (
@@ -85,8 +89,38 @@ const HotelHead = ({name, stars}: Props) => {
                         ))}
                         </div>
                     </div>
-                    }
+                    } */}
 
+                </div>
+
+                {/* sm:Gallery */}
+                <div className="block md:hidden flex-col w-[40vh]">
+                    {/* 2 photos */}
+                    <div className="flex flex-row justify-between items-center gap-2">
+                        <div className="relative cursor-pointer w-[50vh] h-56">
+                            <Image src={hotelInTelAviv.data.gallery.images[0].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                        </div>
+                        <div className="relative cursor-pointer w-[50vh] h-56">
+                            <Image src={hotelInTelAviv.data.gallery.images[1].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                        </div>
+                    </div>
+                    {/* 3 photos */}
+                    <div className="flex flex-row justify-between gap-2 mt-2">
+                        <div className="w-1/3 relative cursor-pointer h-40">
+                            <Image src={hotelInTelAviv.data.gallery.images[2].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
+                        </div>
+                        <div className="w-1/3 relative cursor-pointer h-40">
+                            <Image src={hotelInTelAviv.data.gallery.images[3].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
+                        </div>
+                        <div className="w-1/3 relative inline-block bg-black cursor-pointer h-40">
+                            <Image src={hotelInTelAviv.data.gallery.images[4].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"
+                            className="object-cover relative z-10 opacity-60"/>
+                            <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-bold z-20"
+                                onClick={() => {setIsOpen(!isOpen)}}>
+                                +{hotelInTelAviv.data.gallery.images.length - 5} Photos
+                            </div>
+                        </div>
+                    </div>
                 </div>
         </div>
     );
