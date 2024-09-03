@@ -4,7 +4,7 @@ import { FaStar } from "react-icons/fa";
 import { hotelInTelAviv } from '@/app/lib/hotelsDetails';
 import Image from 'next/image';
 import { MdLocationPin } from "react-icons/md";
-import { useState } from "react";
+import useGalleryModal from "@/app/hooks/useGalleryModal";
 
 interface Props {
     name: string;
@@ -12,7 +12,20 @@ interface Props {
 }
 
 const HotelHead = ({name, stars}: Props) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const galleryModal = useGalleryModal();
+
+    const {
+        onOpen,
+        setName,
+        setGallery
+    } = galleryModal;
+
+    const handleClick = () => {
+        setName(name);
+        const galleryImages = hotelInTelAviv.data.gallery.images.map(image => image.dynamic);
+        setGallery(galleryImages)
+        onOpen();
+    }
 
     return (
         <div className="flex flex-col gap-2">
@@ -64,15 +77,14 @@ const HotelHead = ({name, stars}: Props) => {
                         <div className="w-1/5 relative cursor-pointer">
                             <Image width={300} height={200} src={hotelInTelAviv.data.gallery.images[6].dynamic} alt={`Hotel image 0`}/>
                         </div>
-                        <div className="w-1/5 relative inline-block bg-black cursor-pointer">
+                        <div className="w-1/5 relative inline-block bg-black cursor-pointer" onClick={handleClick}>
                             <Image fill src={hotelInTelAviv.data.gallery.images[7].dynamic} alt={`Hotel image 0`} className="object-cover relative z-10 opacity-60"/>
-                            <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-bold z-20"
-                                onClick={() => {setIsOpen(!isOpen)}}>
+                            <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-bold z-20">
                                 +{hotelInTelAviv.data.gallery.images.length - 9} Photos
                             </div>
                         </div>
                     </div>
-                    
+                </div>
                     {/* {isOpen && 
                     <div className="flex justify-center items-center">
                         <div className="grid grid-cols-4 h-auto gap-2">
@@ -91,7 +103,7 @@ const HotelHead = ({name, stars}: Props) => {
                     </div>
                     } */}
 
-                </div>
+                
 
                 {/* sm:Gallery */}
                 <div className="block md:hidden flex-col w-[40vh]">
@@ -112,11 +124,10 @@ const HotelHead = ({name, stars}: Props) => {
                         <div className="w-1/3 relative cursor-pointer h-40">
                             <Image src={hotelInTelAviv.data.gallery.images[3].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
                         </div>
-                        <div className="w-1/3 relative inline-block bg-black cursor-pointer h-40">
+                        <div className="w-1/3 relative inline-block bg-black cursor-pointer h-40" onClick={galleryModal.onOpen}>
                             <Image src={hotelInTelAviv.data.gallery.images[4].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"
                             className="object-cover relative z-10 opacity-60"/>
-                            <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-bold z-20"
-                                onClick={() => {setIsOpen(!isOpen)}}>
+                            <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-bold z-20">
                                 +{hotelInTelAviv.data.gallery.images.length - 5} Photos
                             </div>
                         </div>

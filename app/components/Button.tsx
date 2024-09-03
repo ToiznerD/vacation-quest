@@ -40,7 +40,7 @@ const Button = ({
                     className="
                         absolute
                         left-6
-                        top-6"
+                        top-3"
                 />
             )}
             {label}

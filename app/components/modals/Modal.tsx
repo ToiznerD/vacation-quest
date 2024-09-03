@@ -8,11 +8,11 @@ import { IoMdClose } from "react-icons/io";
 interface Props {
     isOpen?: boolean;
     onClose: () => void;
-    onSubmit: () => void;
+    onSubmit?: () => void;
     title?: string;
     body?: React.ReactElement;
     footer?: React.ReactElement;
-    actionLabel: string;
+    actionLabel?: string;
     disabled?: boolean;
     secondaryAction?: () => void;
     secondaryActionLabel?: string;
@@ -52,7 +52,7 @@ const Modal = ({
             return;
         }
 
-        onSubmit();
+        onSubmit && onSubmit();
     }, [disabled, onSubmit])
 
     const handleSecondaryAction = useCallback(() => {
@@ -102,13 +102,14 @@ const Modal = ({
                                         {secondaryActionLabel}
                                     </Button>
                                 )}
+                                {actionLabel && (
                                     <Button
                                         disabled={disabled}
                                         onClick={handleSubmit}
                                     >
                                         {actionLabel}
                                     </Button>
-                                    
+                                    )}
                                 </div>
                                 {footer}
                             </div>

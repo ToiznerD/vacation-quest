@@ -11,7 +11,7 @@ interface Props {
 
 const HotelPrice = ({hotelPrice}: Props) => {
     return (
-        <div className="flex flex-row justify-between w-[60vh] md:w-[100vh] p-4 border-b-[1px]">
+        <div className="flex flex-row justify-between w-[40vh] md:w-[80vh] p-4 border-b-[1px]">
             <div className="text-lg md:text-2xl">
                 <Image 
                     src={hotelPrice.partnerLogo}
