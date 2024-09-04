@@ -10,7 +10,7 @@ import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
     HandCoins, FastForward, Luggage, Phone, ArrowUpDown, Paperclip, 
     Martini, Coffee, Scissors ,Bike, TreePine, WashingMachine, Store,
     Cigarette, RockingChair, Printer, CopyCheck, Antenna, TvMinimal,
-    Cross, Globe, Check
+    Cross, Globe, Check, Clock4
  } from 'lucide-react';
 
 interface Props {
@@ -52,23 +52,16 @@ const HotelHead = ({name, stars}: Props) => {
         CashMachine: HandCoins,
         ExpressCheckinService: FastForward,
         ExpressCheckoutService: FastForward,
-        // Hairdressers: ,
         LuggageStorage: Luggage,
         RoomService: Phone,
         AccessibleParking: CircleParking,
-        // HandrailsInStairways: ,
         Lift: ArrowUpDown,
         Desk: Paperclip,
-        // HairDryer
         Bar: Martini,
         Cafe: Coffee,
         CoffeeMaker: Coffee,
-        // Teahouse: ,
         BeautySalon: Scissors,
         BicycleRentalService: Bike,
-        // MassageService: ,
-        // Nightclub: ,
-        //Chapel: ,
         Garden: TreePine,
         Laundry: WashingMachine,
         Shop: Store,
@@ -80,22 +73,24 @@ const HotelHead = ({name, stars}: Props) => {
         Television: TvMinimal,
         FirstAidRoom: Cross,
         InternetAccessService: Globe,
-        // WiFiInDesignatedAreas: ,
     };
 
     return (
         <div className="flex flex-col gap-6">
             {/* Headline */}
-            <div className="flex flex-row font-bold text-2xl md:text-4xl">
-                {name}
-                {[...Array(Number(stars))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
-            </div>
-            <div className="flex flex-row">
-                <MdLocationPin className="text-blue-500 text-2xl md:text-4xl"/>
-                <div className="flex items-center text-base md:text-xl">
-                    {hotelInTelAviv.data.location.address}
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-row font-bold text-2xl md:text-4xl">
+                    {name}
+                    {[...Array(Number(stars))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                </div>
+                <div className="flex flex-row">
+                    <MdLocationPin className="text-blue-500 text-2xl md:text-3xl"/>
+                    <div className="flex items-center text-base md:text-lg">
+                        {hotelInTelAviv.data.location.address}
+                    </div>
                 </div>
             </div>
+            
             
                 {/* md:Gallery */}
                 <div className="flex-col gap-4 w-[80vh] hidden md:block">
@@ -103,7 +98,7 @@ const HotelHead = ({name, stars}: Props) => {
                     {/* 3 photos */}
                     <div className="flex flex-row gap-4 justify-between">
 
-                        <div className="relative cursor-pointer w-[70vh]">
+                        <div className="relative cursor-pointer w-[80vh]">
                             <Image src={hotelInTelAviv.data.gallery.images[0].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
                         </div>
 
@@ -170,9 +165,44 @@ const HotelHead = ({name, stars}: Props) => {
                         </div>
                     </div>
                 </div>
+
+                {/* Checkin - Checkout */}
+                <div className="flex flex-col rounded-lg p-4 gap-6 my-12 md:items-stretch items-center md:w-[80vh]">
+                    <div className="text-4xl">
+                        Check-in & Check-out
+                    </div>
+                    <div className="flex flex-row justify-around items-center">
+                        <Clock4 size={60} />
+                        <div className="flex flex-col gap-2">
+                            <div className="text-2xl">
+                                Check in from:
+                            </div>
+                            <div className="text-2xl font-bold">
+                                {hotelInTelAviv.data.goodToKnow.checkinTime.time}
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="text-2xl">
+                                Check out until:
+                            </div>
+                            <div className="text-2xl font-bold">
+                                {hotelInTelAviv.data.goodToKnow.checkoutTime.time}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 {/* Map */}
-                <Map center={latlng}/>
+                <div className="flex flex-col gap-2">
+                    <div className="flex flex-row">
+                        <MdLocationPin className="text-blue-500 text-2xl md:text-3xl"/>
+                        <div className="flex items-center text-base md:text-lg">
+                            {hotelInTelAviv.data.location.address}
+                        </div>
+                    </div>
+                    <Map center={latlng}/>
+                </div>
+                
 
                 {/* Amenities */}
                 <div className="flex flex-col gap-4">
