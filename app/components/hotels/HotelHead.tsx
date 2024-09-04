@@ -6,7 +6,12 @@ import Image from 'next/image';
 import { MdLocationPin } from "react-icons/md";
 import useGalleryModal from "@/app/hooks/useGalleryModal";
 import dynamic from "next/dynamic";
-import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff } from 'lucide-react';
+import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
+    HandCoins, FastForward, Luggage, Phone, ArrowUpDown, Paperclip, 
+    Martini, Coffee, Scissors ,Bike, TreePine, WashingMachine, Store,
+    Cigarette, RockingChair, Printer, CopyCheck, Antenna, TvMinimal,
+    Cross, Globe, Check
+ } from 'lucide-react';
 
 interface Props {
     name: string;
@@ -36,29 +41,50 @@ const HotelHead = ({name, stars}: Props) => {
     const coordinates = hotelInTelAviv.data.location.coordinates;
     const latlng: number[] = [coordinates.latitude, coordinates.longitude];
 
-    // Define your icon map
     const iconMap: Record<string, React.ComponentType> = {
-        wifi: Wifi,
-        parking: CircleParking,
-        aircon: AirVent,
-        bus: Bus,
-        meal: Utensils,
-        'hotels--smoking': CigaretteOff,
+        WifiService: Wifi,
+        Parking: CircleParking,
+        AirConditioning: AirVent,
+        AirportShuttleService: Bus,
+        Restaurant: Utensils,
+        NonSmokingService: CigaretteOff,
+        ATM: HandCoins,
+        CashMachine: HandCoins,
+        ExpressCheckinService: FastForward,
+        ExpressCheckoutService: FastForward,
+        // Hairdressers: ,
+        LuggageStorage: Luggage,
+        RoomService: Phone,
+        AccessibleParking: CircleParking,
+        // HandrailsInStairways: ,
+        Lift: ArrowUpDown,
+        Desk: Paperclip,
+        // HairDryer
+        Bar: Martini,
+        Cafe: Coffee,
+        CoffeeMaker: Coffee,
+        // Teahouse: ,
+        BeautySalon: Scissors,
+        BicycleRentalService: Bike,
+        // MassageService: ,
+        // Nightclub: ,
+        //Chapel: ,
+        Garden: TreePine,
+        Laundry: WashingMachine,
+        Shop: Store,
+        SmokingArea: Cigarette,
+        ChildrenFacility: RockingChair,
+        Fax: Printer,
+        Photocopier: CopyCheck,
+        SatelliteTV: Antenna,
+        Television: TvMinimal,
+        FirstAidRoom: Cross,
+        InternetAccessService: Globe,
+        // WiFiInDesignatedAreas: ,
     };
 
-    // const iconMap = {
-    //     "wifi": Wifi,
-    //     "parking": CircleParking,
-    //     "aircon": AirVent,
-    //     "bus": Bus,
-    //     "meal": Utensils,
-    //     "hotels--smoking": CigaretteOff,
-    // };
-    
-    
-
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-6">
             {/* Headline */}
             <div className="flex flex-row font-bold text-2xl md:text-4xl">
                 {name}
@@ -159,7 +185,7 @@ const HotelHead = ({name, stars}: Props) => {
                         amenity.id === "PopularAndEssential" && (
                             <div key={amenity.id} className="flex flex-row text-base w-[80vh] gap-4">
                                 {amenity.items.slice(0,6).map((item) => {
-                                    const IconComponent = item.icon ? iconMap[item.icon] : null;
+                                    const IconComponent = item.id ? iconMap[item.id] : null;
                                     return IconComponent ? (
                                     <div key={item.id} className="flex flex-col justify-center items-center md:w-[9vh] md:h-[9vh] bg-slate-100 gap-4 rounded-lg">
                                         <div>
@@ -176,23 +202,35 @@ const HotelHead = ({name, stars}: Props) => {
                     
                     {/* Lines */}
                     <div className="flex flex-col justify-center md:w-[80vh]">
-                        {hotelInTelAviv.data.amenities.contentV2.map((amenity) => (
+                        {hotelInTelAviv.data.amenities.contentV2.map((amenity, index, arr) => (
                             amenity.id !== "PopularAndEssential" && (
-                            <div className="flex flex-row justify-between items-center border-b-[1px] md:w-[80vh] h-auto p-4">
-                                <div className="text-2xl w-[50%]">
-                                    {amenity.category}
+                                <div
+                                    key={amenity.id}
+                                    className={`flex flex-row justify-between items-center md:w-[80vh] h-auto p-4 ${index !== arr.length - 1 ? 'border-b-[1px]' : ''}`}>
+                                    <div className="text-2xl w-[50%]">
+                                        {amenity.category}
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-4 text-base w-[65%] justify-center">
+                                        {amenity.items.map((item) => {
+                                            const IconComponent = iconMap[item.id] || Check;
+                                            return (
+                                                <div key={item.id} className="flex flex-row justify-start gap-2">
+                                                    <div>
+                                                        <IconComponent />
+                                                    </div>
+                                                    <div>
+                                                        {item.description}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
-                                <div className="grid grid-cols-3 gap-2 gap-x-4 text-base w-[65%] justify-center">
-                                    {amenity.items.map((item) => (
-                                        <div className="flex flex-row gap-2">
-                                            {item.description}
-                                            {/* {item.icon} */}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )))}
+                            )
+                        ))}
                     </div>
+
+
                 </div>
         </div>
     );
