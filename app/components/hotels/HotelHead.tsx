@@ -5,6 +5,8 @@ import { hotelInTelAviv } from '@/app/lib/hotelsDetails';
 import Image from 'next/image';
 import { MdLocationPin } from "react-icons/md";
 import useGalleryModal from "@/app/hooks/useGalleryModal";
+import dynamic from "next/dynamic";
+import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff } from 'lucide-react';
 
 interface Props {
     name: string;
@@ -23,9 +25,37 @@ const HotelHead = ({name, stars}: Props) => {
     const handleClick = () => {
         setName(name);
         const galleryImages = hotelInTelAviv.data.gallery.images.map(image => image.dynamic);
-        setGallery(galleryImages)
+        setGallery(galleryImages);
         onOpen();
     }
+
+    const Map = dynamic(() => import('../Map'), {
+        ssr: false
+    });
+
+    const coordinates = hotelInTelAviv.data.location.coordinates;
+    const latlng: number[] = [coordinates.latitude, coordinates.longitude];
+
+    // Define your icon map
+    const iconMap: Record<string, React.ComponentType> = {
+        wifi: Wifi,
+        parking: CircleParking,
+        aircon: AirVent,
+        bus: Bus,
+        meal: Utensils,
+        'hotels--smoking': CigaretteOff,
+    };
+
+    // const iconMap = {
+    //     "wifi": Wifi,
+    //     "parking": CircleParking,
+    //     "aircon": AirVent,
+    //     "bus": Bus,
+    //     "meal": Utensils,
+    //     "hotels--smoking": CigaretteOff,
+    // };
+    
+    
 
     return (
         <div className="flex flex-col gap-2">
@@ -85,26 +115,7 @@ const HotelHead = ({name, stars}: Props) => {
                         </div>
                     </div>
                 </div>
-                    {/* {isOpen && 
-                    <div className="flex justify-center items-center">
-                        <div className="grid grid-cols-4 h-auto gap-2">
-                        {hotelInTelAviv.data.gallery.images.slice(8,hotelInTelAviv.data.gallery.images.length).map((image, i) => (
-                            <div key={i} className="relative w-[200px] h-[150px] bg-black">
-                            <Image
-                                src={image.dynamic}
-                                alt={`Hotel image ${i}`}
-                                layout="fill" // Ensure the image fills the container
-                                objectFit="cover" // Cover the container without distorting the image
-                                className="rounded-lg"
-                            />
-                            </div>
-                        ))}
-                        </div>
-                    </div>
-                    } */}
-
                 
-
                 {/* sm:Gallery */}
                 <div className="block md:hidden flex-col w-[40vh]">
                     {/* 2 photos */}
@@ -131,6 +142,56 @@ const HotelHead = ({name, stars}: Props) => {
                                 +{hotelInTelAviv.data.gallery.images.length - 5} Photos
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                {/* Map */}
+                <Map center={latlng}/>
+
+                {/* Amenities */}
+                <div className="flex flex-col gap-4">
+                    <div>
+                        Amenities for guests
+                    </div>
+                    
+                    {/* Squares */}
+                    {hotelInTelAviv.data.amenities.contentV2.map((amenity) => (
+                        amenity.id === "PopularAndEssential" && (
+                            <div key={amenity.id} className="flex flex-row text-base w-[80vh] gap-4">
+                                {amenity.items.slice(0,6).map((item) => {
+                                    const IconComponent = item.icon ? iconMap[item.icon] : null;
+                                    return IconComponent ? (
+                                    <div key={item.id} className="flex flex-col justify-center items-center md:w-[9vh] md:h-[9vh] bg-slate-100 gap-4 rounded-lg">
+                                        <div>
+                                            <IconComponent />
+                                        </div>
+                                        <div>
+                                            {item.description}
+                                        </div>
+                                    </div>
+                                ) : null})}
+                            </div>
+                        )
+                    ))}
+                    
+                    {/* Lines */}
+                    <div className="flex flex-col justify-center md:w-[80vh]">
+                        {hotelInTelAviv.data.amenities.contentV2.map((amenity) => (
+                            amenity.id !== "PopularAndEssential" && (
+                            <div className="flex flex-row justify-between items-center border-b-[1px] md:w-[80vh] h-auto p-4">
+                                <div className="text-2xl w-[50%]">
+                                    {amenity.category}
+                                </div>
+                                <div className="grid grid-cols-3 gap-2 gap-x-4 text-base w-[65%] justify-center">
+                                    {amenity.items.map((item) => (
+                                        <div className="flex flex-row gap-2">
+                                            {item.description}
+                                            {/* {item.icon} */}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )))}
                     </div>
                 </div>
         </div>

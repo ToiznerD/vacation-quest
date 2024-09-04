@@ -63,6 +63,7 @@ const GalleryModal = () => {
 
     const handleRightArrow = () => {
         if(isSelected === gallery.length) {
+            setIsSelected(() => 1);
             return;
         }
         setIsSelected((isSelected) => isSelected+1);
@@ -70,11 +71,12 @@ const GalleryModal = () => {
 
     const changeImageByClick = (index: number) => {
         if (isSelected + index > gallery.length) {
+            setIsSelected(() => index+1)
             return;
         }
         setIsSelected((isSelected) => isSelected+index)
     }
-
+    
     const bodyContent = (
         <div className="flex flex-col gap-16">
             <div className="flex flex-row gap-4 justify-between items-center">
@@ -83,7 +85,7 @@ const GalleryModal = () => {
                 </div>
 
                 <div className="relative cursor-pointer h-[25vh] w-screen md:h-[30vh]">
-                    <Image src={gallery[isSelected]} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                    <Image src={isSelected < gallery.length ? gallery[isSelected] : gallery[isSelected-gallery.length]} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
                 </div>
 
                 <div className="cursor-pointer">
@@ -94,7 +96,7 @@ const GalleryModal = () => {
             <div className="flex flex-row justify-center gap-4">
                 <div key={isSelected} className="relative w-44 h-32 cursor-pointer">
                     <Image 
-                        src={gallery[isSelected]}
+                        src={isSelected < gallery.length ? gallery[isSelected] : gallery[gallery.length-isSelected]}
                         alt={`Hotel image ${isSelected}`}
                         layout="fill" // Ensure the image fills the container
                         objectFit="cover" // Cover the container without distorting the image
@@ -104,7 +106,7 @@ const GalleryModal = () => {
                 <div key={isSelected+1} className="relative w-44 h-32 cursor-pointer opacity-40"
                 onClick={() => changeImageByClick(1)}>
                     <Image 
-                        src={gallery[isSelected+1]}
+                        src={isSelected+1 < gallery.length ? gallery[isSelected+1] : gallery[isSelected+1-gallery.length]}
                         alt={`Hotel image ${isSelected+1}`}
                         layout="fill" // Ensure the image fills the container
                         objectFit="cover" // Cover the container without distorting the image
@@ -114,7 +116,7 @@ const GalleryModal = () => {
                 <div key={isSelected+2} className="relative w-44 h-32 cursor-pointer opacity-40"
                 onClick={() => changeImageByClick(2)}>
                     <Image 
-                        src={gallery[isSelected+2]}
+                        src={isSelected+2 < gallery.length ? gallery[isSelected+2] : gallery[isSelected+2-gallery.length]}
                         alt={`Hotel image ${isSelected+2}`}
                         layout="fill" // Ensure the image fills the container
                         objectFit="cover" // Cover the container without distorting the image
@@ -124,7 +126,7 @@ const GalleryModal = () => {
                 <div key={isSelected+3} className="relative w-44 h-32 hidden md:block cursor-pointer opacity-40"
                 onClick={() => changeImageByClick(3)}>
                     <Image 
-                        src={gallery[isSelected+3]}
+                        src={isSelected+3 < gallery.length ? gallery[isSelected+3] : gallery[isSelected+3-gallery.length]}
                         alt={`Hotel image ${isSelected+3}`}
                         layout="fill" // Ensure the image fills the container
                         objectFit="cover" // Cover the container without distorting the image
@@ -134,7 +136,7 @@ const GalleryModal = () => {
                 <div key={isSelected+4} className="relative w-44 h-32 hidden 2xl:block cursor-pointer opacity-40"
                 onClick={() => changeImageByClick(4)}>
                     <Image 
-                        src={gallery[isSelected+4]}
+                        src={isSelected+4 < gallery.length ? gallery[isSelected+4] : gallery[isSelected+4-gallery.length]}
                         alt={`Hotel image ${isSelected+4}`}
                         layout="fill" // Ensure the image fills the container
                         objectFit="cover" // Cover the container without distorting the image
