@@ -15,9 +15,7 @@ const HotelPage = ({ hotelInfo }: Props) => {
             <HotelHead
                 name={hotelInTelAviv.data.general.name}
                 stars={hotelInTelAviv.data.general.stars}
-            >
-
-            </HotelHead>
+            />
 
             {/* hotel prices */}
             <div className="flex flex-col gap-2 justify-center items-center">

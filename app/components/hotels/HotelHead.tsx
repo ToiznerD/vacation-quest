@@ -138,7 +138,7 @@ const HotelHead = ({name, stars}: Props) => {
                 </div>
                 
                 {/* sm:Gallery */}
-                <div className="block md:hidden flex-col w-[40vh]">
+                <div className="block md:hidden flex-col w-screen">
                     {/* 2 photos */}
                     <div className="flex flex-row justify-between items-center gap-2">
                         <div className="relative cursor-pointer w-[50vh] h-56">
@@ -213,11 +213,11 @@ const HotelHead = ({name, stars}: Props) => {
                     {/* Squares */}
                     {hotelInTelAviv.data.amenities.contentV2.map((amenity) => (
                         amenity.id === "PopularAndEssential" && (
-                            <div key={amenity.id} className="flex flex-row text-base w-[80vh] gap-4">
+                            <div key={amenity.id} className="grid sm:grid-cols-2 justify-center text-base gap-4 md:flex md:flex-row">
                                 {amenity.items.slice(0,6).map((item) => {
                                     const IconComponent = item.id ? iconMap[item.id] : null;
                                     return IconComponent ? (
-                                    <div key={item.id} className="flex flex-col justify-center items-center md:w-[9vh] md:h-[9vh] bg-slate-100 gap-4 rounded-lg">
+                                    <div key={item.id} className="flex flex-col justify-center items-center md:w-[9vh] md:h-[9vh] bg-slate-100 gap-4 rounded-lg p-2">
                                         <div>
                                             <IconComponent />
                                         </div>

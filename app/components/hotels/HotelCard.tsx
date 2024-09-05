@@ -25,7 +25,7 @@ const HotelCard = ({ hotelCard }: Props) => {
 
     return (
         <div className="flex flex-row md:w-[120vh] mb-4 border-2 border-blue-400 rounded-lg">
-            <div className="relative">
+            <div className="relative h-[20vh]">
                 <Image
                     src={hotelCard.images[imgCount]}
                     width={500}
