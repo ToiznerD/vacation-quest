@@ -9,6 +9,7 @@ import { useState } from "react";
 import LoginModal from "./components/modals/LoginModal";
 import RegisterModal from "./components/modals/RegisterModal";
 import getCurrentUser from "./actions/getCurrentUser";
+import GalleryModal from "./components/modals/GalleryModal";
 
 
 const font = Nunito({
@@ -34,6 +35,7 @@ export default async function RootLayout({
         <LoginModal />
         <RegisterModal />
         <SearchModal/>
+        <GalleryModal />
         <div className="min-h-screen flex flex-col">
           <Navbar currentUser={currentUser}/>
           <main className="flex-1 m-5">

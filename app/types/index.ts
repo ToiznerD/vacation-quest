@@ -118,3 +118,263 @@ export type itinerary = {
     tags?: string[];
 
 }
+
+export type district = {
+    hierarchy: string;
+    location: string;
+    score: number;
+    entityName: string;
+    entityId: string;
+    entityType: string;
+    suggestItem: string;
+    class: string;
+    pois: {
+        entityName: string;
+        entityId: string;
+        class: string;
+    }[]; 
+}
+
+export type hotelCard = {
+    hotelId: string;
+    heroImage: string;
+    name: string;
+    stars: number;
+    brandIds: string[];
+    distance: string;
+    relevantPoiDistance: string;
+    coordinates: number[];
+    price?: string;
+    cug?: {
+        cugWithoutLabel: string | null;
+        rawType: string;
+        type: string;
+        icons: string[] | null;
+        discount: string | null;
+        priceWithoutDiscount: string | null;
+    };
+    cheapestOfferPartnerId?: string;
+    cheapestOfferRateId?: string | null;
+    rawPrice?: number;
+    rating: {
+        description: string;
+        count: number;
+        value: string;
+        color: string;
+    } | null;
+    reviewSummary?: {
+        description: string;
+        count: number;
+        formatCount: string;
+        value: string;
+        formatValue: string;
+        color: string;
+        taImage: string | null;
+        confidenceBadge?: {
+            type: string;
+            score: number;
+            icon: string;
+            color: {
+                light: string;
+                dark: string;
+            }
+            message: string;
+        };
+    }
+    cheapestOffer: string;
+    offerTypes: string;
+    guestType:  string | null;
+    exclusiveDealLabel:  string | null;
+    pricesFrom: string | null;
+    images: string[];
+    otherRates: {
+        partnerId: string;
+        partnerName: string;
+        rawPrice: number;
+        price: string;
+    }[];
+    priceDescription: string;
+    taxPolicy: string;
+    rateFeatures: {
+        key: string;
+        text: string;
+        color: {
+            light: string;
+            dark: string;
+        }
+    }[];
+    cheapestOfferPartnerName: string | null;
+}
+
+export type hotelInfo = {
+    general: {
+        name: string;
+        stars: number;
+    };
+    goodToKnow: {
+        title: string;
+        checkInTime: {
+            title: string;
+            time: string;
+        };
+        checkOutTime: {
+            title: string;
+            time: string;
+        };
+        description: {
+            title: string;
+            content: string;
+            image: string;
+            translated: boolean;
+            needTranslation: boolean;
+            locale: string;
+        };
+        policies: {
+            title: string;
+            content: {
+                icon: string;
+                translated: boolean;
+                needTranslation: boolean;
+                locale: string;
+                key: string;
+                type: string;
+                values: {
+                    content: string;
+                }[];
+            }[];
+        };
+        childrenAndExtraBed: {
+            title: string;
+            content: string[] | null; //?????
+        }
+        location: {
+            title: string;
+            shortAddress: string;
+            address: string;
+            rawAddress: {
+                district: string;
+                street_address: string;
+                nation: string;
+                adm1: string;
+                postcode: string;
+                city: string;
+                cityId: string;
+            };
+            coordinates: {
+                latitude: number;
+                longitude: number;
+            };
+            cta: string;
+        }
+        gallery: {
+            images: {
+                category: string;
+                thumbnail: string;
+                gallery: string;
+                dynamic: string;
+            }[];
+            categories: {
+                name: string;
+                count: number;
+                displayName: string;
+            }[];
+        };
+        amenities: {
+            title: string;
+            ctaAll: string;
+            ctaLess: string;
+            content: {
+                icon: string;
+                description: string;
+            }[];
+            contentV2: {
+                id: string;
+                category: string;
+                items: {
+                    id: string;
+                    description: string;
+                }[];
+            }[];
+        };
+        reviews: {
+            title: string;
+            newTitle: string;
+            cta: string;
+            summaryDescription: string;
+            rating: number;
+            ratingDescription: string;
+            ratingDescriptionText: string;
+            numberOfReviewsLabel: string;
+            numberOfReviewsLabelExpanded: string;
+            badges: string[] | null;
+            guests: {
+                title: string;
+                entries: string[] | null;
+            };
+            categories: {
+                title: string;
+                entries: string[] | null;
+            };
+            explanations: {
+                title: string;
+                content: string;
+            }[];
+        };
+        distance: string;
+        reviewRatingSummary: {
+            scoreLogoImageUrl: string;
+            score: string;
+            formatScore: string;
+            totalScore: string;
+            count: string;
+            countNumber: number
+            formatCountString: string;
+            color: string;
+            scoreDesc: string;
+            highlights: string;
+            categories: {
+                type: string;
+                score: string;
+                formatScore: string;
+                color: string;
+                name: string;
+                highlights: string;
+                description: string;
+            }[];
+            cleanlinessMessage: string;
+            locationMessage: string;
+            highScoreReviews: {
+                type: string;
+                score: string;
+                icon: string;
+                text: string;
+            }[];
+        };
+    }
+}
+
+export type hotelPrice = {
+    partnerName: string;
+    partnerLogo: string;
+    partnerId: string;
+    roomType: string;
+    roomPolicies?: string;
+    deeplink?: string;
+    rawPrice: number;
+    rawPriceGbp?: number;
+    price: string;
+    rateBriefFeatures?: string[];
+    isOfficial?: boolean;
+    isShowHotelName?: boolean;
+    cugRate?: {
+        priceWithoutDiscount:string;
+        icons: string[];
+        discount: string;
+        cugWithoutLabel: string | null;
+        FSSInfo: string | null;
+        saveAmount: string;
+        rawSaveAmount: number;
+        type: string;
+    }
+    funnelType: string;
+}
