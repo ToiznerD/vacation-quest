@@ -1,8 +1,5 @@
-import { Listing, User } from "@prisma/client";
+import { User } from "@prisma/client";
 
-export type SafeListing = Omit<Listing, "createdAt"> & {
-    createdAt: string;
-};
 
 export type SafeUser = Omit<
     User,
@@ -11,6 +8,16 @@ export type SafeUser = Omit<
     createdAt: string;
     updatedAt: string;
     emailVerified: string | null;
+    questionnaire?: {
+        userId: string;
+        q1: string;
+        q2: string;
+        q3: string;
+        q4: string[];
+        q5: string;
+        q6: string;
+        q7: string;
+    } | null;
 };
 
 
@@ -296,8 +303,8 @@ export type FlightDetails = {
         url: string;
         urlTitle: string;
     };
-    pollingCompleted: boolean;
-    bookingSessionId: string;
+    pollingCompleted?: boolean;
+    bookingSessionId?: string;
 }
 
 export type FlightOption = {

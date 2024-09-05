@@ -14,6 +14,7 @@ const FlightListPage = () => {
     const searchParams = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [deals, setDeals] = useState<itinerary[]>([]);
+    const [token, setToken] = useState('');
     const originPosition = searchParams?.get('originPosition') || '[0, 0]';
     const position = searchParams?.get('position') || '[0, 0]';
     const startDate = searchParams?.get('startDate');
@@ -23,9 +24,13 @@ const FlightListPage = () => {
         const getFlights = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('/api/flights', { params: { originPosition, position, startDate, endDate } });
-                console.log(response);
-                setDeals(response.data.data.itineraries);
+                // const response = await axios.get('/api/flights', { params: { originPosition, position, startDate, endDate } });
+                // console.log(response);
+                // setDeals(response.data.data.itineraries);
+                // setToken(response.data.data.token)
+
+                setDeals(roundedtrip_tlv_bkk.data.itineraries);
+                setToken('5cafd19031msh154445f4f635b20p1f63a7jsn09b9bc3ba2ea');
             } finally {
                 setLoading(false);
             }
@@ -110,7 +115,7 @@ const FlightListPage = () => {
                         <>
                         {
                             filteredDeals.map((itinerary, index) => (
-                                <FlightCard key={index} itinerary={itinerary} token={roundedtrip_tlv_bkk.data.token}/>
+                                <FlightCard key={index} itinerary={itinerary} token={token}/>
                             ))
                         }
                         </>

@@ -58,27 +58,19 @@ export async function GET(req:Request){
     }
 
     const options3 = {
-        method: 'GET',
-        url: 'https://sky-scrapper.p.rapidapi.com/api/v2/flights/searchFlights',
-        params: {
-          originSkyId,
-          destinationSkyId,
-          originEntityId,
-          destinationEntityId,
-          date: startDate,
-          returnDate: endDate,
-          cabinClass: 'economy',
-          adults: '1',
-          sortBy: 'best',
-          currency: 'USD',
-          market: 'en-US',
-          countryCode: 'US'
-        },
-        headers: {
-            'x-rapidapi-key': '9e6bf754e0mshecdf4e6503bf1f1p1ed06fjsnd6ef57b116b4',
-            'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
-          }
-      };
+      method: 'GET',
+      url: 'https://sky-scanner3.p.rapidapi.com/flights/search-roundtrip',
+      params: {
+        fromEntityId: originSkyId,
+        toEntityId: destinationSkyId,
+        departDate: startDate,
+        returnDate: endDate
+      },
+      headers: {
+        'x-rapidapi-key': '5cafd19031msh154445f4f635b20p1f63a7jsn09b9bc3ba2ea',
+        'x-rapidapi-host': 'sky-scanner3.p.rapidapi.com'
+      }
+    };
       
       try {
           const response = await axios.request(options3);

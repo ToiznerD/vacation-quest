@@ -9,6 +9,9 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 import FlightRow from "./FlightRow";
 import useFlightModal from "../hooks/useFlightModal";
 import { useRouter } from "next/navigation";
+import useFlightDetails from "../hooks/useFlightDetails";
+
+
 
 interface Props {
     itinerary: itinerary;
@@ -20,11 +23,9 @@ interface Props {
 const FlightCard = ({ itinerary, token }: Props) => {
     const { onOpen, setId, setToken } = useFlightModal();
     const router = useRouter();
-
+    const flightDetails = useFlightDetails();
     const handleSelect = () => {
-        // setId(itinerary.id);
-        // setToken(token);
-        // onOpen();
+        flightDetails.setData(token, itinerary.id);
         router.push(`/flights/${itinerary.id}?token=${token}`);
     }
 

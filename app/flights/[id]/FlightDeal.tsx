@@ -6,10 +6,9 @@ import { useRouter } from "next/navigation";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 interface Props {
-    token?: string | null;
     option: FlightOption;
 }
-const FlightDeal = ({ token, option }: Props) => {
+const FlightDeal = ({ option }: Props) => {
 
     const goldStars = Math.floor(option.agents[0].rating.value);
     const halfGoldStar = option.agents[0].rating.value - goldStars >= 0.5;

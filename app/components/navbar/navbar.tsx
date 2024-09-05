@@ -5,6 +5,7 @@ import Search from "./Search";
 import Logo from "./logo";
 import UserMenu from "./UserMenu";
 import { SafeUser } from "@/app/types";
+import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
 
 interface Props {
     currentUser?: SafeUser | null

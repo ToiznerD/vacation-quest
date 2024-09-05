@@ -1,8 +1,12 @@
 import { Hotel, HotelIcon, Plane, PlaneTakeoff, Receipt } from "lucide-react";
 import Image from "next/image";
 import Card from "./components/card";
+import getCurrentUser from "./actions/getCurrentUser";
+import CheckQuestionnaire from "./components/CheckQuestionnaire";
 
-export default function Home() {
+export default async function Home() {
+
+  const user = await getCurrentUser();
 
   const placeholders = [
     {
@@ -37,6 +41,7 @@ export default function Home() {
 
   return (
     <div className="pt-24 px-20 flex flex-col gap-10">
+      <CheckQuestionnaire user={user} />
       <div className="flex flex-row items-center justify-between gap-10">
         <Image src="/booking.png" alt="booking" width={100} height={70} />
         <Image src="/expedia.webp" alt="booking" width={100} height={70} />
