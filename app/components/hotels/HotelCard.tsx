@@ -2,17 +2,20 @@
 
 import { hotelCard } from "@/app/types";
 import Image from 'next/image'
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 import { FaLongArrowAltRight, FaStar } from "react-icons/fa";
+import qs from 'query-string';
 
 interface Props {
+    entityId: string;
     hotelCard: hotelCard;
 }
 
-const HotelCard = ({ hotelCard }: Props) => {
+const HotelCard = ({ hotelCard, entityId }: Props) => {
     const [imgCount, setImgCount] = useState(0);
     const router = useRouter();
+    const params = useSearchParams();
     
     const NextImg = () => {
         console
@@ -22,6 +25,28 @@ const HotelCard = ({ hotelCard }: Props) => {
         }
         setImgCount((imgCount) => imgCount + 1);
     };
+
+    const handleClick = useCallback(async () => {
+
+        let currentQuery = {};
+
+        if (params){
+            currentQuery = qs.parse(params.toString());
+        }
+        
+        const updatedQuery: any = {
+            ...currentQuery,
+            entityId,
+            hotelId: hotelCard.hotelId,
+        }
+
+        const url = qs.stringifyUrl({
+            url: `/hotels/${hotelCard.hotelId}`,
+            query: updatedQuery
+        }, { skipNull: true });
+
+        router.push(url);
+    }, []);
 
     return (
         <div className="flex flex-row md:w-[120vh] mb-4 border-2 border-blue-400 rounded-lg">
@@ -75,7 +100,7 @@ const HotelCard = ({ hotelCard }: Props) => {
                     </div>
                     <span className="font-semibold text-xl">{hotelCard.priceDescription}</span>
                     <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer"
-                        onClick={() => router.push(`/hotels/${hotelCard.hotelId}`)}>
+                        onClick={handleClick}>
                         <div>
                             Select
                         </div>

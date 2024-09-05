@@ -473,11 +473,11 @@ export type hotelInfo = {
     };
     goodToKnow: {
         title: string;
-        checkInTime: {
+        checkinTime: {
             title: string;
             time: string;
         };
-        checkOutTime: {
+        checkoutTime: {
             title: string;
             time: string;
         };
@@ -503,113 +503,113 @@ export type hotelInfo = {
                 }[];
             }[];
         };
-        childrenAndExtraBed: {
-            title: string;
-            content: string[] | null; //?????
-        }
-        location: {
-            title: string;
-            shortAddress: string;
-            address: string;
-            rawAddress: {
-                district: string;
-                street_address: string;
-                nation: string;
-                adm1: string;
-                postcode: string;
-                city: string;
-                cityId: string;
-            };
-            coordinates: {
-                latitude: number;
-                longitude: number;
-            };
-            cta: string;
-        }
-        gallery: {
-            images: {
-                category: string;
-                thumbnail: string;
-                gallery: string;
-                dynamic: string;
-            }[];
-            categories: {
-                name: string;
-                count: number;
-                displayName: string;
-            }[];
+    }
+    childrenAndExtraBed: {
+        title: string;
+        content: string[] | null; //?????
+    };
+    location: {
+        title: string;
+        shortAddress: string;
+        address: string;
+        rawAddress: {
+            district: string;
+            street_address: string;
+            nation: string;
+            adm1: string;
+            postcode: string;
+            city: string;
+            cityId: string;
         };
-        amenities: {
-            title: string;
-            ctaAll: string;
-            ctaLess: string;
-            content: {
-                icon: string;
+        coordinates: {
+            latitude: number;
+            longitude: number;
+        };
+        cta: string;
+    }
+    gallery: {
+        images: {
+            category: string;
+            thumbnail: string;
+            gallery: string;
+            dynamic: string;
+        }[];
+        categories: {
+            name: string;
+            count: number;
+            displayName: string;
+        }[];
+    };
+    amenities: {
+        title: string;
+        ctaAll: string;
+        ctaLess: string;
+        content: {
+            icon: string;
+            description: string;
+        }[];
+        contentV2: {
+            id: string;
+            category: string;
+            items: {
+                id: string;
                 description: string;
             }[];
-            contentV2: {
-                id: string;
-                category: string;
-                items: {
-                    id: string;
-                    description: string;
-                }[];
-            }[];
-        };
-        reviews: {
+        }[];
+    };
+    reviews: {
+        title: string;
+        newTitle: string;
+        cta: string;
+        summaryDescription: string;
+        rating: number;
+        ratingDescription: string;
+        ratingDescriptionText: string;
+        numberOfReviewsLabel: string;
+        numberOfReviewsLabelExpanded: string;
+        badges: string[] | null;
+        guests: {
             title: string;
-            newTitle: string;
-            cta: string;
-            summaryDescription: string;
-            rating: number;
-            ratingDescription: string;
-            ratingDescriptionText: string;
-            numberOfReviewsLabel: string;
-            numberOfReviewsLabelExpanded: string;
-            badges: string[] | null;
-            guests: {
-                title: string;
-                entries: string[] | null;
-            };
-            categories: {
-                title: string;
-                entries: string[] | null;
-            };
-            explanations: {
-                title: string;
-                content: string;
-            }[];
+            entries: string[] | null;
         };
-        distance: string;
-        reviewRatingSummary: {
-            scoreLogoImageUrl: string;
+        categories: {
+            title: string;
+            entries: string[] | null;
+        };
+        explanations: {
+            title: string;
+            content: string;
+        }[];
+    };
+    distance: string;
+    reviewRatingSummary: {
+        scoreLogoImageUrl: string;
+        score: string;
+        formatScore: string;
+        totalScore: string;
+        count: string;
+        countNumber: number
+        formatCountString: string;
+        color: string;
+        scoreDesc: string;
+        highlights: string;
+        categories: {
+            type: string;
             score: string;
             formatScore: string;
-            totalScore: string;
-            count: string;
-            countNumber: number
-            formatCountString: string;
             color: string;
-            scoreDesc: string;
+            name: string;
             highlights: string;
-            categories: {
-                type: string;
-                score: string;
-                formatScore: string;
-                color: string;
-                name: string;
-                highlights: string;
-                description: string;
-            }[];
-            cleanlinessMessage: string;
-            locationMessage: string;
-            highScoreReviews: {
-                type: string;
-                score: string;
-                icon: string;
-                text: string;
-            }[];
-        };
+            description: string;
+        }[];
+        cleanlinessMessage: string;
+        locationMessage: string;
+        highScoreReviews: {
+            type: string;
+            score: string;
+            icon: string;
+            text: string;
+        }[];
     }
 }
 

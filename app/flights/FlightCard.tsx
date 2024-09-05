@@ -8,8 +8,9 @@ import { format } from "date-fns";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import FlightRow from "./FlightRow";
 import useFlightModal from "../hooks/useFlightModal";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useFlightDetails from "../hooks/useFlightDetails";
+import qs from 'query-string';
 
 
 
@@ -24,9 +25,28 @@ const FlightCard = ({ itinerary, token }: Props) => {
     const { onOpen, setId, setToken } = useFlightModal();
     const router = useRouter();
     const flightDetails = useFlightDetails();
+    const params = useSearchParams();
+    
+
     const handleSelect = () => {
         flightDetails.setData(token, itinerary.id);
-        router.push(`/flights/${itinerary.id}?token=${token}`);
+        let currentQuery = {};
+
+        if (params){
+            currentQuery = qs.parse(params.toString());
+        }
+        const updatedQuery: any = {
+            ...currentQuery,
+            token,
+            
+        }
+        const url = qs.stringifyUrl({
+            url: `/flights/${itinerary.id}`,
+            query: updatedQuery
+        }, { skipNull: true });
+        
+        console.log(url);
+        router.push(url);
     }
 
     return ( 
