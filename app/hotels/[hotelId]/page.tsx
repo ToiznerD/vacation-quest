@@ -8,6 +8,7 @@ import HotelPrice from "@/app/components/hotels/HotelPrice";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import PuffLoader from "react-spinners/PuffLoader";
 
 const HotelPage = () => {
     const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
@@ -39,28 +40,35 @@ const HotelPage = () => {
         getHotelInfo();
     }, []);
 
-    if (isLoading) {
-        // change to loader
-        return null;
-    }
-
     return (
         <div className="flex flex-col justify-center items-center gap-4 text-5xl mt-52">
-            <HotelHead
-                hotelInfo={hotelInfo}
-                name={hotelInfo?.general.name}
-                stars={hotelInfo?.general.stars}
-            />
+            {isLoading ? (
+                <div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
+                    <div className="flex flex-col gap-1 justify-center items-center">
+                        <PuffLoader color="#36d7b7" />
+                        Fetching hotel details...
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <HotelHead
+                        hotelInfo={hotelInfo}
+                        name={hotelInfo?.general.name}
+                        stars={hotelInfo?.general.stars}
+                    />
 
-            {/* hotel prices */}
-            <div className="flex flex-col gap-2 justify-center items-center">
-                {
-                    hotelPrices.map((hotelPrice, index) => (
-                        hotelPrice.deeplink &&
-                        <HotelPrice key={index} hotelPrice={hotelPrice} />
-                    ))
-                }
-            </div>
+                    {/* hotel prices */}
+                    <div className="flex flex-col gap-2 justify-center items-center">
+                        {
+                            hotelPrices.map((hotelPrice, index) => (
+                                hotelPrice.deeplink &&
+                                <HotelPrice key={index} hotelPrice={hotelPrice} />
+                            ))
+                        }
+                    </div>
+                </>
+            )}
+            
         </div>
     );
 };

@@ -6,6 +6,7 @@ export async function GET(req:Request){
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
     const destination = searchParams.get('destination');
+   
 
     let entityId;
     let hotelCards = [];

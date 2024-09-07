@@ -9,10 +9,14 @@ interface Props {
 }
 
 const CheckQuestionnaire = ({ user }: Props) => {
-    const { isOpen, dismissed, onOpen } = useQuestionnaireModal();
+    const { setData, isOpen, dismissed, onOpen } = useQuestionnaireModal();
 
     useEffect(() => {
         // Open modal only if the user is logged in, has no questionnaire, and has not dismissed the modal
+        if(user && user.questionnaire){
+            // console.log(user.questionnaire)
+            setData(user.questionnaire)
+        }
         if (user && !user.questionnaire && !isOpen && !dismissed) {
             onOpen();
         }

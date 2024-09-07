@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import PuffLoader from "react-spinners/PuffLoader";
 
 
 const FlightListPage = () => {
@@ -24,13 +25,13 @@ const FlightListPage = () => {
         const getFlights = async () => {
             setLoading(true);
             try {
-                // const response = await axios.get('/api/flights', { params: { originPosition, position, startDate, endDate } });
-                // console.log(response);
-                // setDeals(response.data.data.itineraries);
-                // setToken(response.data.data.token)
+                const response = await axios.get('/api/flights', { params: { originPosition, position, startDate, endDate } });
+                console.log(response);
+                setDeals(response.data.data.itineraries);
+                setToken(response.data.data.token)
 
-                setDeals(roundedtrip_tlv_bkk.data.itineraries);
-                setToken('5cafd19031msh154445f4f635b20p1f63a7jsn09b9bc3ba2ea');
+                // setDeals(roundedtrip_tlv_bkk.data.itineraries);
+                // setToken('5cafd19031msh154445f4f635b20p1f63a7jsn09b9bc3ba2ea');
             } finally {
                 setLoading(false);
             }
@@ -108,10 +109,14 @@ const FlightListPage = () => {
                 </div>
             </div>
             <div className="flex flex-col gap-2 justify-center items-center">
-                { loading ? (
-                    <div className="text-lg text-center font-bold text-blue-900">
-                        Loading...
-                    </div>) : (
+                { loading ? 
+                    (<div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
+                        <div className="flex flex-col gap-1 justify-center items-center">
+                        <PuffLoader color="#36d7b7" />
+                        Collecting flights...
+                        </div>
+                    </div>) 
+                    : (
                         <>
                         {
                             filteredDeals.map((itinerary, index) => (

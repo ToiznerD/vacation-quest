@@ -59,3 +59,10 @@ model Questionnaire {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Recommendation {
+  id  String @id @default(auto()) @map("_id") @db.ObjectId
+  city  String
+  embedding Float[]
+  hotelInfo Json
+}

@@ -12,6 +12,7 @@ import getCurrentUser from "./actions/getCurrentUser";
 import FlightModal from "./components/modals/FlightModal";
 import QuestionnaireModal from "./components/modals/QuestionnaireModal";
 import GalleryModal from "./components/modals/GalleryModal";
+import CheckQuestionnaire from "./components/CheckQuestionnaire";
 
 
 const font = Nunito({
@@ -40,6 +41,7 @@ export default async function RootLayout({
         <FlightModal />
         <QuestionnaireModal />
         <GalleryModal />
+        <CheckQuestionnaire user={currentUser} />
         <div className="min-h-screen flex flex-col">
           <Navbar currentUser={currentUser}/>
           <main className="flex-1 m-5">

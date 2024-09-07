@@ -101,15 +101,15 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                     <div className="flex flex-row gap-4 justify-between">
 
                         <div className="relative cursor-pointer w-[80vh]">
-                            <Image src={hotelInfo?.gallery.images[0].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                            {hotelInfo?.gallery.images[0].dynamic  && (<Image src={hotelInfo?.gallery.images[0].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>)}
                         </div>
 
                         <div className="flex flex-col justify-between gap-4 w-[30vh]">
                             <div className="relative cursor-pointer">
-                                <Image width={300} height={100} src={hotelInfo?.gallery.images[1].dynamic || ''} alt={`Hotel image 0`} className="w-full h-auto" />
+                                {hotelInfo?.gallery.images[1].dynamic && (<Image width={300} height={100} src={hotelInfo?.gallery.images[1].dynamic} alt={`Hotel image 0`} className="w-full h-auto" />)}
                             </div>
                             <div className="relative cursor-pointer">
-                                <Image width={300} height={100} src={hotelInfo?.gallery.images[2].dynamic || ''} alt={`Hotel image 0`} className="w-full h-auto" />
+                                {hotelInfo?.gallery.images[2].dynamic && (<Image width={300} height={100} src={hotelInfo?.gallery.images[2].dynamic} alt={`Hotel image 0`} className="w-full h-auto" />)}
                             </div>
                         </div>
 
@@ -119,19 +119,19 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                     <div className="flex flex-row justify-between gap-x-4 mt-4">
                         
                         <div className="w-1/5 relative inline-block cursor-pointer">
-                            <Image src={hotelInfo?.gallery.images[3].dynamic || ''} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
+                            {hotelInfo?.gallery.images[3].dynamic && (<Image src={hotelInfo?.gallery.images[3].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>)}
                         </div>
                         <div className="w-1/5 relative cursor-pointer">
-                            <Image src={hotelInfo?.gallery.images[4].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover" />
+                            {hotelInfo?.gallery.images[4].dynamic && (<Image src={hotelInfo?.gallery.images[4].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover" />)}
                         </div>
                         <div className="w-1/5 relative cursor-pointer">
-                            <Image src={hotelInfo?.gallery.images[5].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover" />
+                            {hotelInfo?.gallery.images[5].dynamic && (<Image src={hotelInfo?.gallery.images[5].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover" />)}
                         </div>
                         <div className="w-1/5 relative cursor-pointer">
-                            <Image width={300} height={200} src={hotelInfo?.gallery.images[6].dynamic || ''} alt={`Hotel image 0`}/>
+                            {hotelInfo?.gallery.images[6].dynamic && (<Image width={300} height={200} src={hotelInfo?.gallery.images[6].dynamic} alt={`Hotel image 0`}/>)}
                         </div>
                         <div className="w-1/5 relative inline-block bg-black cursor-pointer" onClick={handleClick}>
-                            <Image fill src={hotelInfo?.gallery.images[7].dynamic || ''} alt={`Hotel image 0`} className="object-cover relative z-10 opacity-60"/>
+                            {hotelInfo?.gallery.images[7].dynamic && (<Image fill src={hotelInfo?.gallery.images[7].dynamic} alt={`Hotel image 0`} className="object-cover relative z-10 opacity-60"/>)}
                             <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-bold z-20">
                                 +{hotelInfo?.gallery.images.length || 0 - 9} Photos
                             </div>
@@ -144,23 +144,23 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                     {/* 2 photos */}
                     <div className="flex flex-row justify-between items-center gap-2">
                         <div className="relative cursor-pointer w-[50vh] h-56">
-                            <Image src={hotelInfo?.gallery.images[0].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                            {hotelInfo?.gallery.images[0].dynamic && (<Image src={hotelInfo?.gallery.images[0].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>)}
                         </div>
                         <div className="relative cursor-pointer w-[50vh] h-56">
-                            <Image src={hotelInfo?.gallery.images[1].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                            {hotelInfo?.gallery.images[1].dynamic && (<Image src={hotelInfo?.gallery.images[1].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>)}
                         </div>
                     </div>
                     {/* 3 photos */}
                     <div className="flex flex-row justify-between gap-2 mt-2">
                         <div className="w-1/3 relative cursor-pointer h-40">
-                            <Image src={hotelInfo?.gallery.images[2].dynamic || ''} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
+                            {hotelInfo?.gallery.images[2].dynamic && (<Image src={hotelInfo?.gallery.images[2].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>)}
                         </div>
                         <div className="w-1/3 relative cursor-pointer h-40">
-                            <Image src={hotelInfo?.gallery.images[3].dynamic || ''} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
+                            {hotelInfo?.gallery.images[3].dynamic && (<Image src={hotelInfo?.gallery.images[3].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>)}
                         </div>
                         <div className="w-1/3 relative inline-block bg-black cursor-pointer h-40" onClick={galleryModal.onOpen}>
-                            <Image src={hotelInfo?.gallery.images[4].dynamic || ''} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"
-                            className="object-cover relative z-10 opacity-60"/>
+                            {hotelInfo?.gallery.images[4].dynamic && (<Image src={hotelInfo?.gallery.images[4].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"
+                            className="object-cover relative z-10 opacity-60"/>)}
                             <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-bold z-20">
                                 +{hotelInfo?.gallery.images.length || 0 - 5} Photos
                             </div>

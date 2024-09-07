@@ -39,7 +39,7 @@ const FlightRow = ({ imageSrc, title, departure, arrival, originId, destinationI
                     <PlaneTakeoff size={40} className="text-blue-800" />
                     <div className="w-full">
                         <div className="w-full my-auto h-[1px] border"/>
-                        {stops && stops > 0 && (
+                        {stops !== undefined && stops > 0 && (
                             <>
                                 <div className="relative -top-1 flex justify-center items-center gap-2">
                                     {[...Array(stops)].map((_, i) => (<div key={i} className="rounded-full h-2 w-2 bg-rose-500" />))}
