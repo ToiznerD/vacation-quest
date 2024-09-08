@@ -107,13 +107,9 @@ const HotelPage = () => {
         InternetAccessService: Globe,
     };
 
-    if (isLoading) {
-        // change to loader
-        return null;
-    }
-
     return (
         <div className="flex justify-center">
+            <div className="flex flex-col justify-center gap-6 xl:w-[140vh] md:w-[100vh] w-full mt-32">
             {isLoading ? (
                 <div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
                     <div className="flex flex-col gap-1 justify-center items-center">
@@ -121,8 +117,8 @@ const HotelPage = () => {
                         Fetching hotel details...
                     </div>
                 </div>
-            ) : (
-            <div className="flex flex-col justify-center gap-6 xl:w-[140vh] md:w-[100vh] w-full mt-32">
+            ) : ( 
+            <>
                 {/* Headline */}
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-row font-bold text-2xl md:text-4xl">
@@ -336,7 +332,10 @@ const HotelPage = () => {
 
 
                     </div>
-            </div> )}
+                    
+            </>
+                )}
+            </div> 
         </div>
     );
 };
