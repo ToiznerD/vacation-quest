@@ -33,25 +33,35 @@ export async function POST(request: Request) {
 
 
         const recommendations = await prisma.$runCommandRaw({
-            aggregate: 'Recommendation',
-            pipeline: [
-              {
-                $vectorSearch: {
-                  index: 'vector_index',
-                  path: 'embedding',
-                  queryVector: embedding,
-                  numCandidates: 100,
-                  limit: 5
-                }
-              },
-              {
-                $match: {
-                  city: city.toLowerCase()
-                }
+          aggregate: 'Recommendation',
+          pipeline: [
+            {
+              $vectorSearch: {
+                index: 'vector_index',
+                path: 'embedding',
+                queryVector: embedding,
+                numCandidates: 100,
+                limit: 5
               }
-            ],
-            cursor: {}
-          });
+            },
+            {
+              $match: {
+                city: city.toLowerCase()
+              }
+            },
+            // Add the $group stage to ensure uniqueness based on hotelInfo
+            {
+              $group: {
+                _id: "$hotelInfo.hotelId", // Use a unique identifier for hotelInfo
+                hotelInfo: { $first: "$hotelInfo" },
+                embedding: { $first: "$embedding" },
+                // Include any other fields you want to retain
+              }
+            }
+          ],
+          cursor: {}
+        });
+        
           
           const recList: Recommendation[] = (recommendations.cursor as { firstBatch: Recommendation[] })?.firstBatch || [];
 

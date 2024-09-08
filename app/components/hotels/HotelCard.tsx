@@ -8,6 +8,7 @@ import { FaLongArrowAltRight, FaStar } from "react-icons/fa";
 import qs from 'query-string';
 import axios from "axios";
 import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
+import { differenceInDays } from "date-fns";
 
 interface Props {
     entityId: string;
@@ -19,7 +20,8 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
     const router = useRouter();
     const params = useSearchParams();
     const questionnaireModal = useQuestionnaireModal();
-
+    const [days, setDays] = useState(1);
+    
     const NextImg = () => {
         console
         if (imgCount === 2) {
@@ -31,7 +33,7 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
 
     const handleClick = useCallback(async () => {
 
-        let currentQuery: { destination?: string} = {};
+        let currentQuery: { destination?: string, endDate?: string, startDate?: string} = {};
         let destination = '';
         if (params){
             currentQuery = qs.parse(params.toString());
@@ -45,6 +47,8 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
             questionnaire: questionnaireModal.data
         })
 
+        
+        setDays(differenceInDays(new Date(currentQuery.endDate || ''), new Date(currentQuery.startDate || '')))
         
         const updatedQuery: any = {
             ...currentQuery,
@@ -110,7 +114,7 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
                     <div className="font-bold text-base break-all">
                         {hotelCard.cheapestOfferPartnerName}
                     </div>
-                    <span className="font-semibold text-xl">{hotelCard.priceDescription}</span>
+                    <span className="font-semibold text-xl">{hotelCard.rawPrice || 1 / days}$ / night</span>
                     <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer"
                         onClick={handleClick}>
                         <div>
