@@ -1,6 +1,6 @@
 'use client'
 
-import { FaStar } from "react-icons/fa";
+import { FaLongArrowAltRight, FaStar } from "react-icons/fa";
 import { hotelInTelAviv } from '@/app/libs/hotelsDetails';
 import Image from 'next/image';
 import { MdLocationPin } from "react-icons/md";
@@ -12,15 +12,16 @@ import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
     Cigarette, RockingChair, Printer, CopyCheck, Antenna, TvMinimal,
     Cross, Globe, Check, Clock4
  } from 'lucide-react';
-import { hotelInfo } from "@/app/types";
+import { hotelInfo, hotelPrice } from "@/app/types";
 
 interface Props {
     hotelInfo?: hotelInfo;
     name?: string;
     stars?: number;
+    hotelPrices?: hotelPrice[];
 }
 
-const HotelHead = ({hotelInfo, name, stars}: Props) => {
+const HotelHead = ({hotelInfo, name, stars, hotelPrices}: Props) => {
     const galleryModal = useGalleryModal();
 
     const {
@@ -78,7 +79,7 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
     };
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 xl:w-[140vh] md:w-[100vh] w-full mt-32">
             {/* Headline */}
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row font-bold text-2xl md:text-4xl">
@@ -95,16 +96,16 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
             
             
                 {/* md:Gallery */}
-                <div className="flex-col gap-4 w-[80vh] hidden md:block">
+                <div className="flex-col gap-4 hidden md:block">
                     
                     {/* 3 photos */}
-                    <div className="flex flex-row gap-4 justify-between">
+                    <div className="flex flex-row gap-2 justify-between">
 
-                        <div className="relative cursor-pointer w-[80vh]">
+                        <div className="relative cursor-pointer w-[100vh]">
                             {hotelInfo?.gallery.images[0].dynamic  && (<Image src={hotelInfo?.gallery.images[0].dynamic} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>)}
                         </div>
 
-                        <div className="flex flex-col justify-between gap-4 w-[30vh]">
+                        <div className="flex flex-col justify-between gap-2">
                             <div className="relative cursor-pointer">
                                 {hotelInfo?.gallery.images[1].dynamic && (<Image width={300} height={100} src={hotelInfo?.gallery.images[1].dynamic} alt={`Hotel image 0`} className="w-full h-auto" />)}
                             </div>
@@ -116,7 +117,7 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                     </div>
                     
                     {/* 5 photos */}
-                    <div className="flex flex-row justify-between gap-x-4 mt-4">
+                    <div className="flex flex-row justify-between gap-x-2 mt-2">
                         
                         <div className="w-1/5 relative inline-block cursor-pointer">
                             {hotelInfo?.gallery.images[3].dynamic && (<Image src={hotelInfo?.gallery.images[3].dynamic} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>)}
@@ -140,7 +141,7 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                 </div>
                 
                 {/* sm:Gallery */}
-                <div className="block md:hidden flex-col w-screen">
+                <div className="block md:hidden flex-col ">
                     {/* 2 photos */}
                     <div className="flex flex-row justify-between items-center gap-2">
                         <div className="relative cursor-pointer w-[50vh] h-56">
@@ -169,25 +170,25 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                 </div>
 
                 {/* Checkin - Checkout */}
-                <div className="flex flex-col rounded-lg p-4 gap-6 my-12 md:items-stretch items-center md:w-[80vh]">
-                    <div className="text-4xl">
+                <div className="flex flex-col rounded-lg p-4 gap-6 my-12 items-stretch">
+                    <div className="text-3xl md:text-4xl">
                         Check-in & Check-out
                     </div>
-                    <div className="flex flex-row justify-around items-center">
+                    <div className="flex flex-row justify-between items-center">
                         <Clock4 size={60} />
                         <div className="flex flex-col gap-2">
-                            <div className="text-2xl">
+                            <div className="text-xl md:text-2xl">
                                 Check in from:
                             </div>
-                            <div className="text-2xl font-bold">
+                            <div className="text-xl md:text-2xl font-bold">
                                 {hotelInfo?.goodToKnow.checkinTime.time}
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <div className="text-2xl">
+                            <div className="text-xl md:text-2xl">
                                 Check out until:
                             </div>
-                            <div className="text-2xl font-bold">
+                            <div className="text-xl md:text-2xl font-bold">
                                 {hotelInfo?.goodToKnow.checkoutTime.time}
                             </div>
                         </div>
@@ -207,7 +208,7 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                 
 
                 {/* Amenities */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 text-3xl md:text-4xl">
                     <div>
                         Amenities for guests
                     </div>
@@ -215,15 +216,15 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                     {/* Squares */}
                     {hotelInfo?.amenities.contentV2.map((amenity: any) => (
                         amenity.id === "PopularAndEssential" && (
-                            <div key={amenity.id} className="grid sm:grid-cols-2 justify-center text-base gap-4 md:flex md:flex-row">
+                            <div key={amenity.id} className="grid grid-cols-2 justify-center text-base gap-4 md:flex md:flex-row">
                                 {amenity.items.slice(0,6).map((item: any) => {
                                     const IconComponent = item.id ? iconMap[item.id] : null;
                                     return IconComponent ? (
-                                    <div key={item.id} className="flex flex-col justify-center items-center md:w-[9vh] md:h-[9vh] bg-slate-100 gap-4 rounded-lg p-2">
+                                    <div key={item.id} className="flex flex-col justify-center items-center md:w-32 md:h-32 bg-slate-100 gap-4 rounded-lg p-2">
                                         <div>
                                             <IconComponent />
                                         </div>
-                                        <div>
+                                        <div className="">
                                             {item.description}
                                         </div>
                                     </div>
@@ -233,16 +234,16 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                     ))}
                     
                     {/* Lines */}
-                    <div className="flex flex-col justify-center md:w-[80vh]">
+                    <div className="flex flex-col justify-center">
                         {hotelInfo?.amenities.contentV2.map((amenity: any, index: any, arr: any) => (
                             amenity.id !== "PopularAndEssential" && (
                                 <div
                                     key={amenity.id}
-                                    className={`flex flex-row justify-between items-center md:w-[80vh] h-auto p-4 ${index !== arr.length - 1 ? 'border-b-[1px]' : ''}`}>
-                                    <div className="text-2xl w-[50%]">
+                                    className={`flex flex-row justify-between items-center h-auto p-4 ${index !== arr.length - 1 ? 'border-b-[1px]' : ''}`}>
+                                    <div className="text-xl md:text-2xl w-[45%]">
                                         {amenity.category}
                                     </div>
-                                    <div className="grid grid-cols-3 gap-4 text-base w-[65%] justify-center">
+                                    <div className="grid grid-cols-3 gap-2 text-sm md:text-base w-[55%] justify-center">
                                         {amenity.items.map((item: any) => {
                                             const IconComponent = iconMap[item.id] || Check;
                                             return (
@@ -260,6 +261,34 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                                 </div>
                             )
                         ))}
+                    </div>
+
+                    {/* hotel prices */}
+                    <div className="flex flex-col gap-2 justify-center items-center">
+                        {
+                            hotelPrices?.map((hotelPrice, index) => (
+                                hotelPrice.deeplink &&
+                                <div className="flex flex-row justify-between w-full p-4 border-b-[1px]">
+                                    <div className="text-lg md:text-2xl">
+                                        <Image 
+                                            src={hotelPrice.partnerLogo}
+                                            width={150}
+                                            height={100}
+                                            alt="Hotel Logo"
+                                        />
+                                    </div>
+                                    <div className="flex flex-row gap-4 items-center text-xl">
+                                        <span className="font-semibold">{hotelPrice.price}</span>
+                                        <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
+                                            <a href={`https://${hotelPrice.deeplink}`}>
+                                                Select
+                                            </a>
+                                            <FaLongArrowAltRight className="ml-2"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
 
 
