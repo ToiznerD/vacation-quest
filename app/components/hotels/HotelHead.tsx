@@ -1,6 +1,6 @@
 'use client'
 
-import { FaStar } from "react-icons/fa";
+import { FaLongArrowAltRight, FaStar } from "react-icons/fa";
 import { hotelInTelAviv } from '@/app/libs/hotelsDetails';
 import Image from 'next/image';
 import { MdLocationPin } from "react-icons/md";
@@ -12,15 +12,16 @@ import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
     Cigarette, RockingChair, Printer, CopyCheck, Antenna, TvMinimal,
     Cross, Globe, Check, Clock4
  } from 'lucide-react';
-import { hotelInfo } from "@/app/types";
+import { hotelInfo, hotelPrice } from "@/app/types";
 
 interface Props {
     hotelInfo?: hotelInfo;
     name?: string;
     stars?: number;
+    hotelPrices?: hotelPrice[];
 }
 
-const HotelHead = ({hotelInfo, name, stars}: Props) => {
+const HotelHead = ({hotelInfo, name, stars, hotelPrices}: Props) => {
     const galleryModal = useGalleryModal();
 
     const {
@@ -78,7 +79,7 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
     };
 
     return (
-        <div className="flex flex-col gap-6 xl:w-[140vh] md:w-[100vh] w-full">
+        <div className="flex flex-col gap-6 xl:w-[140vh] md:w-[100vh] w-full mt-32">
             {/* Headline */}
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row font-bold text-2xl md:text-4xl">
@@ -260,6 +261,34 @@ const HotelHead = ({hotelInfo, name, stars}: Props) => {
                                 </div>
                             )
                         ))}
+                    </div>
+
+                    {/* hotel prices */}
+                    <div className="flex flex-col gap-2 justify-center items-center">
+                        {
+                            hotelPrices?.map((hotelPrice, index) => (
+                                hotelPrice.deeplink &&
+                                <div className="flex flex-row justify-between w-full p-4 border-b-[1px]">
+                                    <div className="text-lg md:text-2xl">
+                                        <Image 
+                                            src={hotelPrice.partnerLogo}
+                                            width={150}
+                                            height={100}
+                                            alt="Hotel Logo"
+                                        />
+                                    </div>
+                                    <div className="flex flex-row gap-4 items-center text-xl">
+                                        <span className="font-semibold">{hotelPrice.price}</span>
+                                        <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
+                                            <a href={`https://${hotelPrice.deeplink}`}>
+                                                Select
+                                            </a>
+                                            <FaLongArrowAltRight className="ml-2"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
 
 
