@@ -45,7 +45,7 @@ const HotelPage = () => {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-4 text-5xl mt-52">
+        <div className="flex flex-col justify-center items-center gap-4 text-5xl mt-32">
             <HotelHead
                 hotelInfo={hotelInfo}
                 name={hotelInfo?.general.name}
