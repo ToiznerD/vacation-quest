@@ -20,6 +20,7 @@ import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
     Cigarette, RockingChair, Printer, CopyCheck, Antenna, TvMinimal,
     Cross, Globe, Check, Clock4
  } from 'lucide-react';
+import { Progress } from "@/components/ui/progress";
 
 const HotelPage = () => {
     const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
@@ -29,6 +30,9 @@ const HotelPage = () => {
     const endDate = params?.get('endDate');
     const hotelId = params?.get('hotelId');
     const entityId = params?.get('entityId');
+    const adults = params?.get('adults');
+    const roomCount = params?.get('roomCount');
+
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -40,6 +44,8 @@ const HotelPage = () => {
                     endDate,
                     hotelId,
                     entityId,
+                    adults,
+                    roomCount
                 }
             });
             const hotelInfo = response.data.hotelDetails;
@@ -120,6 +126,14 @@ const HotelPage = () => {
             ) : ( 
             <>
                 {/* Headline */}
+                <div className="flex flex-row justify-between items-center text-lg gap-1">
+                    <div>Find your deal</div>
+                    <div className="flex flex-col justify-end gap-1">
+                        <div className="text-xs flex justify-center">Step 4/4</div>
+                        <Progress value={100} className="w-[50vh]"/>
+                    </div>
+                    
+                </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-row font-bold text-2xl md:text-4xl">
                         {hotelInfo?.general.name}
@@ -319,7 +333,7 @@ const HotelPage = () => {
                                         <div className="flex flex-row gap-4 items-center text-xl">
                                             <span className="font-semibold">{hotelPrice.price}</span>
                                             <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
-                                                <a href={`https://${hotelPrice.deeplink}`}>
+                                                <a href={`https://${hotelPrice.deeplink}`} target="_blank">
                                                     Select
                                                 </a>
                                                 <FaLongArrowAltRight className="ml-2"/>

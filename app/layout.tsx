@@ -13,6 +13,7 @@ import FlightModal from "./components/modals/FlightModal";
 import QuestionnaireModal from "./components/modals/QuestionnaireModal";
 import GalleryModal from "./components/modals/GalleryModal";
 import CheckQuestionnaire from "./components/CheckQuestionnaire";
+import { Toaster } from "react-hot-toast";
 
 
 const font = Nunito({
@@ -41,6 +42,7 @@ export default async function RootLayout({
         <FlightModal />
         <QuestionnaireModal />
         <GalleryModal />
+        <Toaster />
         <CheckQuestionnaire user={currentUser} />
         <div className="min-h-screen flex flex-col">
           <Navbar currentUser={currentUser}/>

@@ -7,6 +7,8 @@ export async function GET(req:Request){
     const endDate = searchParams.get('endDate');
     const hotelId = searchParams.get('hotelId');
     const entityId = searchParams.get('entityId');
+    const roomCount = searchParams.get('roomCount');
+    const adults = searchParams.get('adults');
 
     let hotelDetails;
     let hotelPrices = [];
@@ -42,8 +44,8 @@ export async function GET(req:Request){
         entityId: entityId,
         checkin: startDate,
         checkout: endDate,
-        adults: '1',
-        rooms: '1',
+        adults,
+        rooms: roomCount,
         currency: 'USD',
         market: 'en-US',
         countryCode: 'US'

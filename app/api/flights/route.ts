@@ -7,6 +7,8 @@ export async function GET(req:Request){
     const position = JSON.parse(searchParams.get('position') || '[0, 0]');
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
+    const adults = searchParams.get('adults');
+    const children = searchParams.get('children');
 
     let originSkyId;
     let originEntityId;
@@ -64,7 +66,9 @@ export async function GET(req:Request){
         fromEntityId: originSkyId,
         toEntityId: destinationSkyId,
         departDate: startDate,
-        returnDate: endDate
+        returnDate: endDate,
+        adults: adults,
+        children: children
       },
       headers: {
         'x-rapidapi-key': '5cafd19031msh154445f4f635b20p1f63a7jsn09b9bc3ba2ea',

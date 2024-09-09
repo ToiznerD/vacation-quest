@@ -14,8 +14,6 @@ interface Props {
 }
 
 export default function GeocodingMap({ position, setPosition, location, setLocation } : Props) {
-  // const [position, setPosition] = useState<[number, number]>([51.1657, 10.4515]);
-  const [address, setAddress] = useState('');
 
   const Map = useMemo(() => dynamic(() => import('./Map'), {
     ssr: false

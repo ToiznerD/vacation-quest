@@ -9,6 +9,8 @@ import axios from "axios";
 import useFlightDetails from "@/app/hooks/useFlightDetails";
 import { FlightDetails } from "@/app/types";
 import PuffLoader from 'react-spinners/PuffLoader';
+import { FaLongArrowAltRight } from "react-icons/fa";
+import { Progress } from "@/components/ui/progress";
 
 interface Params {
     id?: string;
@@ -46,7 +48,20 @@ const FlightPage = ({params}: {params: Params}) => {
                         </div>
                 </div>) : 
             (<>
-            
+                <div className="flex flex-row justify-between items-center text-lg gap-1 w-full px-10">
+                    <div>Find the best deal for your flight</div>
+                    <div className="flex flex-col justify-end gap-1">
+                        <div className="text-xs flex justify-center">Step 2/4</div>
+                        <Progress value={50} className="w-[50vh]"/>
+                    </div>
+                    <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
+                        <a href={`#`} target="_blank">
+                            Next
+                        </a>
+                        <FaLongArrowAltRight className="ml-2"/>
+                    </div>
+                    
+                </div>
                 <div className="w-full">
                     {itinerary?.pricingOptions.map((option, index) => (
                             <FlightDeal
@@ -56,7 +71,7 @@ const FlightPage = ({params}: {params: Params}) => {
                         )
                     )}
                 </div>
-                <div className="flex flex-col gap-4 justify-center items-center p-4">
+                <div className="flex flex-col gap-4 p-4">
                     <div className="flex flex-col gap-4 border rounded-lg p-4">
                         <span className="text-blue-900 font-bold text-lg">Outbound:</span>
                         {

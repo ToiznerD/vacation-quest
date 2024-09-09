@@ -10,6 +10,9 @@ import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import PuffLoader from "react-spinners/PuffLoader";
 
+import { FaLongArrowAltRight } from "react-icons/fa";
+import { Progress } from "@/components/ui/progress";
+
 
 const FlightListPage = () => {
     const searchParams = useSearchParams();
@@ -20,12 +23,14 @@ const FlightListPage = () => {
     const position = searchParams?.get('position') || '[0, 0]';
     const startDate = searchParams?.get('startDate');
     const endDate = searchParams?.get('endDate');
+    const adults = searchParams?.get('adults');
+    const children = searchParams?.get('children');
 
     useEffect(() => {
         const getFlights = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('/api/flights', { params: { originPosition, position, startDate, endDate } });
+                const response = await axios.get('/api/flights', { params: { originPosition, position, startDate, endDate, adults, children } });
                 console.log(response);
                 setDeals(response.data.data.itineraries);
                 setToken(response.data.data.token)
@@ -71,63 +76,80 @@ const FlightListPage = () => {
     }, [deals, directFlag, oneStopFlag, twoStopFlag, price]);
 
     return ( 
-        <div className="pt-24 flex flex-row gap-8 w-full">
-            <div className="sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">
-                <div className="flex flex-col gap-4">
+        <>
+            <div className="pt-24 flex flex-row justify-between items-center text-lg gap-1 w-full px-10">
+                <div>Find your flight</div>
+                <div className="flex flex-col justify-end gap-1">
+                    <div className="text-xs flex justify-center">Step 1/4</div>
+                    <Progress value={25} className="w-[50vh]"/>
+                </div>
+                <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
+                    <a href={`#`} target="_blank">
+                        Next
+                    </a>
+                    <FaLongArrowAltRight className="ml-2"/>
+                </div>
+                
+            </div>
+            <div className=" flex flex-row gap-8 w-full">
+                <div className="sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">
                     <div className="flex flex-col gap-4">
-                        <div className="text-lg font-bold text-blue-900">
-                            Stops
+                        <div className="flex flex-col gap-4">
+                            <div className="text-lg font-bold text-blue-900">
+                                Stops
+                            </div>
+                            <div className="text-sm flex flex-row gap-2">
+                                <Checkbox 
+                                    onCheckedChange={() => setDirectFlag(!directFlag)}
+                                    checked={directFlag}
+                                /> Direct
+                            </div>
+                            <div className="text-sm flex flex-row gap-2">
+                                <Checkbox 
+                                    onCheckedChange={() => setOneStopFlag(!oneStopFlag)}
+                                    checked={oneStopFlag}
+                                /> 1 stop
+                            </div>
+                            <div className="text-sm flex flex-row gap-2">
+                                <Checkbox 
+                                    onCheckedChange={() => setTwoStopFlag(!twoStopFlag)}
+                                    checked={twoStopFlag}
+                                /> 2+ stops
+                            </div>
                         </div>
-                        <div className="text-sm flex flex-row gap-2">
-                            <Checkbox 
-                                onCheckedChange={() => setDirectFlag(!directFlag)}
-                                checked={directFlag}
-                            /> Direct
-                        </div>
-                        <div className="text-sm flex flex-row gap-2">
-                            <Checkbox 
-                                onCheckedChange={() => setOneStopFlag(!oneStopFlag)}
-                                checked={oneStopFlag}
-                            /> 1 stop
-                        </div>
-                        <div className="text-sm flex flex-row gap-2">
-                            <Checkbox 
-                                onCheckedChange={() => setTwoStopFlag(!twoStopFlag)}
-                                checked={twoStopFlag}
-                            /> 2+ stops
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                        <div className="text-lg font-bold text-blue-900">
-                            Max Price:
-                        </div>
-                        <div className="flex flex-row gap-2">
-                            <div className="text-lg font-bold text-blue-900 font-serif">${price[0]}</div>
-                            <Slider onValueChange={(value) => setPrice(value)} defaultValue={price} min={minPrice} max={maxPrice} step={10}/>
+                        <div className="flex flex-col gap-4">
+                            <div className="text-lg font-bold text-blue-900">
+                                Max Price:
+                            </div>
+                            <div className="flex flex-row gap-2">
+                                <div className="text-lg font-bold text-blue-900 font-serif">${price[0]}</div>
+                                <Slider onValueChange={(value) => setPrice(value)} defaultValue={price} min={minPrice} max={maxPrice} step={10}/>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div className="flex flex-col gap-2 justify-center items-center">
+                    { loading ? 
+                        (<div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
+                            <div className="flex flex-col gap-1 justify-center items-center">
+                            <PuffLoader color="#36d7b7" />
+                            Collecting flights...
+                            </div>
+                        </div>) 
+                        : (
+                            <>
+                            
+                            {
+                                filteredDeals.map((itinerary, index) => (
+                                    <FlightCard key={index} itinerary={itinerary} token={token}/>
+                                ))
+                            }
+                            </>
+                        )
+                    }
+                </div>
             </div>
-            <div className="flex flex-col gap-2 justify-center items-center">
-                { loading ? 
-                    (<div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
-                        <div className="flex flex-col gap-1 justify-center items-center">
-                        <PuffLoader color="#36d7b7" />
-                        Collecting flights...
-                        </div>
-                    </div>) 
-                    : (
-                        <>
-                        {
-                            filteredDeals.map((itinerary, index) => (
-                                <FlightCard key={index} itinerary={itinerary} token={token}/>
-                            ))
-                        }
-                        </>
-                    )
-                }
-            </div>
-        </div>
+        </>
     );
 }
 

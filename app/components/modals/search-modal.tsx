@@ -13,6 +13,7 @@ import Calendar from "../inputs/Calendar";
 import Counter from "../inputs/Counter";
 import GeocodingMap from "../Geocoding";
 import useSearchModal from "@/app/hooks/useSearchModal";
+import toast from "react-hot-toast";
 
 enum STEPS {
     LOCATION = 0,
@@ -31,7 +32,8 @@ const SearchModal = () => {
     const [position, setPosition] = useState<[number, number]>([51.1657, 10.4515]);
     const [step, setStep] = useState(STEPS.LOCATION);
 
-    const [guestCount, setGuestCount] = useState(1);
+    const [adults, setAdults] = useState(1);
+    const [children, setChildren] = useState(0);
     const [roomCount, setRoomCount] = useState(1);
     const [dateRange, setDateRange] = useState<Range>({
         startDate: new Date(),
@@ -48,8 +50,17 @@ const SearchModal = () => {
     }, [])
     
     const onNext = useCallback(() => {
+        if (step === STEPS.LOCATION && location === ''){
+            toast.error('You must enter a location and locate in map to continue.');
+            return;
+        }
+        if (step === STEPS.DESTINATION && destination === ''){
+            toast.error('You must enter a location and locate in map to continue.');
+            return;
+        }
+        
         setStep((value) => value + 1);
-    }, [])
+    }, [step, location, destination])
 
     const onSubmit = useCallback(async () => {
         if (step !== STEPS.INFO) {
@@ -68,7 +79,8 @@ const SearchModal = () => {
             destination,
             originPosition: JSON.stringify(originPosition),
             position: JSON.stringify(position),
-            guestCount,
+            adults,
+            children,
             roomCount
         }
 
@@ -88,7 +100,7 @@ const SearchModal = () => {
         setStep(STEPS.LOCATION);
         searchModal.onClose();
         router.push("/flights/" + url);
-    }, [step, searchModal, destination, location, router, guestCount, roomCount, dateRange, onNext, params]);
+    }, [step, searchModal, destination, location, router, adults, roomCount, dateRange, onNext, params]);
 
     const actionLabel = useMemo(() => {
         if(step === STEPS.INFO){
@@ -151,10 +163,16 @@ const SearchModal = () => {
                     subtitle="Find your perfect place"
                 />
                 <Counter 
-                    title="Guests"
-                    subtitle="How many guests are coming?"
-                    value={guestCount}
-                    onChange={(value) => setGuestCount(value)}
+                    title="Adults"
+                    subtitle="How many adults are coming?"
+                    value={adults}
+                    onChange={(value) => setAdults(value)}
+                />
+                <Counter 
+                    title="Children"
+                    subtitle="How many children are coming?"
+                    value={children}
+                    onChange={(value) => setChildren(value)}
                 />
                 <Counter 
                     title="Rooms"
