@@ -103,7 +103,7 @@ const HotelsListPage = () => {
                         </div>
                     )}
                     <div className="flex flex-col gap-2 justify-center items-center">
-                        <div className="text-xl md:w-[120vh] text-left font-bold p-1">
+                        <div className="text-xl text-left font-bold p-1">
                                 Other Options:
                             </div>
                         {

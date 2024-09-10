@@ -4,6 +4,7 @@ import HotelHead from "@/app/components/hotels/HotelHead";
 import { hotelInfo, hotelPrice } from "@/app/types";
 import { hotelInTelAviv } from '@/app/libs/hotelsDetails';
 import { TelAvivHotelPrices } from "@/app/libs/hotelsPrices";
+import { similarHotelsInTelAviv } from "@/app/libs/similarHotels"
 import HotelPrice from "@/app/components/hotels/HotelPrice";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -23,7 +24,7 @@ import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
 import { Progress } from "@/components/ui/progress";
 
 const HotelPage = () => {
-    const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
+    // const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
     const [hotelPrices, setHotelPrices] = useState<hotelPrice[]>([]);
     const params = useSearchParams();
     const startDate = params?.get('startDate');
@@ -34,28 +35,32 @@ const HotelPage = () => {
     const roomCount = params?.get('roomCount');
 
     const [isLoading, setIsLoading] = useState(false);
+    
+    //delete:
+    const hotelInfo = hotelInTelAviv.data;
 
-    useEffect(() => {
-        const getHotelInfo = async () => {
-            setIsLoading(true);
-            const response = await axios.get('/api/hotel', {
-                params: {
-                    startDate,
-                    endDate,
-                    hotelId,
-                    entityId,
-                    adults,
-                    roomCount
-                }
-            });
-            const hotelInfo = response.data.hotelDetails;
-            const hotelPrices = response.data.hotelPrices;
-            setHotelInfo(hotelInfo);
-            setHotelPrices(hotelPrices);
-            setIsLoading(false);
-        }
-        getHotelInfo();
-    }, []);
+    // useEffect(() => {
+    //     const getHotelInfo = async () => {
+    //         setIsLoading(true);
+    //         const response = await axios.get('/api/hotel', {
+    //             params: {
+    //                 startDate,
+    //                 endDate,
+    //                 hotelId,
+    //                 entityId,
+    //                 adults,
+    //                 roomCount
+    //             }
+    //         });
+    //         const hotelInfo = response.data.hotelDetails;
+    //         const hotelPrices = response.data.hotelPrices;
+    //         hotelInfo?.galleryImages?.slice(1,hotelInfo.galleryImages.length);
+    //         setHotelInfo(hotelInfo);
+    //         setHotelPrices(hotelPrices);
+    //         setIsLoading(false);
+    //     }
+    //     getHotelInfo();
+    // }, []);
 
     const galleryModal = useGalleryModal();
 
@@ -149,28 +154,28 @@ const HotelPage = () => {
                 
                 
                     {/* md:Gallery */}
-                    <div className="flex-col gap-4 hidden md:block">
+                    <div className="flex-col hidden md:block h-[50vh]">
                         
                         {/* 3 photos */}
-                        <div className="flex flex-row gap-2 justify-between">
+                        <div className="flex flex-row gap-2 justify-between h-[70%]">
 
-                            <div className="relative cursor-pointer w-[100vh]">
+                            <div className="relative cursor-pointer w-[70%]">
                                 <Image src={hotelInfo?.gallery.images[0].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
                             </div>
 
-                            <div className="flex flex-col justify-between gap-2">
-                                <div className="relative cursor-pointer">
-                                    <Image width={300} height={100} src={hotelInfo?.gallery.images[1].dynamic || ''} alt={`Hotel image 0`} className="w-full h-auto" />
+                            <div className="flex flex-col justify-between gap-2 w-[30%]">
+                                <div className="relative cursor-pointer w-full h-[50%]">
+                                    <Image  src={hotelInfo?.gallery.images[1].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
                                 </div>
-                                <div className="relative cursor-pointer">
-                                    <Image width={300} height={100} src={hotelInfo?.gallery.images[2].dynamic || ''} alt={`Hotel image 0`} className="w-full h-auto" />
+                                <div className="relative cursor-pointer w-full h-[50%]">
+                                    <Image  src={hotelInfo?.gallery.images[2].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover" />
                                 </div>
                             </div>
 
                         </div>
                         
                         {/* 5 photos */}
-                        <div className="flex flex-row justify-between gap-x-2 mt-2">
+                        <div className="flex flex-row justify-between gap-x-2 mt-2 h-[30%]">
                             
                             <div className="w-1/5 relative inline-block cursor-pointer">
                                 <Image src={hotelInfo?.gallery.images[3].dynamic || ''} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
@@ -182,7 +187,7 @@ const HotelPage = () => {
                                 <Image src={hotelInfo?.gallery.images[5].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover" />
                             </div>
                             <div className="w-1/5 relative cursor-pointer">
-                                <Image width={300} height={200} src={hotelInfo?.gallery.images[6].dynamic || ''} alt={`Hotel image 0`}/>
+                                <Image  src={hotelInfo?.gallery.images[6].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
                             </div>
                             <div className="w-1/5 relative inline-block bg-black cursor-pointer" onClick={handleClick}>
                                 <Image fill src={hotelInfo?.gallery.images[7].dynamic || ''} alt={`Hotel image 0`} className="object-cover relative z-1 opacity-60"/>
@@ -194,7 +199,7 @@ const HotelPage = () => {
                     </div>
                     
                     {/* sm:Gallery */}
-                    <div className="block md:hidden flex-col ">
+                    <div className="block md:hidden flex-col">
                         {/* 2 photos */}
                         <div className="flex flex-row justify-between items-center gap-2">
                             <div className="relative cursor-pointer w-[50vh] h-56">
@@ -227,7 +232,7 @@ const HotelPage = () => {
                         <div className="text-3xl md:text-4xl">
                             Check-in & Check-out
                         </div>
-                        <div className="flex flex-row justify-between items-center">
+                        <div className="flex flex-row justify-around items-center">
                             <Clock4 size={60} />
                             <div className="flex flex-col gap-2">
                                 <div className="text-xl md:text-2xl">
@@ -296,7 +301,7 @@ const HotelPage = () => {
                                         <div className="text-xl md:text-2xl w-[45%]">
                                             {amenity.category}
                                         </div>
-                                        <div className="grid grid-cols-3 gap-2 text-sm md:text-base w-[55%] justify-center">
+                                        <div className="grid grid-cols-2 gap-y-2 gap-x-12 md:gap-x-2 text-sm md:text-base w-[55%] justify-center">
                                             {amenity.items.map((item: any) => {
                                                 const IconComponent = iconMap[item.id] || Check;
                                                 return (
@@ -349,7 +354,144 @@ const HotelPage = () => {
                     
             </>
                 )}
-            </div> 
+
+                <div className="flex flex-col gap-4 mt-24">
+                    <div className="flex flex-col text-3xl md:text-4xl">
+                        Similar hotels
+                    </div>
+
+                    <div className="flex flex-row justify-between items-center gap-4">
+
+                    <div className="border-black rounded-2xl overflow-hidden w-1/3 shadow-lg">
+                            <div className="relative cursor-pointer h-[25vh]">
+                                <Image src={hotelInfo?.gallery.images[0].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                                <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4">
+                                    <div className="flex flex-row font-bold text-sm md:text-xl">
+                                        {hotelInfo?.general.name}
+                                        {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="relative flex flex-col gap-4 p-4">
+                                <div>
+                                    {hotelInfo?.distance} 
+                                </div>
+                                <div className="flex flex-row gap-4">
+                                    {/* trip adviser review */}
+                                    <div className="font-bold">
+                                        {/* rating */}
+                                        4.0
+                                    </div>
+                                    <div>
+                                        {/* tripAdvisor image(of rating 4) */}
+                                        image
+                                    </div>
+                                    <div className="text-slate-400 font-thin">
+                                        (12000) reviews
+                                    </div>
+                                    
+                                </div>
+                                <div className="absolute bottom-4 right-4 flex flex-col">
+                                    <div className="text-xl font-bold">
+                                        {/* hotel.price */}
+                                        140 $
+                                    </div>
+                                    <div className="text-xs">
+                                        per night
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="border-black rounded-2xl overflow-hidden w-1/3 shadow-lg">
+                            <div className="relative cursor-pointer h-[25vh]">
+                                <Image src={hotelInfo?.gallery.images[0].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                                <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4">
+                                    <div className="flex flex-row font-bold text-sm md:text-xl">
+                                        {hotelInfo?.general.name}
+                                        {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="relative flex flex-col gap-4 p-4">
+                                <div>
+                                    {hotelInfo?.distance} 
+                                </div>
+                                <div className="flex flex-row gap-4">
+                                    {/* trip adviser review */}
+                                    <div className="font-bold">
+                                        {/* rating */}
+                                        4.0
+                                    </div>
+                                    <div>
+                                        {/* tripAdvisor image(of rating 4) */}
+                                        image
+                                    </div>
+                                    <div className="text-slate-400 font-thin">
+                                        (12000) reviews
+                                    </div>
+                                    
+                                </div>
+                                <div className="absolute bottom-4 right-4 flex flex-col">
+                                    <div className="text-xl font-bold">
+                                        {/* hotel.price */}
+                                        140 $
+                                    </div>
+                                    <div className="text-xs">
+                                        per night
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="border-black rounded-2xl overflow-hidden w-1/3 shadow-lg">
+                            <div className="relative cursor-pointer h-[25vh]">
+                                <Image src={hotelInfo?.gallery.images[0].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                                <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4">
+                                    <div className="flex flex-row font-bold text-sm md:text-xl">
+                                        {hotelInfo?.general.name}
+                                        {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="relative flex flex-col gap-4 p-4">
+                                <div>
+                                    {hotelInfo?.distance} 
+                                </div>
+                                <div className="flex flex-row gap-4">
+                                    {/* trip adviser review */}
+                                    <div className="font-bold">
+                                        {/* rating */}
+                                        4.0
+                                    </div>
+                                    <div>
+                                        {/* tripAdvisor image(of rating 4) */}
+                                        image
+                                    </div>
+                                    <div className="text-slate-400 font-thin">
+                                        (12000) reviews
+                                    </div>
+                                    
+                                </div>
+                                <div className="absolute bottom-4 right-4 flex flex-col">
+                                    <div className="text-xl font-bold">
+                                        {/* hotel.price */}
+                                        140 $
+                                    </div>
+                                    <div className="text-xs">
+                                        per night
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     );
 };
