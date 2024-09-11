@@ -382,7 +382,7 @@ const HotelPage = () => {
                 {/* SimilarHotels */}
                 <div className="flex flex-col gap-4 mt-24">
 
-                    <div className="flex flex-col text-3xl md:text-4xl">
+                    <div className="text-3xl md:text-4xl">
                         Similar hotels
                     </div>
 
@@ -402,20 +402,20 @@ const HotelPage = () => {
                         </button>
                     </div>
                         
-
-                    <div className="flex flex-row justify-between items-center gap-4">
-                        <SimilarHotelCard 
-                            similarHotel={similarHotels[0]}
-                        />
-
-                        <SimilarHotelCard 
-                            similarHotel={similarHotels[1]}
-                        />
-
-                        <SimilarHotelCard 
-                            similarHotel={similarHotels[2]}
-                        />
+                    {/* md */}
+                    <div className="hidden md:flex flex-row justify-between items-center gap-4">
+                    {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
+                        <SimilarHotelCard key={idx} similarHotel={hotel} />
+                        ))}
                     </div>
+
+                    {/* sm */}
+                    <div className="md:hidden flex flex-row justify-between items-center gap-4">
+                    {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
+                        <SimilarHotelCard key={idx} similarHotel={hotel} />
+                        ))}
+                    </div>
+                    
                 </div>
 
 
