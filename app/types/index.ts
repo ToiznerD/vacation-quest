@@ -647,8 +647,8 @@ export type similarHotel = {
     distance: string;
     distanceFromHotel: string;
     exclusiveInfo: string | null;
-    price: number;
-    cug: {
+    price: string;
+    cug?: {
         type: string;
         priceWithoutDiscount: string;
         icons: string[];
@@ -670,5 +670,4 @@ export type similarHotel = {
         longitude: number;
         latitude: number;
     }
-
 }
