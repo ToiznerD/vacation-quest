@@ -140,7 +140,7 @@ const HotelPage = () => {
 
     return (
         <div className="flex justify-center">
-            <div className="flex flex-col justify-center gap-6 xl:w-[140vh] md:w-[100vh] w-full mt-32">
+            <div className="flex flex-col justify-center gap-6 xl:w-[140vh] md:w-[130vh] w-full mt-32">
             {isLoading ? (
                 <div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
                     <div className="flex flex-col gap-1 justify-center items-center">
@@ -165,11 +165,15 @@ const HotelPage = () => {
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-row font-bold text-2xl md:text-4xl">
-                        {hotelInfo?.general.name}
-                        {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                        <div>
+                            {hotelInfo?.general.name}
+                        </div>
+                        <div className="flex flex-row">
+                            {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                        </div>
                     </div>
-                    <div className="flex flex-row">
-                        <MdLocationPin className="text-blue-500 text-2xl md:text-3xl"/>
+                    <div className="flex flex-row text-lg md:text-xl">
+                        <MdLocationPin className="text-blue-500"/>
                         <div className="flex items-center text-base md:text-lg">
                             {hotelInfo?.location.address}
                         </div>
@@ -414,6 +418,12 @@ const HotelPage = () => {
                     {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
                         <SimilarHotelCard key={idx} similarHotel={hotel} />
                         ))}
+                    </div>
+
+                    <div className="relative mt-8">
+                        <div className={`absolute bottom-3 left-[48%] rounded-full h-2 w-2 ${similarHotelsIndex === 0 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                        <div className={`absolute bottom-3 left-[50%] rounded-full h-2 w-2 ${similarHotelsIndex === 1 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                        <div className={`absolute bottom-3 left-[52%] rounded-full h-2 w-2 ${similarHotelsIndex === 2 ? 'bg-rose-500' : 'bg-blue-500'}`} />
                     </div>
                     
                 </div>

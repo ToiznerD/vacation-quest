@@ -13,7 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 const HotelsListPage = () => {
-    const [hotelList, setHotelList] = useState<hotelCard[]>([]);
+    // const [hotelList, setHotelList] = useState<hotelCard[]>([]);
     const [recommendList, setRecommendList] = useState<Recommendation[]>([]);
     const [loading, setLoading] = useState(false);
     const [entityId, setEntityId] = useState('');
@@ -24,46 +24,50 @@ const HotelsListPage = () => {
     const destination = params?.get('destination');
     const adults = params?.get('adults');
 
+    //delete
+    const hotelList = searchNewYork.data.hotels;
+
     const questionnaireModal = useQuestionnaireModal();
-    useEffect(() => {
-        const getHotelList = async () => {
-            setLoading(true);
-            const response = await axios.get('/api/hotels', {
-                params: {
-                    startDate,
-                    endDate,
-                    destination,
-                    roomCount,
-                    adults
-                }
-            });
-            const hotelList = response.data.hotelCards;
-            const entityId = response.data.entityId;
-            setHotelList(hotelList);
-            setEntityId(entityId);
-            setLoading(false);
-        }
-        const getRecommendList = async () => {
+    // useEffect(() => {
+    //     const getHotelList = async () => {
+    //         setLoading(true);
+    //         const response = await axios.get('/api/hotels', {
+    //             params: {
+    //                 startDate,
+    //                 endDate,
+    //                 destination,
+    //                 roomCount,
+    //                 adults
+    //             }
+    //         });
+    //         const hotelList = response.data.hotelCards;
+    //         const entityId = response.data.entityId;
+    //         setHotelList(hotelList);
+    //         setEntityId(entityId);
+    //         setLoading(false);
+    //     }
+
+    //     const getRecommendList = async () => {
             
-            if(!questionnaireModal.data.id){
-                return [];
-            }
-            const cleanedQuestionnaire = Object.fromEntries(
-                Object.entries(questionnaireModal.data).filter(([_, v]) => v != null)
-            );
+    //         if(!questionnaireModal.data.id){
+    //             return [];
+    //         }
+    //         const cleanedQuestionnaire = Object.fromEntries(
+    //             Object.entries(questionnaireModal.data).filter(([_, v]) => v != null)
+    //         );
             
-            const response = await axios.post('/api/recommendation', {
-                city: destination,
-                questionnaire: cleanedQuestionnaire,
-                query: params?.toString()
-            });
-            const recommendList = response.data.recommendations;
+    //         const response = await axios.post('/api/recommendation', {
+    //             city: destination,
+    //             questionnaire: cleanedQuestionnaire,
+    //             query: params?.toString()
+    //         });
+    //         const recommendList = response.data.recommendations;
             
-            setRecommendList(recommendList);
-        }
-        getRecommendList();
-        getHotelList();
-    }, [questionnaireModal.data]);
+    //         setRecommendList(recommendList);
+    //     }
+    //     getRecommendList();
+    //     getHotelList();
+    // }, [questionnaireModal.data]);
     
     return ( 
         <div className="pt-24">

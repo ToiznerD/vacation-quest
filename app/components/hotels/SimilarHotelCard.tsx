@@ -18,16 +18,20 @@ const SimilarHotelCard = ({similarHotel}: Props) => {
                 <div className="absolute bottom-0 left-0 w-full h-20 bg-black bg-opacity-50 text-white p-4">
                     {/* hotel name and stars */}
                     <div className="flex flex-row font-bold text-sm md:text-xl">
-                        {similarHotel.name}
-                        {[...Array(Number(similarHotel.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                        <div>
+                            {similarHotel.name}
+                        </div>
+                        <div className="flex flex-row">
+                            {[...Array(Number(similarHotel.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500 text-[10px] md:text-sm"/>))}
+                        </div>
                     </div>
                 </div>
             </div>
             <div className="relative flex flex-col gap-2 p-4">
 
                 {/* distance from hotel */}
-                <div className="flex flex-row">    
-                    <MdLocationPin className="text-blue-500 text-xl"/>
+                <div className="flex flex-row md:text-sm text-xs gap-0.5">    
+                    <MdLocationPin className="text-blue-500"/>
                     {similarHotel.distance} from the hotel
                 </div>
 
