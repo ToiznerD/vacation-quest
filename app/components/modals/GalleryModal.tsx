@@ -1,12 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import Modal from './Modal';
-import toast from 'react-hot-toast';
-import { signIn } from 'next-auth/react';
 import useGalleryModal from '@/app/hooks/useGalleryModal';
-import { ChevronLeft ,ChevronRight, Key } from 'lucide-react'
+import { ChevronLeft ,ChevronRight } from 'lucide-react'
 import Image from 'next/image';
 
 const GalleryModal = () => {
@@ -31,28 +29,6 @@ const GalleryModal = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        setIsLoading(true);
-
-        signIn('credentials', {
-            ...data,
-            redirect: false,
-        })
-            .then((callback) => {
-                setIsLoading(false);
-
-                if (callback?.ok) {
-                    toast.success('Logged in');
-                    // router.refresh();
-                    galleryModal.onClose();
-                }
-
-                if (callback?.error) {
-                    toast.error(callback.error);
-                }
-        })
-    }
-
     const handleLeftArrow = () => {
         if(isSelected === 0) {
             setIsSelected(() => gallery.length-1);
@@ -75,6 +51,11 @@ const GalleryModal = () => {
             return;
         }
         setIsSelected((isSelected) => isSelected+index)
+    }
+
+    const handleOnClose = () => {
+        galleryModal.onClose();
+        setIsSelected(0);
     }
     
     const bodyContent = (
@@ -153,7 +134,7 @@ const GalleryModal = () => {
             disabled={isLoading}
             isOpen={galleryModal.isOpen}
             title={name}
-            onClose={galleryModal.onClose}
+            onClose={handleOnClose}
             body={bodyContent}
         />
      );
