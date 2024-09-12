@@ -24,7 +24,7 @@ export async function GET(req:Request){
         countryCode: 'US'
       },
       headers: {
-        'x-rapidapi-key': 'b41111b1b5mshd165eb326cb42d5p1f37b5jsn5335c9f97603',
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY,
         'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
       }
     };
@@ -51,7 +51,7 @@ export async function GET(req:Request){
         countryCode: 'US'
     },
     headers: {
-        'x-rapidapi-key': 'b41111b1b5mshd165eb326cb42d5p1f37b5jsn5335c9f97603',
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY,
         'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
     }
     };

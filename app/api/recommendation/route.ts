@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         const toEmbed = { city, questionnaire, query };
 
         const url = 'https://api.jina.ai/v1/embeddings';
-        const token = 'Bearer jina_6a338835c6ca4903a760c733cdc2369avUuJ81-rm7vWYuk636TD3Jd88Gyf';
+        const token = process.env.JINAAI_TOKEN;
 
         const data = {
             model: 'jina-embeddings-v2-base-en',

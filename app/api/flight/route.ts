@@ -14,7 +14,7 @@ export async function GET(req: Request){
           itineraryId: decodedItineraryId,
         },
         headers: {
-          'x-rapidapi-key': '5cafd19031msh154445f4f635b20p1f63a7jsn09b9bc3ba2ea',
+          'x-rapidapi-key': process.env.RAPIDAPI_KEY,
           'x-rapidapi-host': 'sky-scanner3.p.rapidapi.com'
         }
       };

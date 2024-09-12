@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const user = await getCurrentUser();
     if(user && !user.questionnaire){
-        const questionnaire = await prisma.questionnaire.create({
+        await prisma.questionnaire.create({
             data: {
                 ...body,
                 userId: user.id

@@ -24,7 +24,7 @@ export async function GET(req:Request){
           locale: 'en-US'
         },
         headers: {
-          'x-rapidapi-key': '9e6bf754e0mshecdf4e6503bf1f1p1ed06fjsnd6ef57b116b4',
+          'x-rapidapi-key': process.env.RAPIDAPI_KEY,
           'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
         }
       };
@@ -46,7 +46,7 @@ export async function GET(req:Request){
           locale: 'en-US'
         },
         headers: {
-          'x-rapidapi-key': '9e6bf754e0mshecdf4e6503bf1f1p1ed06fjsnd6ef57b116b4',
+          'x-rapidapi-key': process.env.RAPIDAPI_KEY,
           'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
         }
       };
@@ -71,7 +71,7 @@ export async function GET(req:Request){
         children: children
       },
       headers: {
-        'x-rapidapi-key': '5cafd19031msh154445f4f635b20p1f63a7jsn09b9bc3ba2ea',
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY,
         'x-rapidapi-host': 'sky-scanner3.p.rapidapi.com'
       }
     };
