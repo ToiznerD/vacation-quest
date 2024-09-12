@@ -65,19 +65,22 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
     }, []);
 
     return (
-        <div className="flex flex-row w-full md:w-[120vh] md:h-[25vh] max-h-[360px] mb-4 border-2 border-blue-400 rounded-lg">
+        <div className="flex flex-col md:flex-row w-full md:w-[60vh] lg:w-[80vh] xl:w-[100vh]  mb-4 border-2 border-blue-400 rounded-lg">
             <div className="relative">
-                <Image
-                    src={hotelCard.images[imgCount]}
-                    width={500}
-                    height={100}
-                    alt="Hotel image"
-                    className="cursor-pointer h-full"
-                    onClick={() => NextImg()}
-                />
-                <div className={`absolute bottom-3 left-[43%] rounded-full h-2 w-2 ${imgCount === 0 ? 'bg-rose-500' : 'bg-blue-500'}`} />
-                <div className={`absolute bottom-3 left-[50%] rounded-full h-2 w-2 ${imgCount === 1 ? 'bg-rose-500' : 'bg-blue-500'}`} />
-                <div className={`absolute bottom-3 left-[57%] rounded-full h-2 w-2 ${imgCount === 2 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+
+                <div className="h-[25vh] ">
+                    <Image
+                        src={hotelCard.images[imgCount]}
+                        width={500}
+                        height={100}
+                        alt="Hotel image"
+                        className="cursor-pointer h-full"
+                        onClick={() => NextImg()}
+                    />
+                    <div className={`absolute bottom-3 left-[43%] rounded-full h-2 w-2 ${imgCount === 0 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                    <div className={`absolute bottom-3 left-[50%] rounded-full h-2 w-2 ${imgCount === 1 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                    <div className={`absolute bottom-3 left-[57%] rounded-full h-2 w-2 ${imgCount === 2 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                </div>
             </div>
             
             

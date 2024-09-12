@@ -22,14 +22,10 @@ interface Props {
 
 
 const FlightCard = ({ itinerary, token }: Props) => {
-    const { onOpen, setId, setToken } = useFlightModal();
     const router = useRouter();
-    const flightDetails = useFlightDetails();
     const params = useSearchParams();
-    
 
     const handleSelect = () => {
-        flightDetails.setData(token, itinerary.id);
         let currentQuery = {};
 
         if (params){

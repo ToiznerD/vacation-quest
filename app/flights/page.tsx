@@ -4,7 +4,7 @@ import FlightCard from "./FlightCard";
 import { roundedtrip_tlv_bkk } from "../libs/flight-roundtrip";
 import { Checkbox } from "@/components/ui/checkbox";
 import { itinerary } from "../types";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
@@ -62,6 +62,8 @@ const FlightListPage = () => {
     useEffect(() => {
         setPrice([maxPrice]);
     }, [maxPrice])
+
+
     const filteredDeals = useMemo(() => {
         return deals ? deals.filter(deal => {
             const meetsStopCriteria = 
@@ -77,19 +79,15 @@ const FlightListPage = () => {
 
     return ( 
         <>
-            <div className="pt-24 flex flex-row justify-between items-center text-lg gap-1 w-full px-10">
-                <div>Find your flight</div>
+            <div className="pt-24 mb-4 flex flex-row justify-between items-center text-lg gap-1 w-full px-10">
+                <div>Filters</div>
                 <div className="flex flex-col justify-end gap-1">
                     <div className="text-xs flex justify-center">Step 1/4</div>
-                    <Progress value={25} className="w-[50vh]"/>
+                    <Progress value={25} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
                 </div>
-                <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
-                    <a href={`#`} target="_blank">
-                        Next
-                    </a>
-                    <FaLongArrowAltRight className="ml-2"/>
+                <div className="text-lg font-semibold">  
+                    Choose your flight!
                 </div>
-                
             </div>
             <div className=" flex flex-row gap-8 w-full">
                 <div className="sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">

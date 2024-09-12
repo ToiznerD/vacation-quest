@@ -16,7 +16,8 @@ const Search = () => {
     const locationValue = params?.get('destination');
     const startDate = params?.get('startDate');
     const endDate = params?.get('endDate');
-    const guestCount = params?.get('guestCount');
+    const adults = params?.get('adults');
+    const children = params?.get('children');
 
     const locationLabel = useMemo(() => {
         if(locationValue){
@@ -44,12 +45,12 @@ const Search = () => {
     }, [startDate, endDate])
 
     const guestLabel = useMemo(() => {
-        if(guestCount){
-            return `${guestCount} Guests`
+        if(adults || children){
+            return `${(parseInt(adults || '0')) + (parseInt(children || '0'))} Guests`
         }
 
         return 'Add Guests'
-    }, [guestCount])
+    }, [adults, children])
 
     return ( 
         <div

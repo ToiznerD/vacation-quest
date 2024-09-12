@@ -13,7 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 const HotelsListPage = () => {
-    // const [hotelList, setHotelList] = useState<hotelCard[]>([]);
+    const [hotelList, setHotelList] = useState<hotelCard[]>([]);
     const [recommendList, setRecommendList] = useState<Recommendation[]>([]);
     const [loading, setLoading] = useState(false);
     const [entityId, setEntityId] = useState('');
@@ -25,49 +25,56 @@ const HotelsListPage = () => {
     const adults = params?.get('adults');
 
     //delete
-    const hotelList = searchNewYork.data.hotels;
+    // const hotelList = searchNewYork.data.hotels;
 
     const questionnaireModal = useQuestionnaireModal();
-    // useEffect(() => {
-    //     const getHotelList = async () => {
-    //         setLoading(true);
-    //         const response = await axios.get('/api/hotels', {
-    //             params: {
-    //                 startDate,
-    //                 endDate,
-    //                 destination,
-    //                 roomCount,
-    //                 adults
-    //             }
-    //         });
-    //         const hotelList = response.data.hotelCards;
-    //         const entityId = response.data.entityId;
-    //         setHotelList(hotelList);
-    //         setEntityId(entityId);
-    //         setLoading(false);
-    //     }
+    useEffect(() => {
+        const getHotelList = async () => {
+            setLoading(true);
+            const response = await axios.get('/api/hotels', {
+                params: {
+                    startDate,
+                    endDate,
+                    destination,
+                    roomCount,
+                    adults
+                }
+            });
+            const hotelList = response.data.hotelCards;
+            const entityId = response.data.entityId;
+            setHotelList(hotelList);
+            setEntityId(entityId);
+            setLoading(false);
+        }
 
-    //     const getRecommendList = async () => {
+        const getRecommendList = async () => {
+            let recommendList = [];
+
+            if(!questionnaireModal.data.id){
+                 const response = await axios.post('/api/recommendation', {
+                    city: destination,
+                    questionnaire: {},
+                    query: params?.toString()
+                });
+                recommendList = response.data.recommendations;
+            } else {
+                const cleanedQuestionnaire = Object.fromEntries(
+                    Object.entries(questionnaireModal.data).filter(([_, v]) => v != null)
+                );
+                
+                const response = await axios.post('/api/recommendation', {
+                    city: destination,
+                    questionnaire: cleanedQuestionnaire,
+                    query: params?.toString()
+                });
+                recommendList = response.data.recommendations;
+            }
             
-    //         if(!questionnaireModal.data.id){
-    //             return [];
-    //         }
-    //         const cleanedQuestionnaire = Object.fromEntries(
-    //             Object.entries(questionnaireModal.data).filter(([_, v]) => v != null)
-    //         );
-            
-    //         const response = await axios.post('/api/recommendation', {
-    //             city: destination,
-    //             questionnaire: cleanedQuestionnaire,
-    //             query: params?.toString()
-    //         });
-    //         const recommendList = response.data.recommendations;
-            
-    //         setRecommendList(recommendList);
-    //     }
-    //     getRecommendList();
-    //     getHotelList();
-    // }, [questionnaireModal.data]);
+            setRecommendList(recommendList);
+        }
+        getRecommendList();
+        getHotelList();
+    }, [questionnaireModal.data]);
     
     return ( 
         <div className="pt-24">
@@ -84,7 +91,7 @@ const HotelsListPage = () => {
                         <div>Find your hotel</div>
                         <div className="flex flex-col justify-end gap-1">
                             <div className="text-xs flex justify-center">Step 3/4</div>
-                            <Progress value={75} className="w-[50vh]"/>
+                            <Progress value={75} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
                         </div>
                         <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
                             <a href={`#`} target="_blank">
@@ -94,9 +101,9 @@ const HotelsListPage = () => {
                         </div>
                         
                     </div>
-                    {recommendList.length > 0 && (
-                        <div className="flex flex-col gap-2 justify-center items-center">
-                            <div className="text-xl md:w-[120vh] text-left font-bold p-1">
+                    {recommendList && recommendList.length > 0 && (
+                        <div className="flex flex-col gap-2 justify-center items-center w-full">
+                            <div className="text-xl text-left font-bold p-1">
                                 Recommended for you:
                             </div>
                             {
@@ -106,7 +113,7 @@ const HotelsListPage = () => {
                             }
                         </div>
                     )}
-                    <div className="flex flex-col gap-2 justify-center items-center">
+                    <div className="flex flex-col  gap-2 justify-center items-center">
                         <div className="text-xl text-left font-bold p-1">
                                 Other Options:
                             </div>

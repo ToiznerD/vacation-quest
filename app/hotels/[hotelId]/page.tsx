@@ -25,7 +25,7 @@ import { Progress } from "@/components/ui/progress";
 import SimilarHotelCard from "@/app/components/hotels/SimilarHotelCard";
 
 const HotelPage = () => {
-    // const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
+    const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
     const [hotelPrices, setHotelPrices] = useState<hotelPrice[]>([]);
     const params = useSearchParams();
     const startDate = params?.get('startDate');
@@ -40,31 +40,31 @@ const HotelPage = () => {
     const [similarHotelsIndex, setSimilarHotelsIndex] = useState(0);
     
     //delete:
-    const hotelInfo = hotelInTelAviv.data;
+    // const hotelInfo = hotelInTelAviv.data;
     const similarHotels = similarHotelsInTelAviv.data;
 
-    // useEffect(() => {
-    //     const getHotelInfo = async () => {
-    //         setIsLoading(true);
-    //         const response = await axios.get('/api/hotel', {
-    //             params: {
-    //                 startDate,
-    //                 endDate,
-    //                 hotelId,
-    //                 entityId,
-    //                 adults,
-    //                 roomCount
-    //             }
-    //         });
-    //         const hotelInfo = response.data.hotelDetails;
-    //         const hotelPrices = response.data.hotelPrices;
-    //         hotelInfo?.galleryImages?.slice(1,hotelInfo.galleryImages.length);
-    //         setHotelInfo(hotelInfo);
-    //         setHotelPrices(hotelPrices);
-    //         setIsLoading(false);
-    //     }
-    //     getHotelInfo();
-    // }, []);
+    useEffect(() => {
+        const getHotelInfo = async () => {
+            setIsLoading(true);
+            const response = await axios.get('/api/hotel', {
+                params: {
+                    startDate,
+                    endDate,
+                    hotelId,
+                    entityId,
+                    adults,
+                    roomCount
+                }
+            });
+            const hotelInfo = response.data.hotelDetails;
+            const hotelPrices = response.data.hotelPrices;
+            hotelInfo?.galleryImages?.slice(1,hotelInfo.galleryImages.length);
+            setHotelInfo(hotelInfo);
+            setHotelPrices(hotelPrices);
+            setIsLoading(false);
+        }
+        getHotelInfo();
+    }, []);
 
     const galleryModal = useGalleryModal();
 
@@ -159,7 +159,10 @@ const HotelPage = () => {
                         <div className="text-xs flex justify-center">
                             Step 4/4
                         </div>
-                        <Progress value={100} className="w-[50vh]"/>
+                        <Progress value={100} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
+                    </div>
+                    <div>
+                        Enjoy!
                     </div>
                     
                 </div>
@@ -379,11 +382,7 @@ const HotelPage = () => {
 
 
                     </div>
-                    
-            </>
-                )}
-                
-                {/* SimilarHotels */}
+                    {/* SimilarHotels */}
                 <div className="flex flex-col gap-4 mt-24">
 
                     <div className="text-3xl md:text-4xl">
@@ -425,8 +424,12 @@ const HotelPage = () => {
                         <div className={`absolute bottom-3 left-[50%] rounded-full h-2 w-2 ${similarHotelsIndex === 1 ? 'bg-rose-500' : 'bg-blue-500'}`} />
                         <div className={`absolute bottom-3 left-[52%] rounded-full h-2 w-2 ${similarHotelsIndex === 2 ? 'bg-rose-500' : 'bg-blue-500'}`} />
                     </div>
-                    
+
                 </div>
+            </>
+                )}
+                
+                
 
 
             </div>

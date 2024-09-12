@@ -21,12 +21,14 @@ const FlightDeal = ({ option }: Props) => {
                 <div className="font-bold text-lg text-blue-900">
                     {option.agents[0].name}
                 </div>
-                <div className="flex flex-row gap-1">
-                    <div className="border rounded-xl p-1 text-xs bg-gray-200">
+                <div className="flex flex-col md:flex-row gap-1">
+                    <div className="border rounded-xl w-10 text-center p-1 text-xs bg-gray-200">
                         {option.agents[0].rating.count}
                     </div>
-                    {[...Array(goldStars)].map((_, i) => (<Star color="gold" fill="gold" key={i} />))}
-                    {halfGoldStar && <StarHalf color="gold" fill="gold" />}
+                    <div className="flex flex-row">
+                        {[...Array(goldStars)].map((_, i) => (<Star color="gold" fill="gold" key={i} />))}
+                        {halfGoldStar && <StarHalf color="gold" fill="gold" />}
+                    </div>
                     
                 </div>
             </div>
