@@ -65,8 +65,8 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
     }, []);
 
     return (
-        <div className="flex flex-row md:w-[120vh] mb-4 border-2 border-blue-400 rounded-lg">
-            <div className="relative h-[20vh]">
+        <div className="flex flex-row w-full md:w-[120vh] md:h-[25vh] max-h-[360px] mb-4 border-2 border-blue-400 rounded-lg">
+            <div className="relative">
                 <Image
                     src={hotelCard.images[imgCount]}
                     width={500}
@@ -84,10 +84,15 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
             <div className="flex flex-col md:flex-row justify-between w-full">
                 {/* decription */}
                 <div className="p-4 py-2">
-                    <div className="flex flex-col text-reg md:text-lg gap-6">
-                        <div className="font-bold text-lg md:text-xl flex flex-row">
-                            {hotelCard.name}
-                            {[...Array(Number(hotelCard.stars))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                    <div className="flex flex-col text-reg md:text-lg gap-4 ">
+
+                        <div className="flex flex-row font-bold text-reg md:text-xl">
+                            <div>
+                                {hotelCard.name}
+                            </div>
+                            <div className="flex flex-row">
+                                {[...Array(Number(hotelCard.stars))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                            </div>
                         </div>
                         <div>
                             {hotelCard.distance}
@@ -110,11 +115,14 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
                     </div>
                 </div>
                 {/* button and price */}
-                <div className="flex flex-row md:flex-col justify-center items-center gap-4 md:gap-4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 m-4 md:pr-4 md:pl-8">
+                <div className="flex flex-row md:flex-col justify-end items-center gap-4 md:gap-4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 m-4 md:pr-4 md:pl-8">
                     <div className="font-bold text-base break-all">
                         {hotelCard.cheapestOfferPartnerName}
                     </div>
-                    <span className="font-semibold text-xl">{hotelCard.rawPrice || 1 / days}$ / night</span>
+                    <div className="flex flex-col items-start">
+                        <span className="font-bold text-base md:text-xl">${hotelCard.rawPrice || 1 / days}</span>
+                        <span className="text-xs">per night</span>
+                    </div>
                     <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer"
                         onClick={handleClick}>
                         <div>

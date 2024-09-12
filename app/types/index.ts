@@ -638,3 +638,36 @@ export type hotelPrice = {
     }
     funnelType: string;
 }
+
+export type similarHotel = {
+    hotelId: string;
+    heroImage: string;
+    name: string;
+    stars: number;
+    distance: string;
+    distanceFromHotel: string;
+    exclusiveInfo: string | null;
+    price: string;
+    cug?: {
+        type: string;
+        priceWithoutDiscount: string;
+        icons: string[];
+        discount: string;
+        rawDiscountPercentage: number;
+        rawType: string;
+    }
+    cheapestOfferPartnerId: string;
+    rawPrice: number;
+    rating: {
+        description: string;
+        count: number;
+        value: string;
+        formatValue: string;
+        color: string;
+        taImage: string;
+    }
+    coordinate: {
+        longitude: number;
+        latitude: number;
+    }
+}

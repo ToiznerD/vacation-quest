@@ -1,9 +1,10 @@
 'use client'
 
 import HotelHead from "@/app/components/hotels/HotelHead";
-import { hotelInfo, hotelPrice } from "@/app/types";
+import { hotelInfo, hotelPrice, similarHotel } from "@/app/types";
 import { hotelInTelAviv } from '@/app/libs/hotelsDetails';
 import { TelAvivHotelPrices } from "@/app/libs/hotelsPrices";
+import { similarHotelsInTelAviv } from "@/app/libs/similarHotels"
 import HotelPrice from "@/app/components/hotels/HotelPrice";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -18,12 +19,13 @@ import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
     HandCoins, FastForward, Luggage, Phone, ArrowUpDown, Paperclip, 
     Martini, Coffee, Scissors ,Bike, TreePine, WashingMachine, Store,
     Cigarette, RockingChair, Printer, CopyCheck, Antenna, TvMinimal,
-    Cross, Globe, Check, Clock4
+    Cross, Globe, Check, Clock4, ChevronLeft, ChevronRight
  } from 'lucide-react';
 import { Progress } from "@/components/ui/progress";
+import SimilarHotelCard from "@/app/components/hotels/SimilarHotelCard";
 
 const HotelPage = () => {
-    const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
+    // const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
     const [hotelPrices, setHotelPrices] = useState<hotelPrice[]>([]);
     const params = useSearchParams();
     const startDate = params?.get('startDate');
@@ -34,28 +36,35 @@ const HotelPage = () => {
     const roomCount = params?.get('roomCount');
 
     const [isLoading, setIsLoading] = useState(false);
+    
+    const [similarHotelsIndex, setSimilarHotelsIndex] = useState(0);
+    
+    //delete:
+    const hotelInfo = hotelInTelAviv.data;
+    const similarHotels = similarHotelsInTelAviv.data;
 
-    useEffect(() => {
-        const getHotelInfo = async () => {
-            setIsLoading(true);
-            const response = await axios.get('/api/hotel', {
-                params: {
-                    startDate,
-                    endDate,
-                    hotelId,
-                    entityId,
-                    adults,
-                    roomCount
-                }
-            });
-            const hotelInfo = response.data.hotelDetails;
-            const hotelPrices = response.data.hotelPrices;
-            setHotelInfo(hotelInfo);
-            setHotelPrices(hotelPrices);
-            setIsLoading(false);
-        }
-        getHotelInfo();
-    }, []);
+    // useEffect(() => {
+    //     const getHotelInfo = async () => {
+    //         setIsLoading(true);
+    //         const response = await axios.get('/api/hotel', {
+    //             params: {
+    //                 startDate,
+    //                 endDate,
+    //                 hotelId,
+    //                 entityId,
+    //                 adults,
+    //                 roomCount
+    //             }
+    //         });
+    //         const hotelInfo = response.data.hotelDetails;
+    //         const hotelPrices = response.data.hotelPrices;
+    //         hotelInfo?.galleryImages?.slice(1,hotelInfo.galleryImages.length);
+    //         setHotelInfo(hotelInfo);
+    //         setHotelPrices(hotelPrices);
+    //         setIsLoading(false);
+    //     }
+    //     getHotelInfo();
+    // }, []);
 
     const galleryModal = useGalleryModal();
 
@@ -113,9 +122,25 @@ const HotelPage = () => {
         InternetAccessService: Globe,
     };
 
+    const handleLeftArrow = () => {
+        if (similarHotelsIndex === 0) {
+            return
+        }
+
+        setSimilarHotelsIndex(() => similarHotelsIndex - 1);
+    }
+
+    const handleRightArrow = () => {
+        if (similarHotelsIndex === 2) {
+            return
+        }
+
+        setSimilarHotelsIndex(() => similarHotelsIndex + 1);
+    }
+
     return (
         <div className="flex justify-center">
-            <div className="flex flex-col justify-center gap-6 xl:w-[140vh] md:w-[100vh] w-full mt-32">
+            <div className="flex flex-col justify-center gap-6 xl:w-[140vh] md:w-[130vh] w-full mt-32">
             {isLoading ? (
                 <div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
                     <div className="flex flex-col gap-1 justify-center items-center">
@@ -127,20 +152,28 @@ const HotelPage = () => {
             <>
                 {/* Headline */}
                 <div className="flex flex-row justify-between items-center text-lg gap-1">
-                    <div>Find your deal</div>
+                    <div>
+                        Find your deal
+                    </div>
                     <div className="flex flex-col justify-end gap-1">
-                        <div className="text-xs flex justify-center">Step 4/4</div>
+                        <div className="text-xs flex justify-center">
+                            Step 4/4
+                        </div>
                         <Progress value={100} className="w-[50vh]"/>
                     </div>
                     
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-row font-bold text-2xl md:text-4xl">
-                        {hotelInfo?.general.name}
-                        {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                        <div>
+                            {hotelInfo?.general.name}
+                        </div>
+                        <div className="flex flex-row">
+                            {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                        </div>
                     </div>
-                    <div className="flex flex-row">
-                        <MdLocationPin className="text-blue-500 text-2xl md:text-3xl"/>
+                    <div className="flex flex-row text-lg md:text-xl">
+                        <MdLocationPin className="text-blue-500"/>
                         <div className="flex items-center text-base md:text-lg">
                             {hotelInfo?.location.address}
                         </div>
@@ -149,28 +182,28 @@ const HotelPage = () => {
                 
                 
                     {/* md:Gallery */}
-                    <div className="flex-col gap-4 hidden md:block">
+                    <div className="flex-col hidden md:block h-[50vh]">
                         
                         {/* 3 photos */}
-                        <div className="flex flex-row gap-2 justify-between">
+                        <div className="flex flex-row gap-2 justify-between h-[70%]">
 
-                            <div className="relative cursor-pointer w-[100vh]">
-                                <Image src={hotelInfo?.gallery.images[0].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
+                            <div className="relative cursor-pointer w-[70%]">
+                                <Image src={hotelInfo?.gallery.images[0].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover" />
                             </div>
 
-                            <div className="flex flex-col justify-between gap-2">
-                                <div className="relative cursor-pointer">
-                                    <Image width={300} height={100} src={hotelInfo?.gallery.images[1].dynamic || ''} alt={`Hotel image 0`} className="w-full h-auto" />
+                            <div className="flex flex-col justify-between gap-2 w-[30%]">
+                                <div className="relative cursor-pointer w-full h-[50%]">
+                                    <Image  src={hotelInfo?.gallery.images[1].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
                                 </div>
-                                <div className="relative cursor-pointer">
-                                    <Image width={300} height={100} src={hotelInfo?.gallery.images[2].dynamic || ''} alt={`Hotel image 0`} className="w-full h-auto" />
+                                <div className="relative cursor-pointer w-full h-[50%]">
+                                    <Image  src={hotelInfo?.gallery.images[2].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover" />
                                 </div>
                             </div>
 
                         </div>
                         
                         {/* 5 photos */}
-                        <div className="flex flex-row justify-between gap-x-2 mt-2">
+                        <div className="flex flex-row justify-between gap-x-2 mt-2 h-[30%]">
                             
                             <div className="w-1/5 relative inline-block cursor-pointer">
                                 <Image src={hotelInfo?.gallery.images[3].dynamic || ''} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
@@ -182,7 +215,7 @@ const HotelPage = () => {
                                 <Image src={hotelInfo?.gallery.images[5].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover" />
                             </div>
                             <div className="w-1/5 relative cursor-pointer">
-                                <Image width={300} height={200} src={hotelInfo?.gallery.images[6].dynamic || ''} alt={`Hotel image 0`}/>
+                                <Image  src={hotelInfo?.gallery.images[6].dynamic || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
                             </div>
                             <div className="w-1/5 relative inline-block bg-black cursor-pointer" onClick={handleClick}>
                                 <Image fill src={hotelInfo?.gallery.images[7].dynamic || ''} alt={`Hotel image 0`} className="object-cover relative z-1 opacity-60"/>
@@ -194,7 +227,7 @@ const HotelPage = () => {
                     </div>
                     
                     {/* sm:Gallery */}
-                    <div className="block md:hidden flex-col ">
+                    <div className="block md:hidden flex-col">
                         {/* 2 photos */}
                         <div className="flex flex-row justify-between items-center gap-2">
                             <div className="relative cursor-pointer w-[50vh] h-56">
@@ -227,7 +260,7 @@ const HotelPage = () => {
                         <div className="text-3xl md:text-4xl">
                             Check-in & Check-out
                         </div>
-                        <div className="flex flex-row justify-between items-center">
+                        <div className="flex flex-row justify-around items-center">
                             <Clock4 size={60} />
                             <div className="flex flex-col gap-2">
                                 <div className="text-xl md:text-2xl">
@@ -296,7 +329,7 @@ const HotelPage = () => {
                                         <div className="text-xl md:text-2xl w-[45%]">
                                             {amenity.category}
                                         </div>
-                                        <div className="grid grid-cols-3 gap-2 text-sm md:text-base w-[55%] justify-center">
+                                        <div className="grid grid-cols-2 gap-y-2 gap-x-12 md:gap-x-2 text-sm md:text-base w-[55%] justify-center">
                                             {amenity.items.map((item: any) => {
                                                 const IconComponent = iconMap[item.id] || Check;
                                                 return (
@@ -349,7 +382,54 @@ const HotelPage = () => {
                     
             </>
                 )}
-            </div> 
+                
+                {/* SimilarHotels */}
+                <div className="flex flex-col gap-4 mt-24">
+
+                    <div className="text-3xl md:text-4xl">
+                        Similar hotels
+                    </div>
+
+                    <div className="flex flex-row gap-2">
+                        <button className={`${similarHotelsIndex === 0 ? "bg-gray-300 rounded-md cursor-not-allowed opacity-50 p-3"
+                            : "bg-slate-200 hover:bg-slate-300 rounded-lg cursor-pointer p-3"}`}
+                            onClick={handleLeftArrow}
+                            >
+                            <ChevronLeft size={25}/>
+                        </button>
+
+                        <button className={`${similarHotelsIndex === 2 ? "bg-gray-300 rounded-md cursor-not-allowed opacity-50 p-3"
+                            : "bg-slate-200 hover:bg-slate-300 rounded-lg cursor-pointer p-3"}`}
+                                onClick={handleRightArrow}
+                            >
+                            <ChevronRight size={25}/>
+                        </button>
+                    </div>
+                        
+                    {/* md */}
+                    <div className="hidden md:flex flex-row justify-between items-center gap-4">
+                    {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
+                        <SimilarHotelCard key={idx} similarHotel={hotel} />
+                        ))}
+                    </div>
+
+                    {/* sm */}
+                    <div className="md:hidden flex flex-row justify-between items-center gap-4">
+                    {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
+                        <SimilarHotelCard key={idx} similarHotel={hotel} />
+                        ))}
+                    </div>
+
+                    <div className="relative mt-8">
+                        <div className={`absolute bottom-3 left-[48%] rounded-full h-2 w-2 ${similarHotelsIndex === 0 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                        <div className={`absolute bottom-3 left-[50%] rounded-full h-2 w-2 ${similarHotelsIndex === 1 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                        <div className={`absolute bottom-3 left-[52%] rounded-full h-2 w-2 ${similarHotelsIndex === 2 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                    </div>
+                    
+                </div>
+
+
+            </div>
         </div>
     );
 };
