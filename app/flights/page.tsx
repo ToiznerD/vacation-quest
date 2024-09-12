@@ -90,7 +90,7 @@ const FlightListPage = () => {
                 </div>
             </div>
             <div className=" flex flex-row gap-8 w-full">
-                <div className="sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">
+                <div className="hidden md:block sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-4">
                             <div className="text-lg font-bold text-blue-900">

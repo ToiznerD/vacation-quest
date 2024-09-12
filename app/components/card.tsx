@@ -2,6 +2,8 @@
 
 import { Star } from "lucide-react";
 import Image from "next/image";
+import { useCallback, useState } from "react";
+import usePopularHotelModal from "../hooks/usePopularHotelModal";
 interface Props {
     label: string;
     src: string;
@@ -18,10 +20,17 @@ const Card = ({
     rating
 } : Props) => {
     const grayStars = 5 - rating;
+    const popularHotelModal = usePopularHotelModal();
+
+    const handleClick = useCallback(() => {
+        popularHotelModal.setEntityId(label)
+        popularHotelModal.onOpen();
+
+    }, [popularHotelModal])
 
     return ( 
-        <div className="flex flex-col cursor-pointer hover:bg-gray-50 rounded-md">
-            <Image src={src+label} alt={label} width={300} height={300} className="rounded-xl" />
+        <div onClick={handleClick} className="flex flex-col cursor-pointer hover:bg-gray-50 rounded-md">
+            <img src={src} alt={label} className="w-full h-[200px] rounded-xl"/>
             <div className="flex flex-row gap-1">
                 {[...Array(rating)].map((_, i) => (<Star key={i} size={15} className="text-yellow-400 fill-yellow-400" />))}
                 {[...Array(grayStars)].map((_, i) => (<Star key={i} size={15} className="text-gray-400 fill-gray-400" />))}

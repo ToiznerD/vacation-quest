@@ -383,49 +383,49 @@ const HotelPage = () => {
 
                     </div>
                     {/* SimilarHotels */}
-                <div className="flex flex-col gap-4 mt-24">
+                    <div className="flex flex-col gap-4 mt-24">
 
-                    <div className="text-3xl md:text-4xl">
-                        Similar hotels
+                        <div className="text-3xl md:text-4xl">
+                            Similar hotels
+                        </div>
+
+                        <div className="flex flex-row gap-2">
+                            <button className={`${similarHotelsIndex === 0 ? "bg-gray-300 rounded-md cursor-not-allowed opacity-50 p-3"
+                                : "bg-slate-200 hover:bg-slate-300 rounded-lg cursor-pointer p-3"}`}
+                                onClick={handleLeftArrow}
+                                >
+                                <ChevronLeft size={25}/>
+                            </button>
+
+                            <button className={`${similarHotelsIndex === 2 ? "bg-gray-300 rounded-md cursor-not-allowed opacity-50 p-3"
+                                : "bg-slate-200 hover:bg-slate-300 rounded-lg cursor-pointer p-3"}`}
+                                    onClick={handleRightArrow}
+                                >
+                                <ChevronRight size={25}/>
+                            </button>
+                        </div>
+                            
+                        {/* md */}
+                        <div className="hidden md:flex flex-row justify-between items-center gap-4">
+                        {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
+                            <SimilarHotelCard key={idx} similarHotel={hotel} />
+                            ))}
+                        </div>
+
+                        {/* sm */}
+                        <div className="md:hidden flex flex-row justify-between items-center gap-4">
+                        {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
+                            <SimilarHotelCard key={idx} similarHotel={hotel} />
+                            ))}
+                        </div>
+
+                        <div className="relative mt-8">
+                            <div className={`absolute bottom-3 left-[48%] rounded-full h-2 w-2 ${similarHotelsIndex === 0 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                            <div className={`absolute bottom-3 left-[50%] rounded-full h-2 w-2 ${similarHotelsIndex === 1 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                            <div className={`absolute bottom-3 left-[52%] rounded-full h-2 w-2 ${similarHotelsIndex === 2 ? 'bg-rose-500' : 'bg-blue-500'}`} />
+                        </div>
+
                     </div>
-
-                    <div className="flex flex-row gap-2">
-                        <button className={`${similarHotelsIndex === 0 ? "bg-gray-300 rounded-md cursor-not-allowed opacity-50 p-3"
-                            : "bg-slate-200 hover:bg-slate-300 rounded-lg cursor-pointer p-3"}`}
-                            onClick={handleLeftArrow}
-                            >
-                            <ChevronLeft size={25}/>
-                        </button>
-
-                        <button className={`${similarHotelsIndex === 2 ? "bg-gray-300 rounded-md cursor-not-allowed opacity-50 p-3"
-                            : "bg-slate-200 hover:bg-slate-300 rounded-lg cursor-pointer p-3"}`}
-                                onClick={handleRightArrow}
-                            >
-                            <ChevronRight size={25}/>
-                        </button>
-                    </div>
-                        
-                    {/* md */}
-                    <div className="hidden md:flex flex-row justify-between items-center gap-4">
-                    {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
-                        <SimilarHotelCard key={idx} similarHotel={hotel} />
-                        ))}
-                    </div>
-
-                    {/* sm */}
-                    <div className="md:hidden flex flex-row justify-between items-center gap-4">
-                    {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
-                        <SimilarHotelCard key={idx} similarHotel={hotel} />
-                        ))}
-                    </div>
-
-                    <div className="relative mt-8">
-                        <div className={`absolute bottom-3 left-[48%] rounded-full h-2 w-2 ${similarHotelsIndex === 0 ? 'bg-rose-500' : 'bg-blue-500'}`} />
-                        <div className={`absolute bottom-3 left-[50%] rounded-full h-2 w-2 ${similarHotelsIndex === 1 ? 'bg-rose-500' : 'bg-blue-500'}`} />
-                        <div className={`absolute bottom-3 left-[52%] rounded-full h-2 w-2 ${similarHotelsIndex === 2 ? 'bg-rose-500' : 'bg-blue-500'}`} />
-                    </div>
-
-                </div>
             </>
                 )}
                 
