@@ -64,6 +64,10 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
         router.push(url);
     }, []);
 
+    if(!hotelCard.rawPrice){
+        return null;
+    }
+
     return (
         <div className="flex flex-col md:flex-row w-full md:w-[60vh] lg:w-[80vh] xl:w-[100vh]  mb-4 border-2 border-blue-400 rounded-lg">
             <div className="relative">
