@@ -6,9 +6,30 @@ export async function GET(req:Request){
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
     const hotelId = searchParams.get('hotelId');
-    const entityId = searchParams.get('entityId');
+    let entityId = searchParams.get('entityId');
     const roomCount = searchParams.get('roomCount');
     const adults = searchParams.get('adults');
+    let destination;
+    
+    if(!entityId || entityId === ''){
+        destination = searchParams.get('destination');
+        const options = {
+            method: 'GET',
+            url: 'https://sky-scrapper.p.rapidapi.com/api/v1/hotels/searchDestinationOrHotel',
+            params: {query: destination},
+            headers: {
+                'x-rapidapi-key': process.env.RAPIDAPI_KEY,
+                'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
+            }
+        };
+        
+        try {
+            const response = await axios.request(options);
+            entityId = response.data.data[0].entityId;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     let hotelDetails;
     let hotelPrices = [];
@@ -17,8 +38,8 @@ export async function GET(req:Request){
       method: 'GET',
       url: 'https://sky-scrapper.p.rapidapi.com/api/v1/hotels/getHotelDetails',
       params: {
-        hotelId: hotelId,
-        entityId: entityId,
+        hotelId,
+        entityId,
         currency: 'USD',
         market: 'en-US',
         countryCode: 'US'
@@ -40,8 +61,8 @@ export async function GET(req:Request){
     method: 'GET',
     url: 'https://sky-scrapper.p.rapidapi.com/api/v1/hotels/getHotelPrices',
     params: {
-        hotelId: hotelId,
-        entityId: entityId,
+        hotelId,
+        entityId,
         checkin: startDate,
         checkout: endDate,
         adults,
@@ -58,7 +79,7 @@ export async function GET(req:Request){
 
     try {
         const response = await axios.request(options2);
-        hotelPrices = response.data.data.otaRates;
+        hotelPrices = response.data.data.otaRates || [];
     } catch (error) {
         console.error(error);
     }

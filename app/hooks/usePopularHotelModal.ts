@@ -4,16 +4,20 @@ interface useSearchProps{
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
-    entityId: string;
-    setEntityId: (id: string) => void;
+    hotelId: string;
+    setHotelId: (id: string) => void;
+    destination: string;
+    setDestination: (destination: string) => void;
 }
 
 const usePopularHotelModal = create<useSearchProps>((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),
     onClose: () => set({ isOpen: false } ),
-    entityId: '',
-    setEntityId: (id: string) => set({ entityId: id })
+    hotelId: '',
+    setHotelId: (id: string) => set({ hotelId: id }),
+    destination: '',
+    setDestination: (destination: string) => set({ destination: destination }),
 }))
 
 export default usePopularHotelModal;

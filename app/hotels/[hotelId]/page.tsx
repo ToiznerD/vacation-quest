@@ -23,6 +23,7 @@ import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
  } from 'lucide-react';
 import { Progress } from "@/components/ui/progress";
 import SimilarHotelCard from "@/app/components/hotels/SimilarHotelCard";
+import { differenceInDays } from "date-fns";
 
 const HotelPage = () => {
     const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
@@ -32,9 +33,10 @@ const HotelPage = () => {
     const endDate = params?.get('endDate');
     const hotelId = params?.get('hotelId');
     const entityId = params?.get('entityId');
+    const destination = params?.get('destination');
     const adults = params?.get('adults');
     const roomCount = params?.get('roomCount');
-
+    const days = differenceInDays(new Date(endDate as string), new Date(startDate as string));
     const [isLoading, setIsLoading] = useState(false);
     
     const [similarHotelsIndex, setSimilarHotelsIndex] = useState(0);
@@ -52,6 +54,7 @@ const HotelPage = () => {
                     endDate,
                     hotelId,
                     entityId,
+                    destination,
                     adults,
                     roomCount
                 }
@@ -355,28 +358,44 @@ const HotelPage = () => {
                         {/* hotel prices */}
                         <div className="flex flex-col gap-2 justify-center items-center">
                             {
-                                hotelPrices?.map((hotelPrice, index) => (
+                                hotelPrices.length === 0 ? (
+                                    <div className="text-3xl md:text-4xl">
+                                        No prices available. Try different dates.
+                                    </div>
+                                ) : (
+                                    <>
+                                    {hotelPrices?.map((hotelPrice, index) => (
                                     hotelPrice.deeplink &&
                                     <div className="flex flex-row justify-between w-full p-4 border-b-[1px]">
-                                        <div className="text-lg md:text-2xl">
+                                        <div className="text-lg md:text-2xl flex flex-col gap-1">
                                             <Image 
                                                 src={hotelPrice.partnerLogo}
                                                 width={150}
                                                 height={100}
                                                 alt="Hotel Logo"
                                             />
+                                            
+                                            
                                         </div>
-                                        <div className="flex flex-row gap-4 items-center text-xl">
-                                            <span className="font-semibold">{hotelPrice.price}</span>
-                                            <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
-                                                <a href={`https://${hotelPrice.deeplink}`} target="_blank">
-                                                    Select
-                                                </a>
-                                                <FaLongArrowAltRight className="ml-2"/>
+                                        <div className="flex flex-col gap-1 justify-center items-center">
+
+                                            <div className="flex flex-row gap-4 items-center text-xl">
+                                                <span className="font-semibold">{hotelPrice.rawPrice * days}$</span>
+                                                <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
+                                                    <a href={`https://${hotelPrice.deeplink}`} target="_blank">
+                                                        Select
+                                                    </a>
+                                                    <FaLongArrowAltRight className="ml-2"/>
+                                                </div>
+                                            </div>
+                                            <div className="text-sm">
+                                                {hotelPrice.roomPolicies}
                                             </div>
                                         </div>
                                     </div>
-                                ))
+                                ))}
+                                </>
+                            )
                             }
                         </div>
 

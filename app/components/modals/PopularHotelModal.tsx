@@ -26,7 +26,7 @@ const PopularHotelModal = () => {
     const params = useSearchParams();
     const popularHotelModal = usePopularHotelModal();
     const [step, setStep] = useState(STEPS.DATE);
-    const { entityId } = popularHotelModal;
+    const { hotelId, destination } = popularHotelModal;
     const [adults, setAdults] = useState(1);
     const [children, setChildren] = useState(0);
     const [roomCount, setRoomCount] = useState(1);
@@ -58,7 +58,8 @@ const PopularHotelModal = () => {
 
         const updatedQuery: any = {
             ...currentQuery,
-            entityId,
+            hotelId,
+            destination,
             adults,
             children,
             roomCount
@@ -79,8 +80,8 @@ const PopularHotelModal = () => {
 
         setStep(STEPS.DATE);
         popularHotelModal.onClose();
-        router.push(`/hotels/${entityId}/` + url);
-    }, [step, popularHotelModal, entityId, router, adults, children, roomCount, dateRange, onNext, params]);
+        router.push(`/hotels/${hotelId}/` + url);
+    }, [step, popularHotelModal, hotelId, destination, router, adults, children, roomCount, dateRange, onNext, params]);
 
     const actionLabel = useMemo(() => {
         if(step === STEPS.INFO){

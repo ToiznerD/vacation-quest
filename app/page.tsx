@@ -17,6 +17,7 @@ interface PopularHotel {
   location: string;
   price: number;
   rating: number;
+  hotelId: string;
 }
 
 
@@ -71,7 +72,8 @@ export default async function Home() {
       src: item.hotelInfo.images[0] || placeholders[0].src,
       location: item.city,
       price: item.hotelInfo.rawPrice,
-      rating: item.hotelInfo.stars
+      rating: item.hotelInfo.stars,
+      hotelId: item.hotelInfo.hotelId
     } as PopularHotel;
   });
 

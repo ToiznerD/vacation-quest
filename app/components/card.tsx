@@ -10,6 +10,7 @@ interface Props {
     location: string;
     price: number;
     rating: number;
+    hotelId: string;
 }
 
 const Card = ({
@@ -17,13 +18,15 @@ const Card = ({
     src,
     location,
     price,
-    rating
+    rating,
+    hotelId
 } : Props) => {
     const grayStars = 5 - rating;
     const popularHotelModal = usePopularHotelModal();
 
     const handleClick = useCallback(() => {
-        popularHotelModal.setEntityId(label)
+        popularHotelModal.setHotelId(hotelId)
+        popularHotelModal.setDestination(location)
         popularHotelModal.onOpen();
 
     }, [popularHotelModal])
