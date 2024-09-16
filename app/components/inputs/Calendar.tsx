@@ -13,7 +13,7 @@ interface Props {
 const Calendar = ({value, onChange, disabledDates}: Props) => {
     return ( 
         <DateRange 
-            rangeColors={["#262626"]}
+            rangeColors={["#0564E1"]}
             ranges={[value]}
             date={new Date()}
             onChange={onChange}

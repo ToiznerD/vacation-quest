@@ -91,8 +91,11 @@ export default async function Home() {
         </div>
       </div>
       <PopularSearches popularHotels={popularHotels}/>
+
+
+
       <div className="flex flex-col md:flex-row justify-center gap-24">
-        <div className="flex flex-row md:flex-col md:justify-center items-center gap-8 max-w-[300px]">
+        <div className="flex flex-row md:flex-col md:justify-center items-center gap-8 ">
           <div className="flex flex-col">
             <PlaneTakeoff size={50} className="text-blue-500 mx-auto" />
             <div className="text-xl md:text-3xl font-bold md:border-b-[2px] text-center">
@@ -103,7 +106,7 @@ export default async function Home() {
             Search flights to your desired destination!
           </div>
         </div>
-        <div className="flex flex-row md:flex-col justify-center items-center gap-8 max-w-[300px]">
+        <div className="flex flex-row md:flex-col justify-center items-center gap-8 ">
           <div className="flex flex-col">
             <HotelIcon size={50} className="text-blue-500 mx-auto" />
             <div className="text-xl md:text-3xl font-bold md:border-b-[2px] text-center">
@@ -114,11 +117,11 @@ export default async function Home() {
             Search from various hotels to book the perfect accomodation for your vacation
           </div>
         </div>
-        <div className="flex flex-row md:flex-col justify-between md:justify-center items-center gap-8 w-full md:max-w-[300px]">
+        <div className="flex flex-row md:flex-col justify-center items-center gap-8 ">
           <div className="flex flex-col">
             <Receipt size={50} className="text-blue-500 mx-auto" />
             <div className="text-xl md:text-3xl font-bold md:border-b-[2px] text-center">
-              Price Comparison
+              Compare 
               </div>
           </div>
           <div className="text-sm font-semibold text-center">

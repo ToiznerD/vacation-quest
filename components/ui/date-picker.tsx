@@ -5,7 +5,7 @@ import { addDays, format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DateRange } from "react-day-picker"
 
-import { cn } from "@/libs/utils"
+import { cn } from "@/app/libs/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -38,7 +38,7 @@ export function DatePicker({
         <PopoverTrigger asChild>
           <Button
             id="date"
-            variant={"outline"}
+            variant={"default"}
             className={cn(
               "w-[40vh] justify-start text-left font-normal",
               !date && "text-muted-foreground"
