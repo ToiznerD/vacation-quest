@@ -122,11 +122,6 @@ const HotelsListPage = () => {
                                 <HotelCard key={index} hotelCard={hotelCard} entityId={entityId} />
                             ))
                         }
-                        {/* {
-                            searchNewYork.data.hotels.map((hotelCard, index) => (
-                                <HotelCard key={index} hotelCard={hotelCard} entityId={searchNewYork.data.entity.entity_id} />
-                            ))
-                        } */}
                     </div>
                 </>
             )}

@@ -36,11 +36,13 @@ const SimilarHotelCard = ({similarHotel}: Props) => {
                 </div>
 
                 {/* trip adviser review */}
-                <div className="flex md:flex-row items-center md:items-center">
+                <div className="flex md:flex-row items-center md:items-center gap-2">
                     <div className="font-bold text-lg">
                         {similarHotel.rating.value}
                     </div>
-                    <Image src={similarHotel.rating.taImage || ''} width={130} height={100} alt="taImage"/>
+                    {similarHotel.rating.taImage && 
+                        <Image src={similarHotel.rating.taImage || ''} width={130} height={100} alt="taImage"/>
+                    }
 
                     <div className="text-slate-600 font-thin text-xs md:text-base">
                         {similarHotel.rating.count} reviews
