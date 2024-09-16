@@ -1,16 +1,14 @@
 "use client";
 
 import FlightCard from "./FlightCard";
-import { roundedtrip_tlv_bkk } from "../libs/flight-roundtrip";
 import { Checkbox } from "@/components/ui/checkbox";
 import { itinerary } from "../types";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import PuffLoader from "react-spinners/PuffLoader";
 
-import { FaLongArrowAltRight } from "react-icons/fa";
 import { Progress } from "@/components/ui/progress";
 
 

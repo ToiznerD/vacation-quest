@@ -11,6 +11,8 @@ import { Recommendation } from "@prisma/client";
 import PuffLoader from "react-spinners/PuffLoader";
 import { Progress } from "@/components/ui/progress";
 import { FaLongArrowAltRight } from "react-icons/fa";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
 
 const HotelsListPage = () => {
     const [hotelList, setHotelList] = useState<hotelCard[]>([]);
@@ -78,6 +80,7 @@ const HotelsListPage = () => {
     
     return ( 
         <div className="pt-24">
+            {/* loader */}
             {loading ? (
                 <div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
                     <div className="flex flex-col gap-1 justify-center items-center">
@@ -87,50 +90,92 @@ const HotelsListPage = () => {
                 </div>
             ) : (
                 <>
+                    {/* topic */}
                     <div className="flex flex-row justify-between items-center text-lg gap-1 w-full px-10">
-                        <div>Find your hotel</div>
+                        <div>Filters</div>
                         <div className="flex flex-col justify-end gap-1">
                             <div className="text-xs flex justify-center">Step 3/4</div>
                             <Progress value={75} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
                         </div>
-                        <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer">
-                            <a href={`#`} target="_blank">
-                                Next
-                            </a>
-                            <FaLongArrowAltRight className="ml-2"/>
+                        <div className="text-lg font-semibold">  
+                            Choose your hotel!
                         </div>
-                        
                     </div>
-                    {recommendList && recommendList.length > 0 && (
-                        <div className="flex flex-col gap-2 justify-center items-center w-full">
-                            <div className="text-xl text-left font-bold p-1">
-                                Recommended for you:
+
+                <div className="flex flex-row gap-4">
+                    {/* filters */}
+                    <div className="hidden md:block sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-4">
+                            <div className="text-lg font-bold text-blue-900">
+                                Stops
                             </div>
+                            <div className="text-sm flex flex-row gap-2">
+                                <Checkbox 
+                                    // onCheckedChange={() => setDirectFlag(!directFlag)}
+                                    // checked={directFlag}
+                                /> Direct
+                            </div>
+                            <div className="text-sm flex flex-row gap-2">
+                                <Checkbox 
+                                    // onCheckedChange={() => setOneStopFlag(!oneStopFlag)}
+                                    // checked={oneStopFlag}
+                                /> 1 stop
+                            </div>
+                            <div className="text-sm flex flex-row gap-2">
+                                <Checkbox 
+                                    // onCheckedChange={() => setTwoStopFlag(!twoStopFlag)}
+                                    // checked={twoStopFlag}
+                                /> 2+ stops
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <div className="text-lg font-bold text-blue-900">
+                                Max Price:
+                            </div>
+                            <div className="flex flex-row gap-2">
+                                <div>raz</div>
+                                {/* <div className="text-lg font-bold text-blue-900 font-serif">${price[0]}</div> */}
+                                {/* <Slider onValueChange={(value) => setPrice(value)} defaultValue={price} min={minPrice} max={maxPrice} step={10}/> */}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    {/* hotels */}
+                    <div>
+                        {/* recommended hotels */}
+                        {recommendList && recommendList.length > 0 && (
+                            <div className="flex flex-col gap-2 justify-center items-center w-full">
+                                <div className="text-xl text-left font-bold p-1">
+                                    Recommended for you:
+                                </div>
+                                {
+                                    recommendList.map((hotelCard: Recommendation, index: any) => (
+                                        <HotelCard key={index} hotelCard={hotelCard.hotelInfo as hotelCard} entityId={entityId} />
+                                    ))
+                                }
+                            </div>
+                        )}
+
+                        {/* other hotels */}
+                        <div className="flex flex-col gap-2 justify-center items-center">
+                            {recommendList.length > 0 &&
+                            <div className="text-xl text-left font-bold p-1">
+                                Other Options:
+                            </div>}
                             {
-                                recommendList.map((hotelCard: Recommendation, index: any) => (
-                                    <HotelCard key={index} hotelCard={hotelCard.hotelInfo as hotelCard} entityId={entityId} />
+                                hotelList.map((hotelCard: hotelCard, index: any) => (
+                                    <HotelCard key={index} hotelCard={hotelCard} entityId={entityId} />
                                 ))
                             }
                         </div>
-                    )}
-                    <div className="flex flex-col  gap-2 justify-center items-center">
-                        <div className="text-xl text-left font-bold p-1">
-                                Other Options:
-                            </div>
-                        {
-                            hotelList.map((hotelCard: hotelCard, index: any) => (
-                                <HotelCard key={index} hotelCard={hotelCard} entityId={entityId} />
-                            ))
-                        }
-                        {/* {
-                            searchNewYork.data.hotels.map((hotelCard, index) => (
-                                <HotelCard key={index} hotelCard={hotelCard} entityId={searchNewYork.data.entity.entity_id} />
-                            ))
-                        } */}
                     </div>
+                </div>
+                    
                 </>
             )}
-            
+
         </div>
      );
 }

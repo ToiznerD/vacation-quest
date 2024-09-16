@@ -6,8 +6,8 @@ import { hotelInTelAviv } from '@/app/libs/hotelsDetails';
 import { TelAvivHotelPrices } from "@/app/libs/hotelsPrices";
 import { similarHotelsInTelAviv } from "@/app/libs/similarHotels"
 import HotelPrice from "@/app/components/hotels/HotelPrice";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import PuffLoader from "react-spinners/PuffLoader";
 import { FaLongArrowAltRight, FaStar } from "react-icons/fa";
@@ -24,10 +24,13 @@ import { Wifi, CircleParking, AirVent, Bus, Utensils, CigaretteOff,
 import { Progress } from "@/components/ui/progress";
 import SimilarHotelCard from "@/app/components/hotels/SimilarHotelCard";
 import { differenceInDays } from "date-fns";
+import qs from 'query-string';
+import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
 
 const HotelPage = () => {
     const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
     const [hotelPrices, setHotelPrices] = useState<hotelPrice[]>([]);
+    const [similarHotels, setSimilarHotels] = useState<similarHotel[]>([]);
     const params = useSearchParams();
     const startDate = params?.get('startDate');
     const endDate = params?.get('endDate');
@@ -38,12 +41,7 @@ const HotelPage = () => {
     const roomCount = params?.get('roomCount');
     const days = differenceInDays(new Date(endDate as string), new Date(startDate as string));
     const [isLoading, setIsLoading] = useState(false);
-    
     const [similarHotelsIndex, setSimilarHotelsIndex] = useState(0);
-    
-    //delete:
-    // const hotelInfo = hotelInTelAviv.data;
-    const similarHotels = similarHotelsInTelAviv.data;
 
     useEffect(() => {
         const getHotelInfo = async () => {
@@ -61,9 +59,12 @@ const HotelPage = () => {
             });
             const hotelInfo = response.data.hotelDetails;
             const hotelPrices = response.data.hotelPrices;
+            const similarHotels = response.data.similarHotels;
             hotelInfo?.galleryImages?.slice(1,hotelInfo.galleryImages.length);
             setHotelInfo(hotelInfo);
             setHotelPrices(hotelPrices);
+            setSimilarHotels(similarHotels);
+            
             setIsLoading(false);
         }
         getHotelInfo();
@@ -447,9 +448,6 @@ const HotelPage = () => {
                     </div>
             </>
                 )}
-                
-                
-
 
             </div>
         </div>
