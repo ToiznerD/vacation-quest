@@ -25,6 +25,7 @@ import { Progress } from "@/components/ui/progress";
 import SimilarHotelCard from "@/app/components/hotels/SimilarHotelCard";
 import { differenceInDays } from "date-fns";
 import qs from 'query-string';
+import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
 
 const HotelPage = () => {
     const [hotelInfo, setHotelInfo] = useState<hotelInfo>();
@@ -40,8 +41,6 @@ const HotelPage = () => {
     const roomCount = params?.get('roomCount');
     const days = differenceInDays(new Date(endDate as string), new Date(startDate as string));
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
-    
     const [similarHotelsIndex, setSimilarHotelsIndex] = useState(0);
 
     useEffect(() => {
@@ -85,21 +84,6 @@ const HotelPage = () => {
         setGallery(galleryImages || []);
         onOpen();
     }
-
-    const handleSimilarHotelPage = useCallback(() => {
-        let currentQuery = {};
-
-        if (params){
-            currentQuery = qs.parse(params.toString());
-        }
-        
-        const url = qs.stringifyUrl({
-            url: `/hotels`,
-            query: currentQuery
-        }, { skipNull: true });
-
-        router.push(url);
-    }, [])
 
     const Map = dynamic(() => import('@/app/components/Map'), {
         ssr: false
@@ -442,16 +426,14 @@ const HotelPage = () => {
                         </div>
                             
                         {/* md */}
-                        <div className="hidden md:flex flex-row justify-between items-center gap-4"
-                        onClick={handleSimilarHotelPage}>
+                        <div className="hidden md:flex flex-row justify-between items-center gap-4">
                         {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
                             <SimilarHotelCard key={idx} similarHotel={hotel} />
                             ))}
                         </div>
 
                         {/* sm */}
-                        <div className="md:hidden flex flex-row justify-between items-center gap-4"
-                        onClick={handleSimilarHotelPage}>
+                        <div className="md:hidden flex flex-row justify-between items-center gap-4">
                         {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
                             <SimilarHotelCard key={idx} similarHotel={hotel} />
                             ))}
