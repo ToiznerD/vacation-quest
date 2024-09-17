@@ -41,7 +41,7 @@ export async function POST(request: Request) {
                 path: 'embedding',
                 queryVector: embedding,
                 numCandidates: 100,
-                limit: 5
+                limit: 3
               }
             },
             {

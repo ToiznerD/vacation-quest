@@ -396,14 +396,14 @@ export type district = {
 }
 
 export type hotelCard = {
-    hotelId: string;
-    heroImage: string;
-    name: string;
-    stars: number;
-    brandIds: string[];
-    distance: string;
-    relevantPoiDistance: string;
-    coordinates: number[];
+    hotelId?: string;
+    heroImage?: string;
+    name?: string;
+    stars?: number;
+    brandIds?: string[];
+    distance?: string;
+    relevantPoiDistance?: string;
+    coordinates?: number[];
     price?: string;
     cug?: {
         cugWithoutLabel: string | null;
@@ -416,7 +416,7 @@ export type hotelCard = {
     cheapestOfferPartnerId?: string;
     cheapestOfferRateId?: string | null;
     rawPrice?: number;
-    rating: {
+    rating?: {
         description: string;
         count: number;
         value: string;
@@ -441,21 +441,21 @@ export type hotelCard = {
             message: string;
         };
     }
-    cheapestOffer: string;
-    offerTypes: string;
-    guestType:  string | null;
-    exclusiveDealLabel:  string | null;
-    pricesFrom: string | null;
-    images: string[];
-    otherRates: {
+    cheapestOffer?: string;
+    offerTypes?: string;
+    guestType?:  string | null;
+    exclusiveDealLabel?:  string | null;
+    pricesFrom?: string | null;
+    images?: string[];
+    otherRates?: {
         partnerId: string;
         partnerName: string;
         rawPrice: number;
         price: string;
     }[];
-    priceDescription: string;
-    taxPolicy: string;
-    rateFeatures: {
+    priceDescription?: string;
+    rateFeatures?: {
+        taxPolicy?: string;
         key: string;
         text: string;
         color: {
@@ -463,7 +463,7 @@ export type hotelCard = {
             dark: string;
         }
     }[];
-    cheapestOfferPartnerName: string | null;
+    cheapestOfferPartnerName?: string | null;
 }
 
 export type hotelInfo = {

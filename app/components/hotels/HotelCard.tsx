@@ -74,7 +74,7 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
 
                 <div className="h-[20vh] ">
                     <Image
-                        src={hotelCard.images[imgCount]}
+                        src={hotelCard.images ? hotelCard.images[imgCount] : ''}
                         width={500}
                         height={100}
                         alt="Hotel image"
