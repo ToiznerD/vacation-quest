@@ -10,7 +10,7 @@ import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
 import { useRouter } from "next/navigation";
 import useChangePasswordModal from "@/app/hooks/useChangePasswordModal";
-
+import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
 
 interface Props {
     currentUser?: SafeUser | null;
@@ -21,12 +21,19 @@ const UserMenu = ({ currentUser } : Props) => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
     const changePasswordModal = useChangePasswordModal();
-
+    const { setData, cancelDismiss, onOpen } = useQuestionnaireModal();
     const router = useRouter();
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value)
     }, [])
+
+    const openQuestionnaire = () => {
+        // console.log(currentUser?.questionnaire)
+        setData(currentUser?.questionnaire)
+        cancelDismiss();
+        onOpen();
+    }
 
 
     return ( 
@@ -45,14 +52,15 @@ const UserMenu = ({ currentUser } : Props) => {
             </div>
 
             {isOpen && (
-                <div className="absolute rounded-xl shadow-md w-full md:full bg-white overflow-hidden right-0 top-12 text-sm">
+                <div className="absolute rounded-xl shadow-md w-[200px] md:full bg-white overflow-hidden right-0 top-12 text-sm">
                     <div className="flex flex-col cursor-pointer">
                         {
                             currentUser ? (
                                 <>
+
                                     <MenuItem onClick={changePasswordModal.onOpen} label="Change password" />
                                     <hr />
-                                    <MenuItem onClick={changePasswordModal.onOpen} label="Edit questionnaire" />
+                                    <MenuItem onClick={openQuestionnaire} label="My Questionnaire" />
                                     <hr />
                                     <MenuItem onClick={() => signOut()} label="Logout" />
                                 </>   

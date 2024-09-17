@@ -59,7 +59,7 @@ export async function POST(request: Request): Promise<NextResponse<APIResponse>>
 
     await prisma.recommendation.create({
         data: {
-          city,
+          city: city.toLowerCase(),
           embedding,
           hotelInfo
         },
