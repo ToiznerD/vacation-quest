@@ -69,10 +69,10 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row w-full md:w-[60vh] lg:w-[80vh] xl:w-[100vh]  mb-4 border-2 border-blue-400 rounded-lg">
+        <div className="flex flex-col md:flex-row w-full mt-4 border-2 border-blue-400 rounded-lg">
             <div className="relative">
 
-                <div className="h-[25vh] ">
+                <div className="h-[20vh] ">
                     <Image
                         src={hotelCard.images[imgCount]}
                         width={500}
@@ -122,7 +122,7 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
                     </div>
                 </div>
                 {/* button and price */}
-                <div className="flex flex-row md:flex-col justify-end items-center gap-4 md:gap-4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 m-4 md:pr-4 md:pl-8">
+                <div className="flex flex-row md:flex-col md:justify-center justify-end items-center gap-4 md:gap-4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 m-4 md:pr-4 md:pl-8">
                     <div className="font-bold text-base break-all">
                         {hotelCard.cheapestOfferPartnerName}
                     </div>

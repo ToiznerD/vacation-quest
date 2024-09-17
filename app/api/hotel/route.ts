@@ -33,6 +33,7 @@ export async function GET(req:Request){
 
     let hotelDetails;
     let hotelPrices = [];
+    let similarHotels = [];
 
     const options1 = {
       method: 'GET',
@@ -84,6 +85,32 @@ export async function GET(req:Request){
         console.error(error);
     }
 
-    return NextResponse.json({hotelDetails, hotelPrices});
+    const options3 = {
+        method: 'GET',
+        url: 'https://sky-scrapper.p.rapidapi.com/api/v1/hotels/similarHotels',
+        params: {
+            hotelId,
+            checkin: startDate,
+            checkout: endDate,
+            adults,
+            rooms: roomCount,
+            currency: 'USD',
+            market: 'en-US',
+            countryCode: 'US'
+        },
+        headers: {
+            'x-rapidapi-key': process.env.RAPIDAPI_KEY,
+            'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
+        }
+        };
+    
+        try {
+            const response = await axios.request(options3);
+            similarHotels = response.data.data;
+        } catch (error) {
+            console.error(error);
+        }
+
+    return NextResponse.json({hotelDetails, hotelPrices, similarHotels});
 
 }

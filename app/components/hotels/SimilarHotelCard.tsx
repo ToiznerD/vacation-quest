@@ -4,15 +4,53 @@ import Image from 'next/image';
 import { similarHotel } from "@/app/types";
 import { FaStar } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
+import { useRouter, useSearchParams } from 'next/navigation';
+import useQuestionnaireModal from '@/app/hooks/useQuestionnaireModal';
+import { useCallback } from 'react';
+import qs from 'query-string';
 
 interface Props {
     similarHotel: similarHotel;
 }
 
 const SimilarHotelCard = ({similarHotel}: Props) => {
+    const params = useSearchParams();
+    const router = useRouter();
+    //const questionnaireModal = useQuestionnaireModal();
+    const entityId = params?.get('entityId');
+    const hotelId = similarHotel.hotelId;
+
+    const handleSimilarHotelClick = useCallback(async () => {
+        let currentQuery = {};
+
+        if (params){
+            currentQuery = qs.parse(params.toString());
+        }
+        
+        const updatedQuery: any = {
+            ...currentQuery,
+            entityId,
+            hotelId,
+        }
+
+        // axios.post('/api/embedding', {
+        //     city: destination,
+        //     hotelInfo: hotelInfo,
+        //     questionnaire: questionnaireModal.data
+        // })
+        
+        const url = qs.stringifyUrl({
+            url: `/hotels/${hotelId}`,
+            query: updatedQuery
+        }, { skipNull: true });
+
+        router.push(url);
+    }, [])
+
 
     return (
-        <div className="border-black rounded-2xl overflow-hidden w-1/3 shadow-lg cursor-pointer">
+        <div className="border-black rounded-2xl overflow-hidden w-1/3 shadow-lg cursor-pointer"
+        onClick={handleSimilarHotelClick}>
             <div className="relative h-[15vh] md:h-[25vh]">
                 <Image src={similarHotel.heroImage || ''} alt={`Hotel image 0`} layout="fill" objectFit="cover"/>
                 <div className="absolute bottom-0 left-0 w-full h-20 bg-black bg-opacity-50 text-white p-4">
@@ -36,11 +74,13 @@ const SimilarHotelCard = ({similarHotel}: Props) => {
                 </div>
 
                 {/* trip adviser review */}
-                <div className="flex md:flex-row items-center md:items-center">
+                <div className="flex md:flex-row items-center md:items-center gap-2">
                     <div className="font-bold text-lg">
                         {similarHotel.rating.value}
                     </div>
-                    <Image src={similarHotel.rating.taImage || ''} width={130} height={100} alt="taImage"/>
+                    {similarHotel.rating.taImage && 
+                        <Image src={similarHotel.rating.taImage || ''} width={130} height={100} alt="taImage"/>
+                    }
 
                     <div className="text-slate-600 font-thin text-xs md:text-base">
                         {similarHotel.rating.count} reviews
