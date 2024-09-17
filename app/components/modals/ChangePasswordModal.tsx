@@ -1,25 +1,15 @@
 'use client';
 
 import axios from 'axios';
-import { AiFillGithub } from 'react-icons/ai';
-import { FcGoogle } from 'react-icons/fc';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import useRegisterModal from '@/app/hooks/useRegisterModal'
 import Modal from './Modal';
 import Heading from '../Heading';
 import Input from '../inputs/input';
 import toast from 'react-hot-toast';
-import Button from '../Button';
-import useLoginModal from '@/app/hooks/useLoginModal';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import useChangePasswordModal from '@/app/hooks/useChangePasswordModal';
 
 const ChangePasswordModal = () => {
-    const router = useRouter();
-    const registerModal = useRegisterModal();
-    const loginModal = useLoginModal();
     const changePasswordModal = useChangePasswordModal();
     const [isLoading, setIsLoading] = useState(false);
 
