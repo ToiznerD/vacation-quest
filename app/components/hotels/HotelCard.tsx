@@ -72,7 +72,7 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
         <div className="flex flex-col md:flex-row w-full mt-4 border-2 border-blue-400 rounded-lg">
             <div className="relative">
 
-                <div className="h-[20vh] ">
+                <div className="h-[25vh] ">
                     <Image
                         src={hotelCard.images ? hotelCard.images[imgCount] : ''}
                         width={500}
