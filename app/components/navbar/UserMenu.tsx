@@ -9,6 +9,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
 import { useRouter } from "next/navigation";
+import useChangePasswordModal from "@/app/hooks/useChangePasswordModal";
 import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
 
 interface Props {
@@ -19,6 +20,7 @@ const UserMenu = ({ currentUser } : Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
+    const changePasswordModal = useChangePasswordModal();
     const { setData, cancelDismiss, onOpen } = useQuestionnaireModal();
     const router = useRouter();
 
@@ -55,7 +57,9 @@ const UserMenu = ({ currentUser } : Props) => {
                         {
                             currentUser ? (
                                 <>
-                                    <MenuItem onClick={() => router.push('/')} label="Your account" />
+
+                                    <MenuItem onClick={changePasswordModal.onOpen} label="Change password" />
+                                    <hr />
                                     <MenuItem onClick={openQuestionnaire} label="My Questionnaire" />
                                     <hr />
                                     <MenuItem onClick={() => signOut()} label="Logout" />
