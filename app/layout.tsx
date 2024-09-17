@@ -15,6 +15,7 @@ import GalleryModal from "./components/modals/GalleryModal";
 import CheckQuestionnaire from "./components/CheckQuestionnaire";
 import { Toaster } from "react-hot-toast";
 import PopularHotelModal from "./components/modals/PopularHotelModal";
+import ChangePasswordModal from "./components/modals/ChangePasswordModal";
 
 
 const font = Nunito({
@@ -39,6 +40,7 @@ export default async function RootLayout({
       <body className={font.className}>
         <LoginModal />
         <RegisterModal />
+        <ChangePasswordModal />
         <SearchModal/>
         <FlightModal />
         <QuestionnaireModal />
