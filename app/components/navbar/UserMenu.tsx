@@ -9,6 +9,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
 import { useRouter } from "next/navigation";
+import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
 
 interface Props {
     currentUser?: SafeUser | null;
@@ -18,12 +19,19 @@ const UserMenu = ({ currentUser } : Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
-
+    const { setData, cancelDismiss, onOpen } = useQuestionnaireModal();
     const router = useRouter();
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value)
     }, [])
+
+    const openQuestionnaire = () => {
+        // console.log(currentUser?.questionnaire)
+        setData(currentUser?.questionnaire)
+        cancelDismiss();
+        onOpen();
+    }
 
 
     return ( 
@@ -42,12 +50,13 @@ const UserMenu = ({ currentUser } : Props) => {
             </div>
 
             {isOpen && (
-                <div className="absolute rounded-xl shadow-md w-full md:full bg-white overflow-hidden right-0 top-12 text-sm">
+                <div className="absolute rounded-xl shadow-md w-[200px] md:full bg-white overflow-hidden right-0 top-12 text-sm">
                     <div className="flex flex-col cursor-pointer">
                         {
                             currentUser ? (
                                 <>
                                     <MenuItem onClick={() => router.push('/')} label="Your account" />
+                                    <MenuItem onClick={openQuestionnaire} label="My Questionnaire" />
                                     <hr />
                                     <MenuItem onClick={() => signOut()} label="Logout" />
                                 </>   

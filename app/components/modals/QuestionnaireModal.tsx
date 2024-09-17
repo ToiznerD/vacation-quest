@@ -1,7 +1,7 @@
 "use client";
 
 import Modal from "./Modal";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Heading from "../Heading";
 import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -23,6 +23,7 @@ type MultiSelectItem = {
 
 const QuestionnaireModal = () => {
     const questionnaireModal = useQuestionnaireModal();
+    const { data } = questionnaireModal;
     const [q1, setQ1] = useState('');
     const [q2, setQ2] = useState('');
     const [q3, setQ3] = useState('');
@@ -32,6 +33,17 @@ const QuestionnaireModal = () => {
     const [q7, setQ7] = useState('');
     const [step, setStep] = useState(STEPS.START);
 
+    useEffect(() => {
+        console.log(data);
+        setQ1(data?.q1 || '');
+        setQ2(data?.q2 || '');
+        setQ3(data?.q3 || '');
+        const values = data?.q4?.map((val: string) => ({label: val, value: val}));
+        setQ4(values || []);
+        setQ5(data?.q5 || '');
+        setQ6(data?.q6 || '');
+        setQ7(data?.q7 || '');
+    }, [data])
 
     const onBack = useCallback(() => {
         setStep((value) => value - 1);
@@ -163,6 +175,7 @@ const QuestionnaireModal = () => {
                     <MultiSelectInput
                         id="variant"
                         label="Activies"
+                        value={q4}
                         list={[
                             {
                                 label: "Sightseeing",

@@ -127,7 +127,7 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
                         {hotelCard.cheapestOfferPartnerName}
                     </div>
                     <div className="flex flex-col items-start">
-                        <span className="font-bold text-base md:text-xl">${hotelCard.rawPrice || 1 / days}</span>
+                        <span className="font-bold text-base md:text-xl">${hotelCard.rawPrice}</span>
                         <span className="text-xs">per night</span>
                     </div>
                     <div className="flex flex-row rounded-lg text-white justify-center items-center p-2 md:p-4 font-bold bg-blue-500 hover:bg-blue-500/90 cursor-pointer"
