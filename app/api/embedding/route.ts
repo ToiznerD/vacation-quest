@@ -36,7 +36,7 @@ export async function POST(request: Request): Promise<NextResponse<APIResponse>>
     const body: RequestBody = await request.json();
 
     const { city, hotelInfo, questionnaire } = body;
-    const toEmbed = { city, hotelInfo, questionnaire };
+    const toEmbed = { city, questionnaire };
 
     const url = 'https://api.jina.ai/v1/embeddings';
     const token = process.env.JINAAI_TOKEN;
