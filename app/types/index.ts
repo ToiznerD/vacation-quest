@@ -671,3 +671,10 @@ export type similarHotel = {
         latitude: number;
     }
 }
+
+export type RecommendationItem = {
+    id: string;
+    city: string;
+    embedding: number[];
+    hotelInfo: hotelCard;
+}
