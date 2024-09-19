@@ -31,7 +31,8 @@ const HotelsListPage = () => {
 
     const questionnaireModal = useQuestionnaireModal();
     useEffect(() => {
-        const getHotelList = async () => {
+        const getHotels = async () => {
+            // Get hotel list
             setLoading(true);
             const response = await axios.get('/api/hotels', {
                 params: {
@@ -46,17 +47,20 @@ const HotelsListPage = () => {
             const entityId = response.data.entityId;
             setHotelList(hotelList);
             setEntityId(entityId);
-            setLoading(false);
-        }
 
-        const getRecommendList = async () => {
+            // Get recommend list
             let recommendList = [];
 
             if(!questionnaireModal.data.id){
                  const response = await axios.post('/api/recommendation', {
                     city: destination,
                     questionnaire: {},
-                    query: params?.toString()
+                    query: params?.toString(),
+                    entityId,
+                    startDate,
+                    endDate,
+                    roomCount,
+                    adults
                 });
                 recommendList = response.data.recommendations;
             } else {
@@ -67,15 +71,22 @@ const HotelsListPage = () => {
                 const response = await axios.post('/api/recommendation', {
                     city: destination,
                     questionnaire: cleanedQuestionnaire,
-                    query: params?.toString()
+                    query: params?.toString(),
+                    entityId,
+                    startDate,
+                    endDate,
+                    roomCount,
+                    adults
                 });
                 recommendList = response.data.recommendations;
             }
             
             setRecommendList(recommendList);
+
+            setLoading(false);
         }
-        getRecommendList();
-        getHotelList();
+
+        getHotels();
     }, [questionnaireModal.data]);
     
     return ( 
@@ -92,58 +103,19 @@ const HotelsListPage = () => {
                 <>
                     {/* topic */}
                     <div className="flex flex-row justify-between items-center text-lg gap-1 w-full px-10">
-                        <div>Filters</div>
+                        <div>Choose your hotel!</div>
                         <div className="flex flex-col justify-end gap-1">
                             <div className="text-xs flex justify-center">Step 3/4</div>
                             <Progress value={75} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
                         </div>
                         <div className="text-lg font-semibold">  
-                            Choose your hotel!
+                            
                         </div>
                     </div>
 
-                <div className="flex flex-row gap-4">
-                    {/* filters */}
-                    <div className="hidden md:block sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">
-                    <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-4">
-                            <div className="text-lg font-bold text-blue-900">
-                                Stops
-                            </div>
-                            <div className="text-sm flex flex-row gap-2">
-                                <Checkbox 
-                                    // onCheckedChange={() => setDirectFlag(!directFlag)}
-                                    // checked={directFlag}
-                                /> Direct
-                            </div>
-                            <div className="text-sm flex flex-row gap-2">
-                                <Checkbox 
-                                    // onCheckedChange={() => setOneStopFlag(!oneStopFlag)}
-                                    // checked={oneStopFlag}
-                                /> 1 stop
-                            </div>
-                            <div className="text-sm flex flex-row gap-2">
-                                <Checkbox 
-                                    // onCheckedChange={() => setTwoStopFlag(!twoStopFlag)}
-                                    // checked={twoStopFlag}
-                                /> 2+ stops
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            <div className="text-lg font-bold text-blue-900">
-                                Max Price:
-                            </div>
-                            <div className="flex flex-row gap-2">
-                                <div>raz</div>
-                                {/* <div className="text-lg font-bold text-blue-900 font-serif">${price[0]}</div> */}
-                                {/* <Slider onValueChange={(value) => setPrice(value)} defaultValue={price} min={minPrice} max={maxPrice} step={10}/> */}
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                     {/* hotels */}
-                    <div>
+                    <div className="mt-24">
                         {/* recommended hotels */}
                         {recommendList && recommendList.length > 0 && (
                             <div className="flex flex-col gap-2 justify-center items-center w-full">
@@ -171,7 +143,6 @@ const HotelsListPage = () => {
                             }
                         </div>
                     </div>
-                </div>
                     
                 </>
             )}

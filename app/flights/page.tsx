@@ -87,7 +87,7 @@ const FlightListPage = () => {
                     Choose your flight!
                 </div>
             </div>
-            <div className=" flex flex-row gap-8 w-full">
+            <div className=" flex flex-row justify-between gap-8 w-full">
                 <div className="hidden md:block sticky top-24 h-[calc(100vh-6rem)] bg-gray-100/50 rounded-lg p-4 overflow-y-auto w-[20%]">
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-4">
@@ -124,7 +124,7 @@ const FlightListPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col gap-2 justify-center items-center">
+                <div className="flex flex-col gap-2 justify-center items-center ">
                     { loading ? 
                         (<div className="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-white">
                             <div className="flex flex-col gap-1 justify-center items-center">
@@ -144,6 +144,9 @@ const FlightListPage = () => {
                         )
                     }
                 </div>
+                <div className="hidden md:block"/>
+                <div className="hidden md:block"/>
+                <div className="hidden md:block"/>
             </div>
         </>
     );
