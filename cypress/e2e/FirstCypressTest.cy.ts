@@ -1,3 +1,4 @@
+// /// <reference types="Cypress" />
 describe('Test Suite 1', () => {
   it('My First Test', () => {
 
@@ -9,6 +10,7 @@ describe('Test Suite 1', () => {
 
     cy.get('button[id="search-icon-legacy"] > yt-icon').click();
     cy.log("Test1 is completed");
+    
   })
 
   it('My First Test 2', () => {
