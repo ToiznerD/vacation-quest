@@ -31,7 +31,8 @@ const HotelsListPage = () => {
 
     const questionnaireModal = useQuestionnaireModal();
     useEffect(() => {
-        const getHotelList = async () => {
+        const getHotels = async () => {
+            // Get hotel list
             setLoading(true);
             const response = await axios.get('/api/hotels', {
                 params: {
@@ -46,17 +47,20 @@ const HotelsListPage = () => {
             const entityId = response.data.entityId;
             setHotelList(hotelList);
             setEntityId(entityId);
-            setLoading(false);
-        }
 
-        const getRecommendList = async () => {
+            // Get recommend list
             let recommendList = [];
 
             if(!questionnaireModal.data.id){
                  const response = await axios.post('/api/recommendation', {
                     city: destination,
                     questionnaire: {},
-                    query: params?.toString()
+                    query: params?.toString(),
+                    entityId,
+                    startDate,
+                    endDate,
+                    roomCount,
+                    adults
                 });
                 recommendList = response.data.recommendations;
             } else {
@@ -67,15 +71,22 @@ const HotelsListPage = () => {
                 const response = await axios.post('/api/recommendation', {
                     city: destination,
                     questionnaire: cleanedQuestionnaire,
-                    query: params?.toString()
+                    query: params?.toString(),
+                    entityId,
+                    startDate,
+                    endDate,
+                    roomCount,
+                    adults
                 });
                 recommendList = response.data.recommendations;
             }
             
             setRecommendList(recommendList);
+
+            setLoading(false);
         }
-        getRecommendList();
-        getHotelList();
+
+        getHotels();
     }, [questionnaireModal.data]);
     
     return ( 

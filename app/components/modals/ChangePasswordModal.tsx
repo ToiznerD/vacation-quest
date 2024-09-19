@@ -11,6 +11,7 @@ import useChangePasswordModal from '@/app/hooks/useChangePasswordModal';
 
 const ChangePasswordModal = () => {
     const changePasswordModal = useChangePasswordModal();
+    const { name } = changePasswordModal;
     const [isLoading, setIsLoading] = useState(false);
 
     const {
@@ -18,7 +19,8 @@ const ChangePasswordModal = () => {
         handleSubmit,
         formState: {
             errors,
-        }
+        },
+        reset
     } = useForm<FieldValues>({
         defaultValues: {
             oldPassword: '',
@@ -27,7 +29,7 @@ const ChangePasswordModal = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         if (data.newPassword !== data.confirmNewPassword) {
             toast.error('Confirmed password is wrong')
         }
@@ -35,17 +37,15 @@ const ChangePasswordModal = () => {
         else {
             setIsLoading(true);
 
-            axios.post('/api/updatePassword', data)
-                .then(() => {
-                    toast.success('Password updated!');
-                    changePasswordModal.onClose();
-                })
-                .catch((error) => {
-                    toast.error('Something went wrong');
-                })
-                .finally(() => {
-                    setIsLoading(false);
-            })
+            const response = await axios.post('/api/updatePassword', data)
+            if(response.data.success){
+                toast.success(response.data.message);
+                changePasswordModal.onClose();
+                reset();
+            } else {
+                toast.error(response.data.message);
+            }
+            setIsLoading(false);
         }
     }
 
@@ -53,7 +53,7 @@ const ChangePasswordModal = () => {
         <div className="flex flex-col gap-4">
             <Heading
                 // title="Welcome back"
-                title={`Hello, $name`}
+                title={`Hello, ${name}`}
                 subtitle="Change your password!"
             />
             <Input
