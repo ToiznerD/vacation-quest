@@ -1,4 +1,7 @@
-class HomePage {
+ class HomePage {
+
+
+
     elements = {
         searchBar : () => cy.get('.py-4 > .w-full > .justify-between'),
         myAccount : () => cy.get('.p-4'),
@@ -27,12 +30,17 @@ class HomePage {
     signup() {
         this.elements.myAccount().click();
         cy.get('.absolute > .flex > :nth-child(2)').click();
-        cy.contains('Register').should('exist');;
+        cy.contains('Register').should('exist');
     }
 
-    login() {
+    login(credentials) {
         this.elements.myAccount().click();
         cy.contains('Login').click();
+        cy.get('#email').clear().type(credentials.email);
+        cy.get('#password').clear().type(credentials.password);
+        cy.get('.inline-flex').click();
+        cy.get('.go2072408551').should('exist');
+        this.elements.myAccount().click();
     }
 }
 
