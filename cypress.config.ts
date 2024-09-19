@@ -7,5 +7,7 @@ export default defineConfig({
       // implement node event listeners here
     },
     experimentalStudio: true,
+    defaultCommandTimeout: 30000,
+    requestTimeout: 20000,
   },
 });

@@ -1,4 +1,7 @@
-class HomePage {
+ class HomePage {
+
+
+
     elements = {
         searchBar : () => cy.get('.py-4 > .w-full > .justify-between'),
         myAccount : () => cy.get('.p-4'),
