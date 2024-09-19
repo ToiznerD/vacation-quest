@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     } = body;
 
     if (!user) {
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+        return NextResponse.json({ message: 'User not found', success: false});
     }
 
     const currentUser = await prisma.user.findUnique({
@@ -20,12 +20,12 @@ export async function POST(request: Request) {
     });
 
     if (!currentUser || !currentUser.hashedPassword) {
-        return NextResponse.json({ error: 'User not found or no password set' }, { status: 404 });
+        return NextResponse.json({ message: 'User not found or no password set', success: false});
     }
 
     const isMatch = await bcrypt.compare(oldPassword, currentUser.hashedPassword);
     if (!isMatch) {
-        return NextResponse.json({ error: 'Old password is incorrect' }, { status: 400 });
+        return NextResponse.json({ message: 'Old password is incorrect', success: false});
     }
 
     const newHashedPassword = await bcrypt.hash(newPassword, 12);
@@ -35,5 +35,5 @@ export async function POST(request: Request) {
         data: { hashedPassword: newHashedPassword },
     });
 
-    return NextResponse.json(updatedUser);
+    return NextResponse.json({ message: "Password has been changed successfully", success: true});
 }

@@ -21,6 +21,7 @@ const UserMenu = ({ currentUser } : Props) => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
     const changePasswordModal = useChangePasswordModal();
+    const { onOpen: openPasswordModal, setName } = changePasswordModal;
     const { setData, cancelDismiss, onOpen } = useQuestionnaireModal();
     const router = useRouter();
 
@@ -33,6 +34,11 @@ const UserMenu = ({ currentUser } : Props) => {
         setData(currentUser?.questionnaire)
         cancelDismiss();
         onOpen();
+    }
+
+    const changePassword = () => {
+        setName(currentUser?.name || '');
+        openPasswordModal();
     }
 
 
@@ -58,7 +64,7 @@ const UserMenu = ({ currentUser } : Props) => {
                             currentUser ? (
                                 <>
 
-                                    <MenuItem onClick={changePasswordModal.onOpen} label="Change password" />
+                                    <MenuItem onClick={changePassword} label="Change password" />
                                     <hr />
                                     <MenuItem onClick={openQuestionnaire} label="My Questionnaire" />
                                     <hr />

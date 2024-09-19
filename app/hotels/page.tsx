@@ -74,8 +74,8 @@ const HotelsListPage = () => {
             
             setRecommendList(recommendList);
         }
-        getRecommendList();
         getHotelList();
+        getRecommendList();
     }, [questionnaireModal.data]);
     
     return ( 
