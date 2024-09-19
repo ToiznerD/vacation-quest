@@ -12,11 +12,13 @@ class HomePage {
     openChangePassword(){
         this.elements.myAccount().click();
         cy.contains('Change password').click();
+        cy.contains('Change password').should('exist');
     }
 
     openMyQuestionnaire() {
         this.elements.myAccount().click();
         cy.contains('My Questionnaire').click();
+        cy.contains('Questionnaire').should('exist');
     }
 
     logout() {
@@ -27,12 +29,17 @@ class HomePage {
     signup() {
         this.elements.myAccount().click();
         cy.get('.absolute > .flex > :nth-child(2)').click();
-        cy.contains('Register').should('exist');;
+        cy.contains('Register').should('exist');
     }
 
-    login() {
+    login(credentials) {
         this.elements.myAccount().click();
         cy.contains('Login').click();
+        cy.get('#email').clear().type(credentials.email);
+        cy.get('#password').clear().type(credentials.password);
+        cy.get('.inline-flex').click();
+        cy.get('.go2072408551').should('exist');
+        this.elements.myAccount().click();
     }
 }
 
