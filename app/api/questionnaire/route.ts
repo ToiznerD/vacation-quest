@@ -13,6 +13,7 @@ export async function POST(request: Request) {
             },
             data: body
         })
+        return NextResponse .json({ success: true, message: "Questionnaire has been updated successfully" })
     }
     if(user && !user.questionnaire){
         await prisma.questionnaire.create({
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
                 userId: user.id
             }
         })
-        return NextResponse .json({ success: true })
+        return NextResponse .json({ success: true, message: "Questionnaire has been saved" })
     }
-    return NextResponse .json({ success: true })
+    return NextResponse .json({ success: false, message: "Something went wrong" })
 }

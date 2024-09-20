@@ -7,6 +7,7 @@ import useQuestionnaireModal from "@/app/hooks/useQuestionnaireModal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import MultiSelectInput from "../inputs/checkboxlist";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 enum STEPS {
     START = 0,
@@ -68,11 +69,17 @@ const QuestionnaireModal = () => {
             q7
         };
         console.log(questionnaire)
-        axios.post('/api/questionnaire', questionnaire)
+        const response = await axios.post('/api/questionnaire', questionnaire)
         questionnaireModal.setData(questionnaire);
         setStep(STEPS.START);
         questionnaireModal.onDismiss();
         questionnaireModal.onClose();
+        if(response.data.success){
+            toast.success(response.data.message)
+        } else {
+            toast.error(response.data.message)
+        }
+        
     }, [step, questionnaireModal, onNext]);
 
     const actionLabel = useMemo(() => {

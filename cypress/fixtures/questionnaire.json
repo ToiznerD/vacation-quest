@@ -2,8 +2,8 @@
     "q1": "Vacation",
     "q2": "Solo",
     "q3": "Rarely (once a year)",
-    "q4": "Sightseeing",
+    "q4": ["Sightseeing", "Hiking"],
     "q5": "Luxury",
-    "q6": "",
-    "q7": ""
+    "q6": "More than a week",
+    "q7": "In advance (more than 1 month before)"
 }
