@@ -60,7 +60,6 @@ const HotelPage = () => {
             const hotelInfo = response.data.hotelDetails;
             const hotelPrices = response.data.hotelPrices;
             const similarHotels = response.data.similarHotels;
-            hotelInfo?.galleryImages?.slice(1,hotelInfo.galleryImages.length);
             setHotelInfo(hotelInfo);
             setHotelPrices(hotelPrices);
             setSimilarHotels(similarHotels);
@@ -310,7 +309,7 @@ const HotelPage = () => {
                         {hotelInfo?.amenities.contentV2.map((amenity: any) => (
                             amenity.id === "PopularAndEssential" && (
                                 <div key={amenity.id} className="grid grid-cols-2 justify-center text-base gap-4 md:flex md:flex-row">
-                                    {amenity.items.slice(0,6).map((item: any) => {
+                                    {amenity?.items?.slice(0,6).map((item: any) => {
                                         const IconComponent = item.id ? iconMap[item.id] : null;
                                         return IconComponent ? (
                                         <div key={item.id} className="flex flex-col justify-center items-center md:w-32 md:h-32 bg-slate-100 gap-4 rounded-lg p-2">
@@ -427,14 +426,14 @@ const HotelPage = () => {
                             
                         {/* md */}
                         <div className="hidden md:flex flex-row justify-between items-center gap-4">
-                        {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
+                        {similarHotels?.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
                             <SimilarHotelCard key={idx} similarHotel={hotel} />
                             ))}
                         </div>
 
                         {/* sm */}
                         <div className="md:hidden flex flex-row justify-between items-center gap-4">
-                        {similarHotels.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
+                        {similarHotels?.slice(similarHotelsIndex*3, similarHotelsIndex*3 + 3).map((hotel, idx) => (
                             <SimilarHotelCard key={idx} similarHotel={hotel} />
                             ))}
                         </div>
