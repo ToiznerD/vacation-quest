@@ -15,11 +15,13 @@
     openChangePassword(){
         this.elements.myAccount().click();
         cy.contains('Change password').click();
+        cy.contains('Change password').should('exist');
     }
 
     openMyQuestionnaire() {
         this.elements.myAccount().click();
         cy.contains('My Questionnaire').click();
+        cy.contains('Questionnaire').should('exist');
     }
 
     logout() {
