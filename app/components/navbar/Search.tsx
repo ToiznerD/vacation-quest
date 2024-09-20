@@ -1,6 +1,4 @@
 "use client";
-
-import useCountries from "@/app/hooks/useCountries";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import { differenceInDays } from "date-fns";
 import { useSearchParams } from "next/navigation";
@@ -11,7 +9,6 @@ const Search = () => {
     const searchModal = useSearchModal();
 
     const params = useSearchParams();
-    const { getByValue } = useCountries();
 
     const locationValue = params?.get('destination');
     const startDate = params?.get('startDate');
@@ -25,7 +22,7 @@ const Search = () => {
         }
 
         return 'Anywhere';
-    }, [locationValue, getByValue])
+    }, [locationValue])
 
     const durationLabel = useMemo(() => {
         if(startDate && endDate){

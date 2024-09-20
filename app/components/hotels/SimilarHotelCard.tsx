@@ -32,12 +32,6 @@ const SimilarHotelCard = ({similarHotel}: Props) => {
             entityId,
             hotelId,
         }
-
-        // axios.post('/api/embedding', {
-        //     city: destination,
-        //     hotelInfo: hotelInfo,
-        //     questionnaire: questionnaireModal.data
-        // })
         
         const url = qs.stringifyUrl({
             url: `/hotels/${hotelId}`,
@@ -45,7 +39,7 @@ const SimilarHotelCard = ({similarHotel}: Props) => {
         }, { skipNull: true });
 
         router.push(url);
-    }, [])
+    }, [entityId, hotelId, params, router])
 
 
     return (
@@ -60,7 +54,7 @@ const SimilarHotelCard = ({similarHotel}: Props) => {
                             {similarHotel.name}
                         </div>
                         <div className="flex flex-row">
-                            {[...Array(Number(similarHotel.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500 text-[10px] md:text-sm"/>))}
+                            {[...Array(Number(similarHotel.stars || 0))].map((_, i) => (<FaStar key={i} className="md:ml-2 ml-1 text-yellow-500 text-[10px] md:text-sm"/>))}
                         </div>
                     </div>
                 </div>

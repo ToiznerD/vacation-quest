@@ -20,7 +20,7 @@ const CheckQuestionnaire = ({ user }: Props) => {
         if (user && !user.questionnaire && !isOpen && !dismissed) {
             onOpen();
         }
-    }, [user, isOpen, dismissed, onOpen]);
+    }, [user, isOpen, dismissed, onOpen, setData]);
 
     return null;
 };

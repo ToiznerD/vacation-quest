@@ -21,6 +21,7 @@ const FlightPage = ({params}: {params: Params}) => {
     const token = searchParams?.get('token');
     const router = useRouter();
     const [itinerary, setItinerary] = useState<FlightDetails | undefined>(undefined)
+    
     useEffect(() => {
         const getDetails = async () => {
             setLoading(true);
@@ -30,7 +31,7 @@ const FlightPage = ({params}: {params: Params}) => {
             setLoading(false);
         }
         getDetails();
-    }, [])
+    }, [id, token])
 
 
     const handleNext = useCallback(() => {
@@ -50,7 +51,7 @@ const FlightPage = ({params}: {params: Params}) => {
         }, { skipNull: true });
 
         router.push(url);
-    }, [])
+    }, [router, searchParams, token])
 
     return ( 
         <div className="pt-20 md:px-20 flex flex-col justify-center">

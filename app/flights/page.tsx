@@ -3,7 +3,7 @@
 import FlightCard from "./FlightCard";
 import { Checkbox } from "@/components/ui/checkbox";
 import { itinerary } from "../types";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
@@ -11,6 +11,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 
 import { Progress } from "@/components/ui/progress";
 
+export const dynamic = 'force-dynamic';
 
 const FlightListPage = () => {
     const searchParams = useSearchParams();
@@ -41,7 +42,7 @@ const FlightListPage = () => {
         }
 
         getFlights();
-    }, [originPosition, position, startDate, endDate]);
+    }, [originPosition, position, startDate, endDate, adults, children]);
 
     const [directFlag, setDirectFlag] = useState(true);
     const [oneStopFlag, setOneStopFlag] = useState(true);
@@ -81,7 +82,9 @@ const FlightListPage = () => {
                 <div>Filters</div>
                 <div className="flex flex-col justify-end gap-1">
                     <div className="text-xs flex justify-center">Step 1/4</div>
-                    <Progress value={25} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
+                    <Suspense>
+                        <Progress value={25} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
+                    </Suspense>
                 </div>
                 <div className="text-lg font-semibold">  
                     Choose your flight!

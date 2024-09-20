@@ -84,7 +84,7 @@ const HotelHead = ({hotelInfo, name, stars, hotelPrices}: Props) => {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row font-bold text-2xl md:text-4xl">
                     {name}
-                    {[...Array(Number(stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                    {[...Array(Number(stars || 0))].map((_, i) => (<FaStar key={i} className="md:ml-2 ml-1 text-yellow-500"/>))}
                 </div>
                 <div className="flex flex-row">
                     <MdLocationPin className="text-blue-500 text-2xl md:text-3xl"/>
@@ -268,7 +268,7 @@ const HotelHead = ({hotelInfo, name, stars, hotelPrices}: Props) => {
                         {
                             hotelPrices?.map((hotelPrice, index) => (
                                 hotelPrice.deeplink &&
-                                <div className="flex flex-row justify-between w-full p-4 border-b-[1px]">
+                                <div key={index} className="flex flex-row justify-between w-full p-4 border-b-[1px]">
                                     <div className="text-lg md:text-2xl">
                                         <Image 
                                             src={hotelPrice.partnerLogo}

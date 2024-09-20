@@ -20,6 +20,7 @@ interface PopularHotel {
   hotelId: string;
 }
 
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
 
@@ -69,7 +70,7 @@ export default async function Home() {
   const popularHotels: PopularHotel[] = (popular as PopularItem[]).map((item: PopularItem) => {
     return {
       label: item.hotelInfo.name,
-      src: item.hotelInfo.images[0] || placeholders[0].src,
+      src: item.hotelInfo.images && item.hotelInfo.images[0] ? item.hotelInfo.images[0] : placeholders[0].src,
       location: item.city,
       price: item.hotelInfo.rawPrice,
       rating: item.hotelInfo.stars,

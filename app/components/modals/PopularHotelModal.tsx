@@ -43,7 +43,7 @@ const PopularHotelModal = () => {
     
     const onNext = useCallback(() => {        
         setStep((value) => value + 1);
-    }, [step])
+    }, [setStep])
 
     const onSubmit = useCallback(async () => {
         if (step !== STEPS.INFO) {

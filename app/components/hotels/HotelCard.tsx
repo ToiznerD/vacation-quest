@@ -62,7 +62,7 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
         }, { skipNull: true });
 
         router.push(url);
-    }, []);
+    }, [entityId, hotelCard, params, questionnaireModal.data, router]);
 
     if(!hotelCard.rawPrice){
         return null;
@@ -98,7 +98,7 @@ const HotelCard = ({ hotelCard, entityId }: Props) => {
                                 {hotelCard.name}
                             </div>
                             <div className="flex flex-row">
-                                {[...Array(Number(hotelCard.stars))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                                {[...Array(Number(hotelCard.stars))].map((_, i) => (<FaStar key={i} className="md:ml-2 ml-1 text-yellow-500"/>))}
                             </div>
                         </div>
                         <div>

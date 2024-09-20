@@ -29,11 +29,10 @@ const Card = ({
         popularHotelModal.setDestination(location)
         popularHotelModal.onOpen();
 
-    }, [popularHotelModal])
-
+    }, [popularHotelModal, hotelId, location])
     return ( 
         <div onClick={handleClick} className="flex flex-col cursor-pointer hover:bg-gray-50 rounded-md">
-            <img src={src} alt={label} className="w-full h-[200px] rounded-xl"/>
+            <img src={src} alt={label} className="w-full h-[200px] rounded-xl"/> 
             <div className="flex flex-row gap-1">
                 {[...Array(rating)].map((_, i) => (<Star key={i} size={15} className="text-yellow-400 fill-yellow-400" />))}
                 {[...Array(grayStars)].map((_, i) => (<Star key={i} size={15} className="text-gray-400 fill-gray-400" />))}

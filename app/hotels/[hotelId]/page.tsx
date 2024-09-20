@@ -68,7 +68,7 @@ const HotelPage = () => {
             setIsLoading(false);
         }
         getHotelInfo();
-    }, []);
+    }, [startDate, endDate, hotelId, entityId, destination, adults, roomCount]);
 
     const galleryModal = useGalleryModal();
 
@@ -176,7 +176,7 @@ const HotelPage = () => {
                             {hotelInfo?.general.name}
                         </div>
                         <div className="flex flex-row">
-                            {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar className="md:ml-2 ml-1 text-yellow-500"/>))}
+                            {[...Array(Number(hotelInfo?.general.stars || 0))].map((_, i) => (<FaStar key={i} className="md:ml-2 ml-1 text-yellow-500"/>))}
                         </div>
                     </div>
                     <div className="flex flex-row text-lg md:text-xl">
@@ -367,7 +367,7 @@ const HotelPage = () => {
                                     <>
                                     {hotelPrices?.map((hotelPrice, index) => (
                                     hotelPrice.deeplink &&
-                                    <div className="flex flex-row justify-between w-full p-4 border-b-[1px]">
+                                    <div key={index} className="flex flex-row justify-between w-full p-4 border-b-[1px]">
                                         <div className="text-lg md:text-2xl flex flex-col gap-1">
                                             <Image 
                                                 src={hotelPrice.partnerLogo}

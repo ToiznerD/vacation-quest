@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import React, { useEffect, useMemo, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { geocodeAddress } from '../libs/nominatim';
 import dynamic from 'next/dynamic';
@@ -14,16 +13,17 @@ interface Props {
 }
 
 export default function GeocodingMap({ position, setPosition, location, setLocation } : Props) {
-
+  
+  /* eslint-disable react-hooks/exhaustive-deps */
   const Map = useMemo(() => dynamic(() => import('./Map'), {
     ssr: false
-}), [position]);
+  }), [position]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const handleGeocode = async () => {
     const results = await geocodeAddress(location);
     if (results && results.length > 0) {
       const { lat, lon } = results[0];
-      console.log(lat, lon);
       setPosition([parseFloat(lat), parseFloat(lon)]);
     }
   };

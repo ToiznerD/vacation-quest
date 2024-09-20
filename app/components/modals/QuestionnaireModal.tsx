@@ -80,7 +80,7 @@ const QuestionnaireModal = () => {
             toast.error(response.data.message)
         }
         
-    }, [step, questionnaireModal, onNext]);
+    }, [step, questionnaireModal, onNext, q1, q2, q3, q4, q5, q6, q7]);
 
     const actionLabel = useMemo(() => {
         if(step === STEPS.FINISH){

@@ -4,8 +4,6 @@ import Modal from "./Modal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
-import dynamic from "next/dynamic";
-import CountrySelect, { CountrySelectValue } from "../inputs/CountrySelect";
 import qs from 'query-string';
 import { format, formatISO } from "date-fns";
 import Heading from "../Heading";
@@ -41,9 +39,6 @@ const SearchModal = () => {
         key: 'selection'
     });
 
-    const Map = useMemo(() => dynamic(() => import('../Geocoding'), {
-        ssr: false
-    }), [location]);
 
     const onBack = useCallback(() => {
         setStep((value) => value - 1);
@@ -100,7 +95,7 @@ const SearchModal = () => {
         setStep(STEPS.LOCATION);
         searchModal.onClose();
         router.push("/flights/" + url);
-    }, [step, searchModal, destination, location, router, adults, roomCount, dateRange, onNext, params]);
+    }, [step, searchModal, destination, location, router, adults, roomCount, dateRange, onNext, params, children, originPosition, position]);
 
     const actionLabel = useMemo(() => {
         if(step === STEPS.INFO){

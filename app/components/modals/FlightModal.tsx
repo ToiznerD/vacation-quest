@@ -1,7 +1,6 @@
 "use client";
 
 import useFlightModal from "@/app/hooks/useFlightModal";
-import { Button } from "@/components/ui/button";
 import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import {TLVtoBKK} from '@/app/libs/flight-detail-mock';
@@ -17,7 +16,7 @@ const FlightModal = () => {
         onClose();
         setId('');
         setToken('');
-    }, [onClose]);
+    }, [onClose, setId, setToken]);
 
     if (!isOpen) {
         return null;

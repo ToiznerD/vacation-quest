@@ -1,18 +1,17 @@
 'use client'
 
-import { searchNewYork } from "../libs/hotelsSearch";
 import HotelCard from "@/app/components/hotels/HotelCard";
 import { hotelCard } from "../types";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import useQuestionnaireModal from "../hooks/useQuestionnaireModal";
 import { Recommendation } from "@prisma/client";
 import PuffLoader from "react-spinners/PuffLoader";
 import { Progress } from "@/components/ui/progress";
-import { FaLongArrowAltRight } from "react-icons/fa";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Slider } from "@/components/ui/slider";
+
+
+export const dynamic = 'force-dynamic';
 
 const HotelsListPage = () => {
     const [hotelList, setHotelList] = useState<hotelCard[]>([]);
@@ -87,7 +86,7 @@ const HotelsListPage = () => {
         }
 
         getHotels();
-    }, [questionnaireModal.data]);
+    }, [questionnaireModal.data, adults, destination, endDate, params, roomCount, startDate]);
     
     return ( 
         <div className="pt-24">
@@ -106,7 +105,9 @@ const HotelsListPage = () => {
                         <div>Choose your hotel!</div>
                         <div className="flex flex-col justify-end gap-1">
                             <div className="text-xs flex justify-center">Step 3/4</div>
-                            <Progress value={75} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
+                            <Suspense>
+                                <Progress value={75} className="w-[20vh] md:w-[30vh] lg:w-[40vh] xl:w-[50vh]"/>
+                            </Suspense>
                         </div>
                         <div className="text-lg font-semibold">  
                             
