@@ -42,18 +42,19 @@ describe('Questionnaire', () => {
             .click();
             cy.get('.flex-col.p-6 > .flex > :nth-child(2)').click()
 
-            // //Lifestyle and interests
-            // cy.get('.react-select__input-container').select(questionnaire.q4);
-            // cy.get('.flex-auto > .gap-8 > :nth-child(3) > .flex').select(questionnaire.q5)
-            // cy.get('.flex-col.p-6 > .flex > :nth-child(2)').click()
+        })
 
-            // //Timing and duration
-            // cy.get('.flex-auto > .gap-8 > :nth-child(2) > .flex').select(questionnaire.q6)
-            // cy.get('.flex-auto > .gap-8 > :nth-child(3) > .flex').select(questionnaire.q7)
-            // cy.get('.flex-col.p-6 > .flex > :nth-child(2)').click()
-
-            // cy.get('.gap-2 > .flex > :nth-child(2)').click()
-
+        after('Tear down', () => {
+            cy.request({
+                method: 'DELETE',
+                url: 'http://localhost:3000/api/cypress/delete-questionnaire',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: {
+                  email: credentials.email
+                }
+              });
         })
     }
 )
