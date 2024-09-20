@@ -47,8 +47,6 @@ describe('Questionnaire', () => {
             .click();
             cy.get('.flex-col.p-6 > .flex > :nth-child(2)').click()
 
-        })
-
             // Lifestyle and interests
             // Q4
             cy.get('.react-select__control').click(); 
@@ -149,5 +147,6 @@ describe('Questionnaire', () => {
                   email: credentials.email
                 }
               });
-        }
+        })
+    }
 )
