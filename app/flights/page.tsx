@@ -30,12 +30,8 @@ const FlightListPage = () => {
             setLoading(true);
             try {
                 const response = await axios.get('/api/flights', { params: { originPosition, position, startDate, endDate, adults, children } });
-                console.log(response);
                 setDeals(response.data.data.itineraries);
                 setToken(response.data.data.token)
-
-                // setDeals(roundedtrip_tlv_bkk.data.itineraries);
-                // setToken('5cafd19031msh154445f4f635b20p1f63a7jsn09b9bc3ba2ea');
             } finally {
                 setLoading(false);
             }
