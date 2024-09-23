@@ -251,7 +251,7 @@ const HotelPage = () => {
                             <div className="w-1/3 relative cursor-pointer h-40">
                                 <Image src={hotelInfo?.gallery.images[3].dynamic || ''} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"/>
                             </div>
-                            <div className="w-1/3 relative inline-block bg-black cursor-pointer h-40" onClick={galleryModal.onOpen}>
+                            <div className="w-1/3 relative inline-block bg-black cursor-pointer h-40" onClick={handleClick}>
                                 <Image src={hotelInfo?.gallery.images[4].dynamic || ''} alt="{`Hotel image 0`}" layout="fill" objectFit="cover"
                                 className="object-cover relative z-1 opacity-60"/>
                                 <div className="absolute inset-0 flex items-center justify-center text-white text-base font-bold z-20">
